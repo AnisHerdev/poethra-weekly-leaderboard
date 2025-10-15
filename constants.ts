@@ -1,0 +1,7 @@
+
+export const POINTS = {
+  FIRST_PLACE: 30,
+  SECOND_PLACE: 25,
+  THIRD_PLACE: 20,
+  PARTICIPATION: 5,
+};
