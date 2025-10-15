@@ -100,7 +100,7 @@ const AdminPage: React.FC = () => {
                 {/* Participant Management */}
                 <section className="bg-gray-800/50 p-6 rounded-lg shadow-lg border border-gray-700" aria-labelledby="manage-participants-heading">
                     <h2 id="manage-participants-heading" className="text-2xl font-bold mb-6 text-white">Manage Participants</h2>
-                    <form onSubmit={handleAddParticipant} className="flex gap-4 mb-6">
+                    <form onSubmit={handleAddParticipant} className="flex flex-col sm:flex-row gap-4 mb-6">
                         <label htmlFor="new-participant-name" className="sr-only">New participant name</label>
                         <input
                             id="new-participant-name"
