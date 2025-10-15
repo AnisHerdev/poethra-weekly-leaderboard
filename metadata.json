@@ -1,0 +1,5 @@
+{
+  "name": "Poéthra Leaderboard",
+  "description": "A responsive leaderboard website for the Poéthra creative writing club. It displays weekly contest rankings, tracks participant points and streaks, and includes an admin panel for updating results.",
+  "requestFramePermissions": []
+}
