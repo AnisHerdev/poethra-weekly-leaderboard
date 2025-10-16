@@ -7,30 +7,33 @@ import LeaderboardPage from './pages/LeaderboardPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
-      <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#1a113c] to-gray-900 text-gray-100">
-        <Header />
-        <main className="flex-grow container mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route 
-                path="/admin" 
-                element={
-                    <ProtectedRoute>
-                        <AdminPage />
-                    </ProtectedRoute>
-                } 
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </HashRouter>
+    <ThemeProvider>
+      <HashRouter>
+        <div className="flex flex-col min-h-screen bg-gradient-to-b from-stone-200 to-stone-100 dark:from-[#1a113c] dark:to-gray-900 text-stone-800 dark:text-gray-100">
+          <Header />
+          <main className="flex-grow container mx-auto px-4 py-8">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route 
+                  path="/admin" 
+                  element={
+                      <ProtectedRoute>
+                          <AdminPage />
+                      </ProtectedRoute>
+                  } 
+              />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </HashRouter>
+    </ThemeProvider>
   );
 };
 
