@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
                     {/* <a href="#" className="hover:text-amber-700 dark:hover:text-yellow-500 transition-colors"><FacebookIcon /></a> */}
                 </div>
                 <p>&copy; {new Date().getFullYear()} Poéthra Creative Writing Club. All Rights Reserved.</p>
-                <p className="text-sm mt-1">Contact us at: <a href="mailto:contact@poethra.com" className="underline hover:text-amber-700 dark:hover:text-yellow-500">contact@poethra.com</a></p>
+                <p className="text-sm mt-1">Contact us at: <a href="mailto:contact@poethra.com" className="underline hover:text-amber-700 dark:hover:text-yellow-500">poethra.rvu@gmail.com</a></p>
             </div>
         </footer>
     );
