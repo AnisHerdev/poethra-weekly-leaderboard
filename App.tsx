@@ -8,7 +8,7 @@ import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
-
+import "./src/firebase";
 const App: React.FC = () => {
   return (
     <ThemeProvider>
