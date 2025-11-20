@@ -1,8 +1,9 @@
-import { Participant } from '../types';
+import { Participant, WeeklyResult } from '../types';
 import { POINTS } from '../constants';
 
 const LOCAL_STORAGE_KEY_PARTICIPANTS = 'poethra_participants';
 const LOCAL_STORAGE_KEY_WEEK = 'poethra_week';
+const LOCAL_STORAGE_KEY_WEEKLY_RESULTS = 'poethra_weekly_results';
 
 // --- Participant Management ---
 
@@ -72,6 +73,27 @@ export const deleteParticipant = (participantId: string): { success: boolean, me
     return { success: false, message: 'Failed to delete participant.' };
 };
 
+// --- Weekly Results Management ---
+
+export const getWeeklyResults = (): WeeklyResult[] => {
+    try {
+        const data = localStorage.getItem(LOCAL_STORAGE_KEY_WEEKLY_RESULTS);
+        return data ? JSON.parse(data) : [];
+    } catch (error) {
+        console.error("Error fetching weekly results from localStorage", error);
+        return [];
+    }
+};
+
+export const saveWeeklyResults = (results: WeeklyResult[]): boolean => {
+    try {
+        localStorage.setItem(LOCAL_STORAGE_KEY_WEEKLY_RESULTS, JSON.stringify(results));
+        return true;
+    } catch (error) {
+        console.error("Error saving weekly results to localStorage", error);
+        return false;
+    }
+}
 
 // --- Leaderboard Update Logic ---
 
@@ -144,10 +166,40 @@ export const updateLeaderboard = (
 
         return { ...p, totalPoints: newTotalPoints, bestRank: newBestRank };
     });
+
+    // Save weekly results for the Winners page
+    const winnerNamesMap = {
+        first: winners.first.toLowerCase(),
+        second: winners.second.toLowerCase(),
+        third: winners.third.toLowerCase(),
+    };
+
+    const winnerParticipants = {
+        first: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.first),
+        second: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.second),
+        third: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.third),
+    };
+
+    if (!winnerParticipants.first || !winnerParticipants.second || !winnerParticipants.third) {
+        return { success: false, message: "Could not find one of the winning participants." };
+    }
+
+    const newWeeklyResult: WeeklyResult = {
+        week: newWeek,
+        winners: {
+            first: { id: winnerParticipants.first.id, name: winnerParticipants.first.name },
+            second: { id: winnerParticipants.second.id, name: winnerParticipants.second.name },
+            third: { id: winnerParticipants.third.id, name: winnerParticipants.third.name },
+        }
+    };
+
+    const allWeeklyResults = getWeeklyResults();
+    const updatedWeeklyResults = [...allWeeklyResults, newWeeklyResult];
     
     try {
         localStorage.setItem(LOCAL_STORAGE_KEY_PARTICIPANTS, JSON.stringify(finalParticipants));
         localStorage.setItem(LOCAL_STORAGE_KEY_WEEK, String(newWeek));
+        saveWeeklyResults(updatedWeeklyResults);
         return { success: true, message: `Leaderboard updated successfully for week ${newWeek}.` };
     } catch (error) {
         console.error("Error saving to localStorage", error);
