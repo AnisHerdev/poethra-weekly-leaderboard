@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Get password from .env
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+const ADMIN_PASSWORD = '314159'; // Hardcoded password
 
 const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');

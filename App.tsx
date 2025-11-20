@@ -4,11 +4,12 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import WinnersPage from './pages/WinnersPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
-import "./src/firebase";
+
 const App: React.FC = () => {
   return (
     <ThemeProvider>
@@ -19,6 +20,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/winners" element={<WinnersPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route 
                   path="/admin" 

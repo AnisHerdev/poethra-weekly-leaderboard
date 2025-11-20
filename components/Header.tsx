@@ -26,6 +26,9 @@ const Header: React.FC = () => {
                     <NavLink to="/leaderboard" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Leaderboard
                     </NavLink>
+                    <NavLink to="/winners" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
+                        Winners
+                    </NavLink>
                     <NavLink to="/admin" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Admin
                     </NavLink>
@@ -52,6 +55,9 @@ const Header: React.FC = () => {
                         </NavLink>
                         <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
                             Leaderboard
+                        </NavLink>
+                        <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            Winners
                         </NavLink>
                         <NavLink to="/admin" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
                             Admin
