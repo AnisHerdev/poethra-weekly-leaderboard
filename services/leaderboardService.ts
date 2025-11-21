@@ -1,9 +1,8 @@
 import { Participant, WeeklyResult } from '../types';
 import { POINTS } from '../constants';
 import { db } from '../src/firebase';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, addDoc, deleteDoc, doc, writeBatch, setDoc, Timestamp } from 'firebase/firestore';
 
-const LOCAL_STORAGE_KEY_PARTICIPANTS = 'poethra_participants';
 const LOCAL_STORAGE_KEY_WEEK = 'poethra_week';
 const LOCAL_STORAGE_KEY_WEEKLY_RESULTS = 'poethra_weekly_results';
 
@@ -21,8 +20,8 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
                 name: data.name || "Unknown",
                 totalPoints: parseInt(data.points) || 0,
                 currentStreak: parseInt(data.streak) || 0,
-                participationHistory: [], // Not in user's schema, defaulting to empty
-                bestRank: null // Not in user's schema
+                participationHistory: data.participationHistory || [],
+                bestRank: data.bestRank || null
             };
         });
 
@@ -36,104 +35,89 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
 
 // --- Participant Management ---
 
-export const getParticipants = (): Participant[] => {
-    try {
-        const data = localStorage.getItem(LOCAL_STORAGE_KEY_PARTICIPANTS);
-        return data ? JSON.parse(data) : [];
-    } catch (error) {
-        console.error("Error fetching participants from localStorage", error);
-        return [];
-    }
+export const getParticipants = async (): Promise<Participant[]> => {
+    return await fetchLeaderboard();
 };
 
-export const saveParticipants = (participants: Participant[]): boolean => {
-    try {
-        localStorage.setItem(LOCAL_STORAGE_KEY_PARTICIPANTS, JSON.stringify(participants));
-        return true;
-    } catch (error) {
-        console.error("Error saving participants to localStorage", error);
-        return false;
-    }
-}
 
-export const addParticipant = (name: string): { success: boolean, message: string } => {
+
+export const addParticipant = async (name: string): Promise<{ success: boolean, message: string }> => {
     if (!name || name.trim() === '') {
         return { success: false, message: 'Participant name cannot be empty.' };
     }
-    const allParticipants = getParticipants();
-    const existingParticipant = allParticipants.some(p => p.name.toLowerCase() === name.trim().toLowerCase());
 
-    if (existingParticipant) {
-        return { success: false, message: `Participant '${name}' already exists.` };
-    }
+    try {
+        const allParticipants = await getParticipants();
+        const existingParticipant = allParticipants.some(p => p.name.toLowerCase() === name.trim().toLowerCase());
 
-    const newParticipant: Participant = {
-        id: String(Date.now() + Math.random()),
-        name: name.trim(),
-        totalPoints: 0,
-        currentStreak: 0,
-        participationHistory: [],
-        bestRank: null
-    };
+        if (existingParticipant) {
+            return { success: false, message: `Participant '${name}' already exists.` };
+        }
 
-    const updatedParticipants = [...allParticipants, newParticipant];
-    const saved = saveParticipants(updatedParticipants);
+        const newParticipantData = {
+            name: name.trim(),
+            points: 0, // Firestore schema uses 'points'
+            streak: 0, // Firestore schema uses 'streak'
+            participationHistory: [],
+            bestRank: null
+        };
 
-    if (saved) {
+        await addDoc(collection(db, "leader_board"), newParticipantData);
         return { success: true, message: `Participant '${name}' added successfully.` };
+
+    } catch (error) {
+        console.error("Error adding participant to Firestore:", error);
+        return { success: false, message: 'Failed to save new participant.' };
     }
-    return { success: false, message: 'Failed to save new participant.' };
 };
 
-export const deleteParticipant = (participantId: string): { success: boolean, message: string } => {
-    let allParticipants = getParticipants();
-    const participantToDelete = allParticipants.find(p => p.id === participantId);
-
-    if (!participantToDelete) {
-        return { success: false, message: 'Participant not found.' };
+export const deleteParticipant = async (participantId: string): Promise<{ success: boolean, message: string }> => {
+    try {
+        await deleteDoc(doc(db, "leader_board", participantId));
+        return { success: true, message: 'Participant deleted successfully.' };
+    } catch (error) {
+        console.error("Error deleting participant from Firestore:", error);
+        return { success: false, message: 'Failed to delete participant.' };
     }
-
-    const updatedParticipants = allParticipants.filter(p => p.id !== participantId);
-    const saved = saveParticipants(updatedParticipants);
-
-    if (saved) {
-        return { success: true, message: `Participant '${participantToDelete.name}' deleted.` };
-    }
-    return { success: false, message: 'Failed to delete participant.' };
 };
 
 // --- Weekly Results Management ---
 
-export const getWeeklyResults = (): WeeklyResult[] => {
+export const fetchWeeklyResults = async (): Promise<WeeklyResult[]> => {
     try {
-        const data = localStorage.getItem(LOCAL_STORAGE_KEY_WEEKLY_RESULTS);
-        return data ? JSON.parse(data) : [];
+        // Order by year desc, then weekNumber desc to get latest first
+        const q = query(collection(db, "weekly_results"), orderBy("year", "desc"), orderBy("weekNumber", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        return querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                year: data.year,
+                semester: data.semester,
+                weekNumber: data.weekNumber,
+                winners: data.winners,
+                timestamp: data.timestamp
+            } as WeeklyResult;
+        });
     } catch (error) {
-        console.error("Error fetching weekly results from localStorage", error);
+        console.error("Error fetching weekly results from Firestore:", error);
         return [];
     }
 };
 
-export const saveWeeklyResults = (results: WeeklyResult[]): boolean => {
-    try {
-        localStorage.setItem(LOCAL_STORAGE_KEY_WEEKLY_RESULTS, JSON.stringify(results));
-        return true;
-    } catch (error) {
-        console.error("Error saving weekly results to localStorage", error);
-        return false;
-    }
-}
+
 
 // --- Leaderboard Update Logic ---
 
-export const getCurrentWeek = (): number => {
-    return parseInt(localStorage.getItem(LOCAL_STORAGE_KEY_WEEK) || '0', 10);
-};
 
-export const updateLeaderboard = (
+
+export const updateLeaderboard = async (
     weeklyParticipantNames: string[],
-    winners: { first: string; second: string; third: string }
-): { success: boolean, message: string } => {
+    winners: { first: string; second: string; third: string },
+    details: { year: number, semester: string, weekNumber: number },
+    winnersContent: { first: string, second: string, third: string }
+): Promise<{ success: boolean, message: string }> => {
 
     // Validation
     if (!winners.first || !winners.second || !winners.third) {
@@ -151,87 +135,121 @@ export const updateLeaderboard = (
         }
     }
 
-    const allParticipants = getParticipants();
-    const newWeek = getCurrentWeek() + 1;
-
-    // Update streaks and participation history
-    let updatedParticipants = allParticipants.map(p => {
-        if (weeklyParticipantNamesSet.has(p.name.toLowerCase())) {
-            // Participated this week
-            return {
-                ...p,
-                currentStreak: p.currentStreak + 1,
-                participationHistory: [...p.participationHistory, newWeek]
-            };
-        }
-        // Missed this week
-        return { ...p, currentStreak: 0 };
-    });
-
-    // Calculate points and update ranks
-    const finalParticipants = updatedParticipants.map(p => {
-        if (!weeklyParticipantNamesSet.has(p.name.toLowerCase())) {
-            return p; // No points if they didn't participate this week
-        }
-
-        let pointsToAdd = POINTS.PARTICIPATION;
-        let rank: number | null = null;
-
-        if (p.name.toLowerCase() === winners.first.toLowerCase()) {
-            pointsToAdd = POINTS.FIRST_PLACE;
-            rank = 1;
-        } else if (p.name.toLowerCase() === winners.second.toLowerCase()) {
-            pointsToAdd = POINTS.SECOND_PLACE;
-            rank = 2;
-        } else if (p.name.toLowerCase() === winners.third.toLowerCase()) {
-            pointsToAdd = POINTS.THIRD_PLACE;
-            rank = 3;
-        } else {
-            rank = 4; // Simplified rank for other participants
-        }
-
-        const newTotalPoints = p.totalPoints + pointsToAdd;
-        const newBestRank = (p.bestRank === null || (rank !== null && rank < p.bestRank)) ? rank : p.bestRank;
-
-        return { ...p, totalPoints: newTotalPoints, bestRank: newBestRank };
-    });
-
-    // Save weekly results for the Winners page
-    const winnerNamesMap = {
-        first: winners.first.toLowerCase(),
-        second: winners.second.toLowerCase(),
-        third: winners.third.toLowerCase(),
-    };
-
-    const winnerParticipants = {
-        first: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.first),
-        second: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.second),
-        third: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.third),
-    };
-
-    if (!winnerParticipants.first || !winnerParticipants.second || !winnerParticipants.third) {
-        return { success: false, message: "Could not find one of the winning participants." };
-    }
-
-    const newWeeklyResult: WeeklyResult = {
-        week: newWeek,
-        winners: {
-            first: { id: winnerParticipants.first.id, name: winnerParticipants.first.name },
-            second: { id: winnerParticipants.second.id, name: winnerParticipants.second.name },
-            third: { id: winnerParticipants.third.id, name: winnerParticipants.third.name },
-        }
-    };
-
-    const allWeeklyResults = getWeeklyResults();
-    const updatedWeeklyResults = [...allWeeklyResults, newWeeklyResult];
-
     try {
-        localStorage.setItem(LOCAL_STORAGE_KEY_PARTICIPANTS, JSON.stringify(finalParticipants));
-        localStorage.setItem(LOCAL_STORAGE_KEY_WEEK, String(newWeek));
-        saveWeeklyResults(updatedWeeklyResults);
-        return { success: true, message: `Leaderboard updated successfully for week ${newWeek}.` };
+        const allParticipants = await getParticipants();
+        const batch = writeBatch(db);
+
+        // Update streaks and participation history
+        const updatedParticipants = allParticipants.map(p => {
+            let updatedP = { ...p };
+
+            if (weeklyParticipantNamesSet.has(p.name.toLowerCase())) {
+                // Participated this week
+                updatedP.currentStreak = p.currentStreak + 1;
+                // We can just push the week number for now, or maybe a composite string if needed later
+                // For now, keeping it as number to match existing type
+                updatedP.participationHistory = [...p.participationHistory, details.weekNumber];
+            } else {
+                // Missed this week
+                updatedP.currentStreak = 0;
+            }
+            return updatedP;
+        });
+
+        // Calculate points and update ranks
+        // We don't need to map again, we can do it in one pass, but keeping logic separate for clarity
+        updatedParticipants.forEach(p => {
+            if (!weeklyParticipantNamesSet.has(p.name.toLowerCase())) {
+                // Update Firestore even if only streak changed (reset to 0)
+                const docRef = doc(db, "leader_board", p.id);
+                batch.update(docRef, {
+                    streak: p.currentStreak,
+                    participationHistory: p.participationHistory
+                });
+                return;
+            }
+
+            let pointsToAdd = POINTS.PARTICIPATION;
+            let rank: number | null = null;
+
+            if (p.name.toLowerCase() === winners.first.toLowerCase()) {
+                pointsToAdd = POINTS.FIRST_PLACE;
+                rank = 1;
+            } else if (p.name.toLowerCase() === winners.second.toLowerCase()) {
+                pointsToAdd = POINTS.SECOND_PLACE;
+                rank = 2;
+            } else if (p.name.toLowerCase() === winners.third.toLowerCase()) {
+                pointsToAdd = POINTS.THIRD_PLACE;
+                rank = 3;
+            } else {
+                rank = 4; // Simplified rank for other participants
+            }
+
+            const newTotalPoints = p.totalPoints + pointsToAdd;
+            const newBestRank = (p.bestRank === null || (rank !== null && rank < p.bestRank)) ? rank : p.bestRank;
+
+            const docRef = doc(db, "leader_board", p.id);
+            batch.update(docRef, {
+                points: newTotalPoints,
+                streak: p.currentStreak,
+                participationHistory: p.participationHistory,
+                bestRank: newBestRank
+            });
+        });
+
+        // Prepare Weekly Result Document
+        const winnerNamesMap = {
+            first: winners.first.toLowerCase(),
+            second: winners.second.toLowerCase(),
+            third: winners.third.toLowerCase(),
+        };
+
+        const winnerParticipants = {
+            first: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.first),
+            second: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.second),
+            third: allParticipants.find(p => p.name.toLowerCase() === winnerNamesMap.third),
+        };
+
+        if (!winnerParticipants.first || !winnerParticipants.second || !winnerParticipants.third) {
+            return { success: false, message: "Could not find one of the winning participants." };
+        }
+
+        const weeklyResultId = `${details.year}_${details.semester}_${details.weekNumber}`;
+        const newWeeklyResult: WeeklyResult = {
+            id: weeklyResultId,
+            year: details.year,
+            semester: details.semester,
+            weekNumber: details.weekNumber,
+            winners: {
+                first: {
+                    id: winnerParticipants.first.id,
+                    name: winnerParticipants.first.name,
+                    content: winnersContent.first
+                },
+                second: {
+                    id: winnerParticipants.second.id,
+                    name: winnerParticipants.second.name,
+                    content: winnersContent.second
+                },
+                third: {
+                    id: winnerParticipants.third.id,
+                    name: winnerParticipants.third.name,
+                    content: winnersContent.third
+                },
+            },
+            timestamp: Timestamp.now()
+        };
+
+        const weeklyResultRef = doc(db, "weekly_results", weeklyResultId);
+        batch.set(weeklyResultRef, newWeeklyResult);
+
+        // Commit the batch update to Firestore
+        await batch.commit();
+
+        return { success: true, message: `Leaderboard updated successfully for ${details.semester} Week ${details.weekNumber}.` };
+
     } catch (error) {
-        console.error("Error saving to localStorage", error);
+        console.error("Error updating leaderboard in Firestore", error);
         return { success: false, message: "Failed to update leaderboard." };
     }
 };
