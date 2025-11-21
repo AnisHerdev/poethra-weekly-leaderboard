@@ -12,11 +12,12 @@ const AdminPage: React.FC = () => {
     const [newParticipantName, setNewParticipantName] = useState('');
     const [weeklyParticipants, setWeeklyParticipants] = useState<string[]>([]);
     const [winners, setWinners] = useState({ first: '', second: '', third: '' });
+    const [winnersContent, setWinnersContent] = useState({ first: '', second: '', third: '' });
+    const [winnersTitles, setWinnersTitles] = useState({ first: '', second: '', third: '' });
     const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
     const [year, setYear] = useState(new Date().getFullYear());
     const [semester, setSemester] = useState<'H1' | 'H2'>('H1');
     const [weekNumber, setWeekNumber] = useState(1);
-    const [winnersContent, setWinnersContent] = useState({ first: '', second: '', third: '' });
 
     const refreshData = useCallback(async () => {
         const data = await getParticipants();
@@ -79,7 +80,8 @@ const AdminPage: React.FC = () => {
             weeklyParticipants,
             winners,
             { year, semester, weekNumber },
-            winnersContent
+            winnersContent,
+            winnersTitles
         );
 
         if (result.success) {
@@ -87,6 +89,7 @@ const AdminPage: React.FC = () => {
             setWeeklyParticipants([]);
             setWinners({ first: '', second: '', third: '' });
             setWinnersContent({ first: '', second: '', third: '' });
+            setWinnersTitles({ first: '', second: '', third: '' });
             setWeekNumber(prev => prev + 1); // Auto-increment week
         }
         showNotification(result.success ? 'success' : 'error', result.message);
@@ -211,66 +214,123 @@ const AdminPage: React.FC = () => {
                                 <legend className="text-lg font-semibold mb-3 text-stone-700 dark:text-gray-200">2. Select Winners & Add Content</legend>
                                 <div className="space-y-6">
                                     {/* 1st Place */}
-                                    <div className="p-4 bg-stone-50 dark:bg-gray-700/30 rounded-md border border-stone-200 dark:border-gray-600">
-                                        <label htmlFor="first-place" className="block text-sm font-bold text-amber-600 dark:text-yellow-500 mb-2">🥇 1st Place</label>
-                                        <select
-                                            id="first-place"
-                                            value={winners.first}
-                                            onChange={(e) => setWinners({ ...winners, first: e.target.value })}
-                                            className="w-full mb-3 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
-                                            required
-                                        >
-                                            <option value="" disabled>Select winner</option>
-                                            {getAvailableWinnersForSlot(winners.first).map(name => <option key={`1st - ${name} `} value={name}>{name}</option>)}
-                                        </select>
-                                        <textarea
-                                            placeholder="Paste 1st place work here..."
-                                            value={winnersContent.first}
-                                            onChange={(e) => setWinnersContent({ ...winnersContent, first: e.target.value })}
-                                            className="w-full h-24 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500 text-sm"
-                                        />
+                                    <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+                                        <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-3">🥇 1st Place</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Winner</label>
+                                                <select
+                                                    value={winners.first}
+                                                    onChange={(e) => setWinners({ ...winners, first: e.target.value })}
+                                                    className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white"
+                                                >
+                                                    <option value="">Select Winner</option>
+                                                    {getAvailableWinnersForSlot(winners.first).map(name => (
+                                                        <option key={`1st - ${name}`} value={name}>{name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Title of Work</label>
+                                                <input
+                                                    type="text"
+                                                    value={winnersTitles.first}
+                                                    onChange={(e) => setWinnersTitles({ ...winnersTitles, first: e.target.value })}
+                                                    placeholder="e.g., The Golden Dawn"
+                                                    className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Content (Poem/Story)</label>
+                                            <textarea
+                                                value={winnersContent.first}
+                                                onChange={(e) => setWinnersContent({ ...winnersContent, first: e.target.value })}
+                                                placeholder="Paste the winning entry here..."
+                                                rows={4}
+                                                className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white font-mono text-sm"
+                                            />
+                                        </div>
                                     </div>
 
                                     {/* 2nd Place */}
-                                    <div className="p-4 bg-stone-50 dark:bg-gray-700/30 rounded-md border border-stone-200 dark:border-gray-600">
-                                        <label htmlFor="second-place" className="block text-sm font-bold text-stone-600 dark:text-gray-300 mb-2">🥈 2nd Place</label>
-                                        <select
-                                            id="second-place"
-                                            value={winners.second}
-                                            onChange={(e) => setWinners({ ...winners, second: e.target.value })}
-                                            className="w-full mb-3 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
-                                            required
-                                        >
-                                            <option value="" disabled>Select winner</option>
-                                            {getAvailableWinnersForSlot(winners.second).map(name => <option key={`2nd - ${name} `} value={name}>{name}</option>)}
-                                        </select>
-                                        <textarea
-                                            placeholder="Paste 2nd place work here..."
-                                            value={winnersContent.second}
-                                            onChange={(e) => setWinnersContent({ ...winnersContent, second: e.target.value })}
-                                            className="w-full h-24 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500 text-sm"
-                                        />
+                                    <div className="mb-6 p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-lg">
+                                        <h3 className="text-lg font-semibold text-stone-700 dark:text-stone-300 mb-3">🥈 2nd Place</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Winner</label>
+                                                <select
+                                                    value={winners.second}
+                                                    onChange={(e) => setWinners({ ...winners, second: e.target.value })}
+                                                    className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white"
+                                                >
+                                                    <option value="">Select Winner</option>
+                                                    {getAvailableWinnersForSlot(winners.second).map(name => (
+                                                        <option key={`2nd - ${name}`} value={name}>{name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Title of Work</label>
+                                                <input
+                                                    type="text"
+                                                    value={winnersTitles.second}
+                                                    onChange={(e) => setWinnersTitles({ ...winnersTitles, second: e.target.value })}
+                                                    placeholder="e.g., Whispers in the Dark"
+                                                    className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Content (Poem/Story)</label>
+                                            <textarea
+                                                value={winnersContent.second}
+                                                onChange={(e) => setWinnersContent({ ...winnersContent, second: e.target.value })}
+                                                placeholder="Paste the winning entry here..."
+                                                rows={4}
+                                                className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white font-mono text-sm"
+                                            />
+                                        </div>
                                     </div>
 
                                     {/* 3rd Place */}
-                                    <div className="p-4 bg-stone-50 dark:bg-gray-700/30 rounded-md border border-stone-200 dark:border-gray-600">
-                                        <label htmlFor="third-place" className="block text-sm font-bold text-stone-600 dark:text-gray-300 mb-2">🥉 3rd Place</label>
-                                        <select
-                                            id="third-place"
-                                            value={winners.third}
-                                            onChange={(e) => setWinners({ ...winners, third: e.target.value })}
-                                            className="w-full mb-3 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
-                                            required
-                                        >
-                                            <option value="" disabled>Select winner</option>
-                                            {getAvailableWinnersForSlot(winners.third).map(name => <option key={`3rd - ${name} `} value={name}>{name}</option>)}
-                                        </select>
-                                        <textarea
-                                            placeholder="Paste 3rd place work here..."
-                                            value={winnersContent.third}
-                                            onChange={(e) => setWinnersContent({ ...winnersContent, third: e.target.value })}
-                                            className="w-full h-24 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500 text-sm"
-                                        />
+                                    <div className="mb-8 p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-lg">
+                                        <h3 className="text-lg font-semibold text-stone-700 dark:text-stone-300 mb-3">🥉 3rd Place</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Winner</label>
+                                                <select
+                                                    value={winners.third}
+                                                    onChange={(e) => setWinners({ ...winners, third: e.target.value })}
+                                                    className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white"
+                                                >
+                                                    <option value="">Select Winner</option>
+                                                    {getAvailableWinnersForSlot(winners.third).map(name => (
+                                                        <option key={`3rd - ${name}`} value={name}>{name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Title of Work</label>
+                                                <input
+                                                    type="text"
+                                                    value={winnersTitles.third}
+                                                    onChange={(e) => setWinnersTitles({ ...winnersTitles, third: e.target.value })}
+                                                    placeholder="e.g., The Last Leaf"
+                                                    className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Content (Poem/Story)</label>
+                                            <textarea
+                                                value={winnersContent.third}
+                                                onChange={(e) => setWinnersContent({ ...winnersContent, third: e.target.value })}
+                                                placeholder="Paste the winning entry here..."
+                                                rows={4}
+                                                className="w-full p-2 border border-stone-300 dark:border-stone-600 rounded bg-white dark:bg-stone-800 text-stone-900 dark:text-white font-mono text-sm"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </fieldset>
@@ -286,7 +346,7 @@ const AdminPage: React.FC = () => {
                     </form>
                 </section>
             </div>
-        </div>
+        </div >
     );
 };
 
