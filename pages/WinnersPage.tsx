@@ -117,7 +117,7 @@ const WinnersPage: React.FC = () => {
                                     <WinnerBook
                                         winnerName={currentResult.winners.second.name}
                                         rank={2}
-                                        title={getPlaceholderTitle(currentResult.week, 2)}
+                                        title={currentResult.winners.second.title || getPlaceholderTitle(currentResult.weekNumber, 2)}
                                         onClick={() => handleOpenModal(currentResult.winners.second, 2)}
                                     />
                                 </div>
@@ -125,7 +125,7 @@ const WinnersPage: React.FC = () => {
                                     <WinnerBook
                                         winnerName={currentResult.winners.first.name}
                                         rank={1}
-                                        title={getPlaceholderTitle(currentResult.week, 1)}
+                                        title={currentResult.winners.first.title || getPlaceholderTitle(currentResult.weekNumber, 1)}
                                         onClick={() => handleOpenModal(currentResult.winners.first, 1)}
                                     />
                                 </div>
@@ -133,7 +133,7 @@ const WinnersPage: React.FC = () => {
                                     <WinnerBook
                                         winnerName={currentResult.winners.third.name}
                                         rank={3}
-                                        title={getPlaceholderTitle(currentResult.week, 3)}
+                                        title={currentResult.winners.third.title || getPlaceholderTitle(currentResult.weekNumber, 3)}
                                         onClick={() => handleOpenModal(currentResult.winners.third, 3)}
                                     />
                                 </div>

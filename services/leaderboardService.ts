@@ -116,7 +116,8 @@ export const updateLeaderboard = async (
     weeklyParticipantNames: string[],
     winners: { first: string; second: string; third: string },
     details: { year: number, semester: string, weekNumber: number },
-    winnersContent: { first: string, second: string, third: string }
+    winnersContent: { first: string, second: string, third: string },
+    winnersTitles: { first: string, second: string, third: string }
 ): Promise<{ success: boolean, message: string }> => {
 
     // Validation
@@ -224,17 +225,20 @@ export const updateLeaderboard = async (
                 first: {
                     id: winnerParticipants.first.id,
                     name: winnerParticipants.first.name,
-                    content: winnersContent.first
+                    content: winnersContent.first,
+                    title: winnersTitles.first
                 },
                 second: {
                     id: winnerParticipants.second.id,
                     name: winnerParticipants.second.name,
-                    content: winnersContent.second
+                    content: winnersContent.second,
+                    title: winnersTitles.second
                 },
                 third: {
                     id: winnerParticipants.third.id,
                     name: winnerParticipants.third.name,
-                    content: winnersContent.third
+                    content: winnersContent.third,
+                    title: winnersTitles.third
                 },
             },
             timestamp: Timestamp.now()

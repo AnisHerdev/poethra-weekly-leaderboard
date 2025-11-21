@@ -12,6 +12,7 @@ export interface WeeklyWinnerInfo {
     name: string;
     id: string;
     content?: string;
+    title?: string;
 }
 
 export interface WeeklyResult {
