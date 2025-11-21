@@ -1,9 +1,38 @@
 import { Participant, WeeklyResult } from '../types';
 import { POINTS } from '../constants';
+import { db } from '../src/firebase';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 const LOCAL_STORAGE_KEY_PARTICIPANTS = 'poethra_participants';
 const LOCAL_STORAGE_KEY_WEEK = 'poethra_week';
 const LOCAL_STORAGE_KEY_WEEKLY_RESULTS = 'poethra_weekly_results';
+
+// --- Firestore Integration ---
+
+export const fetchLeaderboard = async (): Promise<Participant[]> => {
+    try {
+        const q = query(collection(db, "leader_board"));
+        const querySnapshot = await getDocs(q);
+
+        const participants: Participant[] = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                name: data.name || "Unknown",
+                totalPoints: parseInt(data.points) || 0,
+                currentStreak: parseInt(data.streak) || 0,
+                participationHistory: [], // Not in user's schema, defaulting to empty
+                bestRank: null // Not in user's schema
+            };
+        });
+
+        // Sort by points descending
+        return participants.sort((a, b) => b.totalPoints - a.totalPoints);
+    } catch (error: any) {
+        console.error("Error fetching leaderboard from Firestore:", error);
+        throw error;
+    }
+};
 
 // --- Participant Management ---
 
@@ -59,7 +88,7 @@ export const addParticipant = (name: string): { success: boolean, message: strin
 export const deleteParticipant = (participantId: string): { success: boolean, message: string } => {
     let allParticipants = getParticipants();
     const participantToDelete = allParticipants.find(p => p.id === participantId);
-    
+
     if (!participantToDelete) {
         return { success: false, message: 'Participant not found.' };
     }
@@ -195,7 +224,7 @@ export const updateLeaderboard = (
 
     const allWeeklyResults = getWeeklyResults();
     const updatedWeeklyResults = [...allWeeklyResults, newWeeklyResult];
-    
+
     try {
         localStorage.setItem(LOCAL_STORAGE_KEY_PARTICIPANTS, JSON.stringify(finalParticipants));
         localStorage.setItem(LOCAL_STORAGE_KEY_WEEK, String(newWeek));

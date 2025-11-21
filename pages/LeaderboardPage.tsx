@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { getParticipants } from '../services/leaderboardService';
+import React, { useState, useMemo, useEffect } from 'react';
+import { fetchLeaderboard } from '../services/leaderboardService';
 import { Participant } from '../types';
 import { FireIcon } from '../components/icons/SocialIcons';
 
@@ -47,8 +47,23 @@ const HallOfFameCard: React.FC<{ title: string; participant?: Participant; color
 
 const LeaderboardPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const allParticipants = useMemo(() => getParticipants(), []);
-    
+    const [allParticipants, setAllParticipants] = useState<Participant[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadData = async () => {
+            setLoading(true);
+            try {
+                const data = await fetchLeaderboard();
+                setAllParticipants(data);
+            } catch (e: any) {
+                console.error(e);
+            }
+            setLoading(false);
+        };
+        loadData();
+    }, []);
+
     const sortedParticipants = useMemo(() => {
         return [...allParticipants].sort((a, b) => b.totalPoints - a.totalPoints);
     }, [allParticipants]);
@@ -56,16 +71,16 @@ const LeaderboardPage: React.FC = () => {
     const filteredParticipants = useMemo(() => {
         return sortedParticipants.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }, [sortedParticipants, searchTerm]);
-    
+
     const hallOfFame = useMemo(() => {
         if (allParticipants.length === 0) {
             return { highestStreak: undefined, highestBestRank: undefined, mostConsistent: undefined };
         }
-        const highestStreak = [...allParticipants].sort((a,b) => b.currentStreak - a.currentStreak)[0];
+        const highestStreak = [...allParticipants].sort((a, b) => b.currentStreak - a.currentStreak)[0];
         const highestBestRank = sortedParticipants[0];
-        
+
         const mostConsistent = [...allParticipants].sort((a, b) => b.participationHistory.length - a.participationHistory.length)[0];
-        
+
         return { highestStreak, highestBestRank, mostConsistent };
     }, [allParticipants, sortedParticipants]);
 
@@ -74,16 +89,25 @@ const LeaderboardPage: React.FC = () => {
             <div>
                 <h1 className="text-4xl sm:text-5xl font-bold text-center mb-4 text-amber-700 dark:text-yellow-400">Leaderboard</h1>
                 <p className="text-center text-stone-600 dark:text-gray-300 text-base md:text-lg mb-8">Weekly rankings of our most dedicated writers.</p>
-                {allParticipants.length > 0 && (
-                    <div className="max-w-md mx-auto">
-                        <input
-                            type="text"
-                            placeholder="Search for a participant..."
-                            className="w-full bg-white dark:bg-gray-800 border border-stone-300 dark:border-gray-600 rounded-full px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+
+                {loading ? (
+                    <div className="text-center p-8">
+                        <p className="text-xl text-stone-600 dark:text-gray-300">Loading leaderboard...</p>
                     </div>
+                ) : (
+                    <>
+                        {allParticipants.length > 0 && (
+                            <div className="max-w-md mx-auto mb-8">
+                                <input
+                                    type="text"
+                                    placeholder="Search for a participant..."
+                                    className="w-full bg-white dark:bg-gray-800 border border-stone-300 dark:border-gray-600 rounded-full px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
 
@@ -99,7 +123,7 @@ const LeaderboardPage: React.FC = () => {
                     </div>
                 )}
             </div>
-            
+
             {allParticipants.length > 0 && (
                 <div className="pt-10">
                     <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-amber-700 dark:text-yellow-400">Hall of Fame</h2>
