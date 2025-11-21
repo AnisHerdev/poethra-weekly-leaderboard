@@ -4,7 +4,6 @@ import {
     addParticipant,
     deleteParticipant,
     updateLeaderboard,
-    getCurrentWeek,
 } from '../services/leaderboardService';
 import { Participant } from '../types';
 
@@ -14,11 +13,15 @@ const AdminPage: React.FC = () => {
     const [weeklyParticipants, setWeeklyParticipants] = useState<string[]>([]);
     const [winners, setWinners] = useState({ first: '', second: '', third: '' });
     const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-    const [currentWeek, setCurrentWeek] = useState(0);
+    const [year, setYear] = useState(new Date().getFullYear());
+    const [semester, setSemester] = useState<'H1' | 'H2'>('H1');
+    const [weekNumber, setWeekNumber] = useState(1);
+    const [winnersContent, setWinnersContent] = useState({ first: '', second: '', third: '' });
 
-    const refreshData = useCallback(() => {
-        setParticipants(getParticipants());
-        setCurrentWeek(getCurrentWeek());
+    const refreshData = useCallback(async () => {
+        const data = await getParticipants();
+        setParticipants(data);
+        // setCurrentWeek(getCurrentWeek()); // No longer needed
     }, []);
 
     useEffect(() => {
@@ -30,9 +33,9 @@ const AdminPage: React.FC = () => {
         setTimeout(() => setNotification(null), 5000);
     };
 
-    const handleAddParticipant = (e: React.FormEvent) => {
+    const handleAddParticipant = async (e: React.FormEvent) => {
         e.preventDefault();
-        const result = addParticipant(newParticipantName);
+        const result = await addParticipant(newParticipantName);
         if (result.success) {
             setNewParticipantName('');
             refreshData();
@@ -40,14 +43,14 @@ const AdminPage: React.FC = () => {
         showNotification(result.success ? 'success' : 'error', result.message);
     };
 
-    const handleDeleteParticipant = (id: string) => {
+    const handleDeleteParticipant = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this participant? This action cannot be undone.')) {
-            const result = deleteParticipant(id);
+            const result = await deleteParticipant(id);
             if (result.success) {
                 refreshData();
                 // Also remove them from this week's selection if they were selected
                 const deletedParticipantName = participants.find(p => p.id === id)?.name;
-                if(deletedParticipantName) {
+                if (deletedParticipantName) {
                     setWeeklyParticipants(prev => prev.filter(name => name !== deletedParticipantName));
                 }
             }
@@ -70,17 +73,25 @@ const AdminPage: React.FC = () => {
         });
     };
 
-    const handleUpdateLeaderboard = (e: React.FormEvent) => {
+    const handleUpdateLeaderboard = async (e: React.FormEvent) => {
         e.preventDefault();
-        const result = updateLeaderboard(weeklyParticipants, winners);
+        const result = await updateLeaderboard(
+            weeklyParticipants,
+            winners,
+            { year, semester, weekNumber },
+            winnersContent
+        );
+
         if (result.success) {
             refreshData();
             setWeeklyParticipants([]);
             setWinners({ first: '', second: '', third: '' });
+            setWinnersContent({ first: '', second: '', third: '' });
+            setWeekNumber(prev => prev + 1); // Auto-increment week
         }
         showNotification(result.success ? 'success' : 'error', result.message);
     };
-    
+
     const getAvailableWinnersForSlot = (currentSlotValue: string) => {
         const otherWinners = Object.values(winners).filter(w => w && w !== currentSlotValue);
         return weeklyParticipants.filter(p => !otherWinners.includes(p));
@@ -91,7 +102,7 @@ const AdminPage: React.FC = () => {
             <h1 className="text-4xl sm:text-5xl font-bold text-center text-amber-700 dark:text-yellow-400">Admin Panel</h1>
 
             {notification && (
-                <div className={`p-4 rounded-md text-center ${notification.type === 'success' ? 'bg-green-500/10 text-green-700 dark:bg-green-500/20 dark:text-green-300' : 'bg-red-500/10 text-red-700 dark:bg-red-500/20 dark:text-red-300'}`} role="alert">
+                <div className={`p - 4 rounded - md text - center ${notification.type === 'success' ? 'bg-green-500/10 text-green-700 dark:bg-green-500/20 dark:text-green-300' : 'bg-red-500/10 text-red-700 dark:bg-red-500/20 dark:text-red-300'} `} role="alert">
                     {notification.message}
                 </div>
             )}
@@ -116,10 +127,10 @@ const AdminPage: React.FC = () => {
                     </form>
                     <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                         {participants.length > 0 ? (
-                             participants.map(p => (
+                            participants.map(p => (
                                 <div key={p.id} className="flex items-center justify-between bg-stone-100 dark:bg-gray-700 p-3 rounded-md">
                                     <span className="text-stone-700 dark:text-gray-200">{p.name}</span>
-                                    <button onClick={() => handleDeleteParticipant(p.id)} className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-semibold text-sm" aria-label={`Delete ${p.name}`}>
+                                    <button onClick={() => handleDeleteParticipant(p.id)} className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-semibold text-sm" aria-label={`Delete ${p.name} `}>
                                         Delete
                                     </button>
                                 </div>
@@ -133,9 +144,45 @@ const AdminPage: React.FC = () => {
                 {/* Update Leaderboard */}
                 <section className="bg-white dark:bg-gray-800/50 p-6 rounded-lg shadow-lg border border-stone-200 dark:border-gray-700" aria-labelledby="update-leaderboard-heading">
                     <h2 id="update-leaderboard-heading" className="text-2xl font-bold mb-4 text-stone-800 dark:text-white">Update Leaderboard</h2>
-                    <p className="text-lg text-amber-700 dark:text-yellow-400 mb-6">Updating for Week {currentWeek + 1}</p>
-                    
+
                     <form onSubmit={handleUpdateLeaderboard} className="space-y-6">
+                        {/* Week Details Inputs */}
+                        <div className="grid grid-cols-3 gap-4">
+                            <div>
+                                <label htmlFor="year" className="block text-sm font-medium text-stone-600 dark:text-gray-300 mb-1">Year</label>
+                                <input
+                                    type="number"
+                                    id="year"
+                                    value={year}
+                                    onChange={(e) => setYear(parseInt(e.target.value))}
+                                    className="w-full bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-3 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="semester" className="block text-sm font-medium text-stone-600 dark:text-gray-300 mb-1">Semester</label>
+                                <select
+                                    id="semester"
+                                    value={semester}
+                                    onChange={(e) => setSemester(e.target.value as 'H1' | 'H2')}
+                                    className="w-full bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-3 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                >
+                                    <option value="H1">H1</option>
+                                    <option value="H2">H2</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label htmlFor="week" className="block text-sm font-medium text-stone-600 dark:text-gray-300 mb-1">Week</label>
+                                <input
+                                    type="number"
+                                    id="week"
+                                    value={weekNumber}
+                                    onChange={(e) => setWeekNumber(parseInt(e.target.value))}
+                                    min="1"
+                                    className="w-full bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-3 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                />
+                            </div>
+                        </div>
+
                         <fieldset>
                             <legend className="text-lg font-semibold mb-3 text-stone-700 dark:text-gray-200">1. Select This Week's Participants</legend>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-2 border border-stone-200 dark:border-gray-700 rounded-md">
@@ -160,50 +207,70 @@ const AdminPage: React.FC = () => {
                         </fieldset>
 
                         {weeklyParticipants.length > 2 && (
-                             <fieldset>
-                                <legend className="text-lg font-semibold mb-3 text-stone-700 dark:text-gray-200">2. Select Winners</legend>
-                                <div className="space-y-4">
-                                     {/* 1st Place */}
-                                     <div>
-                                        <label htmlFor="first-place" className="block text-sm font-medium text-stone-600 dark:text-gray-300 mb-1">🥇 1st Place</label>
+                            <fieldset>
+                                <legend className="text-lg font-semibold mb-3 text-stone-700 dark:text-gray-200">2. Select Winners & Add Content</legend>
+                                <div className="space-y-6">
+                                    {/* 1st Place */}
+                                    <div className="p-4 bg-stone-50 dark:bg-gray-700/30 rounded-md border border-stone-200 dark:border-gray-600">
+                                        <label htmlFor="first-place" className="block text-sm font-bold text-amber-600 dark:text-yellow-500 mb-2">🥇 1st Place</label>
                                         <select
                                             id="first-place"
                                             value={winners.first}
                                             onChange={(e) => setWinners({ ...winners, first: e.target.value })}
-                                            className="w-full bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                            className="w-full mb-3 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
                                             required
                                         >
                                             <option value="" disabled>Select winner</option>
-                                            {getAvailableWinnersForSlot(winners.first).map(name => <option key={`1st-${name}`} value={name}>{name}</option>)}
+                                            {getAvailableWinnersForSlot(winners.first).map(name => <option key={`1st - ${name} `} value={name}>{name}</option>)}
                                         </select>
+                                        <textarea
+                                            placeholder="Paste 1st place work here..."
+                                            value={winnersContent.first}
+                                            onChange={(e) => setWinnersContent({ ...winnersContent, first: e.target.value })}
+                                            className="w-full h-24 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500 text-sm"
+                                        />
                                     </div>
+
                                     {/* 2nd Place */}
-                                     <div>
-                                        <label htmlFor="second-place" className="block text-sm font-medium text-stone-600 dark:text-gray-300 mb-1">🥈 2nd Place</label>
+                                    <div className="p-4 bg-stone-50 dark:bg-gray-700/30 rounded-md border border-stone-200 dark:border-gray-600">
+                                        <label htmlFor="second-place" className="block text-sm font-bold text-stone-600 dark:text-gray-300 mb-2">🥈 2nd Place</label>
                                         <select
                                             id="second-place"
                                             value={winners.second}
                                             onChange={(e) => setWinners({ ...winners, second: e.target.value })}
-                                            className="w-full bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                            className="w-full mb-3 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
                                             required
                                         >
                                             <option value="" disabled>Select winner</option>
-                                             {getAvailableWinnersForSlot(winners.second).map(name => <option key={`2nd-${name}`} value={name}>{name}</option>)}
+                                            {getAvailableWinnersForSlot(winners.second).map(name => <option key={`2nd - ${name} `} value={name}>{name}</option>)}
                                         </select>
+                                        <textarea
+                                            placeholder="Paste 2nd place work here..."
+                                            value={winnersContent.second}
+                                            onChange={(e) => setWinnersContent({ ...winnersContent, second: e.target.value })}
+                                            className="w-full h-24 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500 text-sm"
+                                        />
                                     </div>
+
                                     {/* 3rd Place */}
-                                    <div>
-                                        <label htmlFor="third-place" className="block text-sm font-medium text-stone-600 dark:text-gray-300 mb-1">🥉 3rd Place</label>
+                                    <div className="p-4 bg-stone-50 dark:bg-gray-700/30 rounded-md border border-stone-200 dark:border-gray-600">
+                                        <label htmlFor="third-place" className="block text-sm font-bold text-stone-600 dark:text-gray-300 mb-2">🥉 3rd Place</label>
                                         <select
                                             id="third-place"
                                             value={winners.third}
                                             onChange={(e) => setWinners({ ...winners, third: e.target.value })}
-                                            className="w-full bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
+                                            className="w-full mb-3 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500"
                                             required
                                         >
                                             <option value="" disabled>Select winner</option>
-                                            {getAvailableWinnersForSlot(winners.third).map(name => <option key={`3rd-${name}`} value={name}>{name}</option>)}
+                                            {getAvailableWinnersForSlot(winners.third).map(name => <option key={`3rd - ${name} `} value={name}>{name}</option>)}
                                         </select>
+                                        <textarea
+                                            placeholder="Paste 3rd place work here..."
+                                            value={winnersContent.third}
+                                            onChange={(e) => setWinnersContent({ ...winnersContent, third: e.target.value })}
+                                            className="w-full h-24 bg-stone-100 dark:bg-gray-700 border border-stone-300 dark:border-gray-600 rounded-md px-4 py-2 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 dark:focus:ring-yellow-500 text-sm"
+                                        />
                                     </div>
                                 </div>
                             </fieldset>
@@ -214,7 +281,7 @@ const AdminPage: React.FC = () => {
                             disabled={!winners.first || !winners.second || !winners.third}
                             className="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-md hover:bg-green-700 dark:hover:bg-green-500 transition-colors disabled:bg-stone-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
                         >
-                            Submit Results for Week {currentWeek + 1}
+                            Submit Results for {year} {semester} Week {weekNumber}
                         </button>
                     </form>
                 </section>
