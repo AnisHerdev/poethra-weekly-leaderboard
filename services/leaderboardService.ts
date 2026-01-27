@@ -7,10 +7,21 @@ const LOCAL_STORAGE_KEY_WEEK = 'poethra_week';
 const LOCAL_STORAGE_KEY_WEEKLY_RESULTS = 'poethra_weekly_results';
 
 // --- Firestore Integration ---
+const IS_PRODUCTION = false;
+
+const PARTICIPANTS_COLLECTION = IS_PRODUCTION
+    ? 'participants_production'
+    : 'participants_test';
+
+// Toggle between 'weekly_results_production' and 'weekly_results_test'
+const LEADERBOARD_COLLECTION = IS_PRODUCTION
+    ? 'weekly_results_production'
+    : 'weekly_results_test';
+
 
 export const fetchLeaderboard = async (): Promise<Participant[]> => {
     try {
-        const q = query(collection(db, "leader_board"));
+        const q = query(collection(db, PARTICIPANTS_COLLECTION));
         const querySnapshot = await getDocs(q);
 
         const participants: Participant[] = querySnapshot.docs.map(doc => {
@@ -62,7 +73,7 @@ export const addParticipant = async (name: string): Promise<{ success: boolean, 
             bestRank: null
         };
 
-        await addDoc(collection(db, "leader_board"), newParticipantData);
+        await addDoc(collection(db, PARTICIPANTS_COLLECTION), newParticipantData);
         return { success: true, message: `Participant '${name}' added successfully.` };
 
     } catch (error) {
@@ -73,7 +84,7 @@ export const addParticipant = async (name: string): Promise<{ success: boolean, 
 
 export const deleteParticipant = async (participantId: string): Promise<{ success: boolean, message: string }> => {
     try {
-        await deleteDoc(doc(db, "leader_board", participantId));
+        await deleteDoc(doc(db, PARTICIPANTS_COLLECTION, participantId));
         return { success: true, message: 'Participant deleted successfully.' };
     } catch (error) {
         console.error("Error deleting participant from Firestore:", error);
@@ -86,7 +97,7 @@ export const deleteParticipant = async (participantId: string): Promise<{ succes
 export const fetchWeeklyResults = async (): Promise<WeeklyResult[]> => {
     try {
         // Order by year desc, then weekNumber desc to get latest first
-        const q = query(collection(db, "weekly_results"), orderBy("year", "desc"), orderBy("weekNumber", "desc"));
+        const q = query(collection(db, LEADERBOARD_COLLECTION), orderBy("year", "desc"), orderBy("weekNumber", "desc"));
         const querySnapshot = await getDocs(q);
 
         return querySnapshot.docs.map(doc => {
@@ -162,7 +173,7 @@ export const updateLeaderboard = async (
         updatedParticipants.forEach(p => {
             if (!weeklyParticipantNamesSet.has(p.name.toLowerCase())) {
                 // Update Firestore even if only streak changed (reset to 0)
-                const docRef = doc(db, "leader_board", p.id);
+                const docRef = doc(db, PARTICIPANTS_COLLECTION, p.id);
                 batch.update(docRef, {
                     streak: p.currentStreak,
                     participationHistory: p.participationHistory
@@ -189,7 +200,7 @@ export const updateLeaderboard = async (
             const newTotalPoints = p.totalPoints + pointsToAdd;
             const newBestRank = (p.bestRank === null || (rank !== null && rank < p.bestRank)) ? rank : p.bestRank;
 
-            const docRef = doc(db, "leader_board", p.id);
+            const docRef = doc(db, PARTICIPANTS_COLLECTION, p.id);
             batch.update(docRef, {
                 points: newTotalPoints,
                 streak: p.currentStreak,
@@ -244,7 +255,7 @@ export const updateLeaderboard = async (
             timestamp: Timestamp.now()
         };
 
-        const weeklyResultRef = doc(db, "weekly_results", weeklyResultId);
+        const weeklyResultRef = doc(db, LEADERBOARD_COLLECTION, weeklyResultId);
         batch.set(weeklyResultRef, newWeeklyResult);
 
         // Commit the batch update to Firestore
