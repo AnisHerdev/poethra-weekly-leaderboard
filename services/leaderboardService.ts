@@ -107,7 +107,10 @@ export const fetchWeeklyResults = async (): Promise<WeeklyResult[]> => {
                 year: data.year,
                 semester: data.semester,
                 weekNumber: data.weekNumber,
+                weeklyParticipants: data.weeklyParticipants || [],
                 winners: data.winners,
+                createdAt: data.createdAt,
+                updatedAt: data.updatedAt,
                 timestamp: data.timestamp
             } as WeeklyResult;
         });
@@ -227,11 +230,13 @@ export const updateLeaderboard = async (
         }
 
         const weeklyResultId = `${details.year}_${details.semester}_${details.weekNumber}`;
+        const now = new Date().toISOString();
         const newWeeklyResult: WeeklyResult = {
             id: weeklyResultId,
             year: details.year,
             semester: details.semester,
             weekNumber: details.weekNumber,
+            weeklyParticipants: weeklyParticipantNames,
             winners: {
                 first: {
                     id: winnerParticipants.first.id,
@@ -252,6 +257,8 @@ export const updateLeaderboard = async (
                     title: winnersTitles.third
                 },
             },
+            createdAt: now,
+            updatedAt: now,
             timestamp: Timestamp.now()
         };
 
