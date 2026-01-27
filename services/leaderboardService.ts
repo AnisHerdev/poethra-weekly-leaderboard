@@ -29,7 +29,7 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
             return {
                 id: doc.id,
                 name: data.name || "Unknown",
-                totalPoints: parseInt(data.points) || 0,
+                totalPoints: parseInt(data.totalScore) || 0,
                 currentStreak: parseInt(data.streak) || 0,
                 participationHistory: data.participationHistory || [],
                 bestRank: data.bestRank || null
@@ -67,8 +67,8 @@ export const addParticipant = async (name: string): Promise<{ success: boolean, 
 
         const newParticipantData = {
             name: name.trim(),
-            points: 0, // Firestore schema uses 'points'
-            streak: 0, // Firestore schema uses 'streak'
+            totalScore: 0,
+            streak: 0,
             participationHistory: [],
             bestRank: null
         };
@@ -205,7 +205,7 @@ export const updateLeaderboard = async (
 
             const docRef = doc(db, PARTICIPANTS_COLLECTION, p.id);
             batch.update(docRef, {
-                points: newTotalPoints,
+                totalScore: newTotalPoints,
                 streak: p.currentStreak,
                 participationHistory: p.participationHistory,
                 bestRank: newBestRank
