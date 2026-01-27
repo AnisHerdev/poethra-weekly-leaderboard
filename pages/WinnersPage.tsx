@@ -27,8 +27,7 @@ const WinnersPage: React.FC = () => {
     useEffect(() => {
         const loadResults = async () => {
             const results = await fetchWeeklyResults();
-            // Sort by year desc, then weekNumber desc (already done in service, but good to be safe)
-            // Actually service does it, so just set it.
+            console.log("Fetched Results:", results);
             setAllResults(results);
             setCurrentIndex(0);
         };
@@ -58,7 +57,7 @@ const WinnersPage: React.FC = () => {
         setSelectedWinner({
             name: winner.name,
             rank,
-            title: getPlaceholderTitle(currentResult.weekNumber, rank),
+            title: winner.title || "Untitled",
             content: winner.content
         });
         setIsModalOpen(true);
@@ -71,7 +70,7 @@ const WinnersPage: React.FC = () => {
     };
 
     return (
-        <div className="relative w-full flex flex-col items-center bg-[#fdf6e7] dark:bg-[#1a113c] text-stone-900 dark:text-white font-lora">
+        <div className="relative w-full flex flex-col items-center bg-[#fdf6e7] dark:bg-[#1a113c] text-stone-900 dark:text-white font-lora min-h-screen">
 
             {/* HERO SECTION */}
             <section className="w-full relative py-12 bg-gradient-radial from-amber-100/50 to-transparent dark:from-[#3c2a8c]/50 at-top">
@@ -117,7 +116,7 @@ const WinnersPage: React.FC = () => {
                                     <WinnerBook
                                         winnerName={currentResult.winners.second.name}
                                         rank={2}
-                                        title={currentResult.winners.second.title || getPlaceholderTitle(currentResult.weekNumber, 2)}
+                                        title={currentResult.winners.second.title || "Untitled"}
                                         onClick={() => handleOpenModal(currentResult.winners.second, 2)}
                                     />
                                 </div>
@@ -125,7 +124,7 @@ const WinnersPage: React.FC = () => {
                                     <WinnerBook
                                         winnerName={currentResult.winners.first.name}
                                         rank={1}
-                                        title={currentResult.winners.first.title || getPlaceholderTitle(currentResult.weekNumber, 1)}
+                                        title={currentResult.winners.first.title || "Untitled"}
                                         onClick={() => handleOpenModal(currentResult.winners.first, 1)}
                                     />
                                 </div>
@@ -133,7 +132,7 @@ const WinnersPage: React.FC = () => {
                                     <WinnerBook
                                         winnerName={currentResult.winners.third.name}
                                         rank={3}
-                                        title={currentResult.winners.third.title || getPlaceholderTitle(currentResult.weekNumber, 3)}
+                                        title={currentResult.winners.third.title || "Untitled"}
                                         onClick={() => handleOpenModal(currentResult.winners.third, 3)}
                                     />
                                 </div>

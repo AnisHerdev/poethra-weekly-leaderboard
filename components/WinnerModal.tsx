@@ -46,13 +46,13 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
             role="dialog"
         >
             <div
-                className={`relative w-full max-w-lg md:max-w-4xl h-[85vh] md:h-[80vh] transform-gpu transition-all duration-300 ease-out ${bookVisibilityClass}`}
+                className={`relative w-full max-w-lg md:max-w-4xl h-auto max-h-[90vh] md:h-[80vh] transform-gpu transition-all duration-300 ease-out ${bookVisibilityClass} flex flex-col md:block`}
                 onClick={e => e.stopPropagation()}
             >
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-0 right-0 md:-top-4 md:-right-4 text-white hover:text-yellow-300 transition-colors z-20 bg-black/30 rounded-full p-2"
+                    className="absolute top-2 right-2 md:-top-4 md:-right-4 text-white hover:text-yellow-300 transition-colors z-30 bg-black/50 md:bg-black/30 rounded-full p-2"
                     aria-label="Close"
                 >
                     <CloseIcon />
