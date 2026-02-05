@@ -7,7 +7,7 @@ const Header: React.FC = () => {
 
     const navLinkClasses = "text-gray-600 dark:text-gray-300 hover:text-amber-700 dark:hover:text-yellow-500 transition-colors duration-300 pb-1";
     const activeNavLinkClasses = "text-amber-700 dark:text-yellow-500 border-b-2 border-amber-700 dark:border-yellow-500";
-    
+
     const mobileNavLinkClasses = "text-gray-600 dark:text-gray-300 hover:text-amber-700 dark:hover:text-yellow-500 block w-full text-center px-3 py-2 rounded-md text-base font-medium";
     const activeMobileNavLinkClasses = "text-amber-700 dark:text-yellow-500 bg-amber-500/10 dark:bg-yellow-500/10";
 
@@ -28,9 +28,6 @@ const Header: React.FC = () => {
                     </NavLink>
                     <NavLink to="/winners" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Winners
-                    </NavLink>
-                    <NavLink to="/admin" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
-                        Admin
                     </NavLink>
                     <ThemeToggle />
                 </nav>
@@ -58,9 +55,6 @@ const Header: React.FC = () => {
                         </NavLink>
                         <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
                             Winners
-                        </NavLink>
-                        <NavLink to="/admin" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Admin
                         </NavLink>
                     </div>
                 </nav>

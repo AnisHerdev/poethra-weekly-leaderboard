@@ -5,9 +5,6 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import WinnersPage from './pages/WinnersPage';
-import AdminPage from './pages/AdminPage';
-import LoginPage from './pages/LoginPage';
-import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 const App: React.FC = () => {
@@ -21,15 +18,6 @@ const App: React.FC = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/winners" element={<WinnersPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route 
-                  path="/admin" 
-                  element={
-                      <ProtectedRoute>
-                          <AdminPage />
-                      </ProtectedRoute>
-                  } 
-              />
             </Routes>
           </main>
           <Footer />

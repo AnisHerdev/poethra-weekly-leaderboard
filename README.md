@@ -1,15 +1,13 @@
 # Poéthra Leaderboard
 
-A comprehensive React application designed to manage and showcase the weekly leaderboard for the Poéthra poetry competition. This application allows administrators to manage participants, input weekly results, and tracks performance metrics like streaks and total points.
+A comprehensive React application designed to showcase the weekly leaderboard for the Poéthra poetry competition. This application allows users to view participant rankings, performance metrics like streaks and total points, and a gallery of past winners.
 
 ## Features
 
 - **Dynamic Leaderboard**: Real-time ranking of participants based on total accumulated points.
 - **Weekly Results**: Track winners (1st, 2nd, 3rd) for each week and semester.
-- **Participant Management**: Add and remove participants from the system.
 - **Streaks & History**: Automatically calculates current streaks and maintains a history of participation.
-- **Winners Gallery**: Dedicated page to showcase past weekly winners and their winning entries.
-- **Admin Dashboard**: Secure administrative interface for updating results and managing data.
+- **Winner's Gallery**: Dedicated page to showcase past weekly winners and their winning entries.
 - **Responsive Design**: Built with a mobile-first approach using Tailwind CSS.
 - **Dark Mode**: Fully supported dark mode interface.
 

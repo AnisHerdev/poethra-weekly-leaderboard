@@ -7,7 +7,7 @@ const LOCAL_STORAGE_KEY_WEEK = 'poethra_week';
 const LOCAL_STORAGE_KEY_WEEKLY_RESULTS = 'poethra_weekly_results';
 
 // --- Firestore Integration ---
-const IS_PRODUCTION = false;
+const IS_PRODUCTION = true;
 
 const PARTICIPANTS_COLLECTION = IS_PRODUCTION
     ? 'participants_production'

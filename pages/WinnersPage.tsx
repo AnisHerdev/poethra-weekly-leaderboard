@@ -151,7 +151,7 @@ const WinnersPage: React.FC = () => {
                         <BookOpenIcon />
                         <h2 className="text-2xl sm:text-3xl font-bold mt-4 text-amber-800 dark:text-yellow-200">The Archives are Empty</h2>
                         <p className="mt-2 text-stone-500 dark:text-gray-400 font-sans text-sm sm:text-base">No weekly winners have been recorded yet.</p>
-                        <p className="text-stone-500 dark:text-gray-400 font-sans text-sm sm:text-base">An admin must submit results to begin the chronicles.</p>
+                        <p className="text-stone-500 dark:text-gray-400 font-sans text-sm sm:text-base">Chronicles of victory will appear here once they are available.</p>
                     </div>
                 )}
             </main>
