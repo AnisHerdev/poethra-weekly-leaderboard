@@ -65,7 +65,12 @@ const LeaderboardPage: React.FC = () => {
     }, []);
 
     const sortedParticipants = useMemo(() => {
-        return [...allParticipants].sort((a, b) => b.totalPoints - a.totalPoints);
+        return [...allParticipants].sort((a, b) => {
+            if (b.totalPoints !== a.totalPoints) {
+                return b.totalPoints - a.totalPoints;
+            }
+            return b.currentStreak - a.currentStreak;
+        });
     }, [allParticipants]);
 
     const filteredParticipants = useMemo(() => {

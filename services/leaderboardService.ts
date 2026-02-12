@@ -36,8 +36,13 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
             };
         });
 
-        // Sort by points descending
-        return participants.sort((a, b) => b.totalPoints - a.totalPoints);
+        // Sort by points descending, then streak descending
+        return participants.sort((a, b) => {
+            if (b.totalPoints !== a.totalPoints) {
+                return b.totalPoints - a.totalPoints;
+            }
+            return b.currentStreak - a.currentStreak;
+        });
     } catch (error: any) {
         console.error("Error fetching leaderboard from Firestore:", error);
         throw error;
