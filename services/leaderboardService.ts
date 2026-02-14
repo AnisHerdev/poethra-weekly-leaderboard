@@ -3,7 +3,7 @@ import { db } from '../src/firebase';
 import { collection, getDocs, query, orderBy, doc, Timestamp } from 'firebase/firestore';
 
 // --- Firestore Integration ---
-const IS_PRODUCTION = true;
+const IS_PRODUCTION = false;
 
 const PARTICIPANTS_COLLECTION = IS_PRODUCTION
     ? 'participants_production'
@@ -26,7 +26,7 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
                 id: doc.id,
                 name: data.name || "Unknown",
                 totalPoints: parseInt(data.totalScore) || 0,
-                currentStreak: parseInt(data.streak) || 0,
+                currentStreak: parseInt(data.currentStreak) || 0,
                 participationHistory: data.participationHistory || [],
                 bestRank: data.bestRank || null
             };
