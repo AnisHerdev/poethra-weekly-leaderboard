@@ -18,9 +18,97 @@ export const FacebookIcon = () => (
     </svg>
 );
 
+// export const FireIcon = () => (
+//   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-500 dark:text-orange-400" viewBox="0 0 20 20" fill="currentColor">
+//     <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM10 18a1 1 0 01.707.293l2 2a1 1 0 11-1.414 1.414l-2-2A1 1 0 0110 18zm-7.707-4.293a1 1 0 010-1.414l2-2a1 1 0 011.414 1.414l-2 2a1 1 0 01-1.414 0zM10 4a1 1 0 01.707-.293l2-2a1 1 0 11-1.414-1.414l-2 2A1 1 0 0110 4z" clipRule="evenodd" />
+//     <path d="M10.21 4.54a1 1 0 00-1.03-1.03l-1 5a1 1 0 001.03 1.03l5-1a1 1 0 00-1.03-1.03l-3-3z" />
+//   </svg>
+// );
+
+
+// export const FireIcon = () => (
+//   <svg
+//     xmlns="http://www.w3.org/2000/svg"
+//     viewBox="0 0 24 24"
+//     className="h-8 w-8 fire-streak"
+//   >
+//     <defs>
+//       <linearGradient id="fireOuter" x1="0" y1="0" x2="0" y2="1">
+//         <stop offset="0%" stopColor="#fb923c" />
+//         <stop offset="100%" stopColor="#ef4444" />
+//       </linearGradient>
+
+//       <linearGradient id="fireInner" x1="0" y1="0" x2="0" y2="1">
+//         <stop offset="0%" stopColor="#fde68a" />
+//         <stop offset="100%" stopColor="#f97316" />
+//       </linearGradient>
+
+//       <filter id="glow">
+//         <feGaussianBlur stdDeviation="0.6" result="coloredBlur" />
+//         <feMerge>
+//           <feMergeNode in="coloredBlur" />
+//           <feMergeNode in="SourceGraphic" />
+//         </feMerge>
+//       </filter>
+//     </defs>
+
+//     {/* Outer flame */}
+//     <path
+//       fill="url(#fireOuter)"
+//       filter="url(#glow)"
+//       d="M13.5 2s.5 2-2 4c-2.5 2-3 3.5-3 5.5A5.5 5.5 0 0014 17a5 5 0 004-8.5c0 2.5-1.5 3.5-2.5 4 .5-2.5-1-4-2-5.5C12.5 5 13.5 2 13.5 2z"
+//     />
+
+//     {/* Inner flame */}
+//     <path
+//       fill="url(#fireInner)"
+//       d="M12 8c-1.5 2-2.5 3-2.5 4.5A2.5 2.5 0 0012 15a2.5 2.5 0 002.5-2.5C14.5 11 13.5 10 12 8z"
+//     />
+//   </svg>
+// );
+
+
 export const FireIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-500 dark:text-orange-400" viewBox="0 0 20 20" fill="currentColor">
-    <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM10 18a1 1 0 01.707.293l2 2a1 1 0 11-1.414 1.414l-2-2A1 1 0 0110 18zm-7.707-4.293a1 1 0 010-1.414l2-2a1 1 0 011.414 1.414l-2 2a1 1 0 01-1.414 0zM10 4a1 1 0 01.707-.293l2-2a1 1 0 11-1.414-1.414l-2 2A1 1 0 0110 4z" clipRule="evenodd" />
-    <path d="M10.21 4.54a1 1 0 00-1.03-1.03l-1 5a1 1 0 001.03 1.03l5-1a1 1 0 00-1.03-1.03l-3-3z" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className="h-8 w-8 duo-fire"
+  >
+    <defs>
+      <linearGradient id="duoOuter" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#ffb703" />
+        <stop offset="60%" stopColor="#fb8500" />
+        <stop offset="100%" stopColor="#ef4444" />
+      </linearGradient>
+
+      <linearGradient id="duoInner" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#fff3b0" />
+        <stop offset="100%" stopColor="#ffd166" />
+      </linearGradient>
+
+      <filter id="duoGlow">
+        <feGaussianBlur stdDeviation="0.7" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+
+    {/* outer chunky flame */}
+<path
+  className="flame-outer"
+  fill="url(#duoOuter)"
+  filter="url(#duoGlow)"
+  d="M12 2C10 5.5 7.5 7.5 7.5 11a4.5 4.5 0 009 0c0-3.2-1.8-5-4.5-9z"
+/>
+
+{/* inner cute flame */}
+<path
+  className="flame-inner"
+  fill="url(#duoInner)"
+  d="M12 7.5c-1.2 1.5-2 2.3-2 3.5a2 2 0 004 0c0-1.2-.8-2-2-3.5z"
+/>
+
   </svg>
 );
