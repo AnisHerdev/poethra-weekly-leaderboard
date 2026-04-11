@@ -6,8 +6,7 @@ import { FireIcon } from '../components/icons/SocialIcons';
 const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({ participant, rank }) => {
     const isTopThree = rank <= 3;
     
-    // Ledger styles
-    const baseClass = "group flex items-center p-4 rounded-xl transition-all duration-500 border-b border-oxblood/5 dark:border-parchment/5 hover:bg-oxblood/[0.02] dark:hover:bg-parchment/[0.02]";
+    const baseClass = "group flex items-center gap-3 p-3 md:p-4 rounded-xl transition-all duration-500 border-b border-oxblood/5 dark:border-parchment/5 hover:bg-oxblood/[0.02] dark:hover:bg-parchment/[0.02]";
     
     const rankColors = [
         'bg-oxblood text-parchment shadow-lg shadow-oxblood/20',
@@ -17,21 +16,22 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
 
     return (
         <div className={baseClass}>
-            {/* Rank Indicator */}
-            <div className={`w-12 h-12 flex items-center justify-center rounded-full font-display text-xl font-black transition-transform duration-500 group-hover:scale-110 ${isTopThree ? rankColors[rank - 1] : 'text-stone-500 dark:text-stone-500'}`}>
+            {/* Rank Indicator — shrink-safe */}
+            <div className={`flex-shrink-0 w-9 h-9 md:w-12 md:h-12 flex items-center justify-center rounded-full font-display text-base md:text-xl font-black transition-transform duration-500 group-hover:scale-110 ${isTopThree ? rankColors[rank - 1] : 'text-stone-500 dark:text-stone-500'}`}>
                 {rank}
             </div>
             
-            <div className={`flex-grow px-6 font-display text-xl md:text-2xl transition-colors duration-300 ${isTopThree ? 'text-stone-900 dark:text-parchment font-bold' : 'text-stone-700 dark:text-stone-300'}`}>
-                {participant.name}
-                {isTopThree && <span className="ml-2 text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-light font-sans font-black">Triumphed</span>}
+            {/* Name — truncates instead of overflowing */}
+            <div className={`flex-1 min-w-0 px-2 md:px-4 font-display text-base md:text-2xl transition-colors duration-300 ${isTopThree ? 'text-stone-900 dark:text-parchment font-bold' : 'text-stone-700 dark:text-stone-300'}`}>
+                <span className="truncate block">{participant.name}</span>
+                {isTopThree && <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-light font-sans font-black">Triumphed</span>}
             </div>
 
-            {/* Streak - Literary devotion */}
-            <div className="flex items-center gap-2 px-4 border-l border-oxblood/10 dark:border-parchment/10">
+            {/* Streak — compact on mobile */}
+            <div className="flex-shrink-0 flex items-center gap-1">
                 {participant.currentStreak > 0 && (
-                    <div className="flex items-center gap-1 group/streak">
-                        <span className="font-display text-lg font-bold text-oxblood dark:text-parchment-dark">{participant.currentStreak}</span>
+                    <div className="flex items-center gap-0.5">
+                        <span className="font-display text-sm md:text-lg font-bold text-oxblood dark:text-parchment-dark">{participant.currentStreak}</span>
                         <div className="text-oxblood animate-pulse-slow">
                             <FireIcon />
                         </div>
@@ -39,11 +39,12 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                 )}
             </div>
 
-            <div className="w-32 text-right">
-                <span className="text-2xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood transition-colors">
+            {/* Points — no longer fixed-width, flex-shrink-0 keeps it visible */}
+            <div className="flex-shrink-0 text-right">
+                <span className="text-lg md:text-2xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood transition-colors">
                     {participant.totalPoints}
                 </span>
-                <span className="ml-1 text-[10px] uppercase tracking-tighter text-stone-500 dark:text-stone-500 font-sans font-bold">pts</span>
+                <span className="ml-0.5 text-[9px] md:text-[10px] uppercase tracking-tighter text-stone-500 dark:text-stone-500 font-sans font-bold">pts</span>
             </div>
         </div>
     );
