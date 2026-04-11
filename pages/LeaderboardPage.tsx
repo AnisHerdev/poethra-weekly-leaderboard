@@ -118,7 +118,7 @@ const LeaderboardPage: React.FC = () => {
     }, [allParticipants, sortedParticipants]);
 
     return (
-        <div className="flex flex-col gap-20 py-10 items-center">
+        <div className="flex flex-col gap-10 py-10 items-center">
             {/* HEADER */}
             <div className="text-center space-y-4 max-w-2xl px-6">
                 <h1 className="text-5xl md:text-7xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
@@ -129,7 +129,7 @@ const LeaderboardPage: React.FC = () => {
                 </p>
 
                 {allParticipants.length > 0 && (
-                    <div className="relative max-w-md mx-auto mt-12 group">
+                    <div className="relative max-w-md mx-auto mt-8 group">
                         <label htmlFor="wordsmith-search" className="sr-only">Search for a wordsmith</label>
                         <input
                             id="wordsmith-search"
@@ -146,18 +146,7 @@ const LeaderboardPage: React.FC = () => {
                 )}
             </div>
 
-            {/* HALL OF FAME */}
-            {allParticipants.length > 0 && (
-                <div className="w-full max-w-6xl px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <HallOfFameCard title="Poet Laureate" participant={hallOfFame.highestBestRank} color="from-oxblood to-transparent" />
-                        <HallOfFameCard title="The Unbroken Flame" participant={hallOfFame.highestStreak} color="from-amber-600 to-transparent" />
-                        <HallOfFameCard title="The Faithful Scroll" participant={hallOfFame.mostConsistent} color="from-stone-600 to-transparent" />
-                    </div>
-                </div>
-            )}
-
-            {/* LEADERBOARD LIST */}
+            {/* LEADERBOARD LIST — directly below search */}
             <div className="w-full max-w-5xl px-6 flex flex-col gap-2">
                 {loading ? (
                     <div className="text-center p-20 opacity-50 italic font-display text-2xl animate-pulse">
@@ -174,6 +163,22 @@ const LeaderboardPage: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* HALL OF FAME — secondary, at the bottom, hidden during search */}
+            {allParticipants.length > 0 && !searchTerm && (
+                <div className="w-full max-w-6xl px-6 space-y-8 pb-4">
+                    <div className="flex items-center gap-6">
+                        <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10"></div>
+                        <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/30 font-black whitespace-nowrap">Hall of Fame</span>
+                        <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10"></div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <HallOfFameCard title="Poet Laureate" participant={hallOfFame.highestBestRank} color="from-oxblood to-transparent" />
+                        <HallOfFameCard title="The Unbroken Flame" participant={hallOfFame.highestStreak} color="from-amber-600 to-transparent" />
+                        <HallOfFameCard title="The Faithful Scroll" participant={hallOfFame.mostConsistent} color="from-stone-600 to-transparent" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
