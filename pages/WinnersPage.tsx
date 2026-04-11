@@ -126,8 +126,8 @@ const WinnersPage: React.FC = () => {
                                         />
                                         <div className="min-w-0">
                                             <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood font-black mb-1">{rankLabel}</p>
-                                            <p className="font-display font-bold text-lg text-stone-900 dark:text-parchment truncate">{winner.name}</p>
-                                            <p className="font-display italic text-sm text-stone-500 dark:text-stone-400 truncate">"{winner.title || 'Untitled'}"</p>
+                                            <p className="font-display font-bold text-lg text-stone-900 dark:text-parchment">{winner.name}</p>
+                                            <p className="font-display italic text-sm text-stone-500 dark:text-stone-400">"{winner.title || 'Untitled'}"</p>
                                             <p className="mt-2 text-[10px] text-oxblood/60 uppercase tracking-widest font-sans font-bold">Tap to read &rarr;</p>
                                         </div>
                                     </button>
@@ -167,8 +167,8 @@ const WinnersPage: React.FC = () => {
                             </div>
 
                             <div className="absolute bottom-12 left-20 right-20 h-px bg-gradient-to-r from-transparent via-oxblood/20 dark:via-parchment/20 to-transparent"></div>
-                            <div className="absolute bottom-6 left-0 right-0 text-center opacity-20">
-                                <span className="font-display italic text-sm text-stone-500 uppercase tracking-widest">Select a volume to read its script</span>
+                            <div className="absolute bottom-6 left-0 right-0 text-center opacity-100">
+                                <span className="font-display italic text-sm dark:text-stone-500 uppercase tracking-widest">Select a volume to read its script</span>
                             </div>
                         </div>
                     </>
