@@ -5,12 +5,6 @@ import WinnerBook from '../components/WinnerBook';
 import WinnerModal from '../components/WinnerModal';
 import { BookOpenIcon, ChevronLeftIcon, ChevronRightIcon } from '../components/icons/UIIcons';
 
-const placeholderTitles = [
-    "Whispers of the Quill", "The Starlight Manuscript", "Chronicles of Ember",
-    "A Bard's Last Rhyme", "The Sunken City's Secret", "Ode to a Forgotten Star",
-    "Where the River Bends", "The Clockwork Nightingale", "Echoes in the Mist",
-];
-
 interface SelectedWinner {
     name: string;
     rank: number;
@@ -27,7 +21,6 @@ const WinnersPage: React.FC = () => {
     useEffect(() => {
         const loadResults = async () => {
             const results = await fetchWeeklyResults();
-            console.log("Fetched Results:", results);
             setAllResults(results);
             setCurrentIndex(0);
         };
@@ -37,12 +30,6 @@ const WinnersPage: React.FC = () => {
     const currentResult = useMemo(() => {
         return allResults.length > 0 ? allResults[currentIndex] : null;
     }, [allResults, currentIndex]);
-
-    const getPlaceholderTitle = (week: number, rank: number) => {
-        // Simple seeded random to keep titles consistent for a winner
-        const seed = week * 10 + rank;
-        return placeholderTitles[seed % placeholderTitles.length];
-    }
 
     const handlePrev = () => {
         setCurrentIndex(prev => Math.min(allResults.length - 1, prev + 1));
@@ -65,54 +52,95 @@ const WinnersPage: React.FC = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        // Delay clearing data to allow for fade-out animation
         setTimeout(() => setSelectedWinner(null), 300);
     };
 
     return (
-        <div className="relative w-full flex flex-col items-center bg-[#fdf6e7] dark:bg-[#1a113c] text-stone-900 dark:text-white font-lora min-h-screen">
-
+        <div className="flex flex-col items-center gap-12 py-10">
             {/* HERO SECTION */}
-            <section className="w-full relative py-12 bg-gradient-radial from-amber-100/50 to-transparent dark:from-[#3c2a8c]/50 at-top">
-                <div className="text-center z-10 animate-fade-in-up px-4">
-                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-orange-600 dark:from-yellow-300 dark:to-amber-400 dark:drop-shadow-[0_0_8px_rgba(253,224,71,0.5)]">
-                        The Winners' Nook
-                    </h1>
-                    <p className="mb-10 mt-4 text-base sm:text-lg text-stone-600 dark:text-gray-300 max-w-2xl mx-auto font-sans">
-                        A tribute to the triumphant wordsmiths of Poéthra. Here, the chronicles of their weekly victories are enshrined.
-                    </p>
-                </div>
-
-                {/* SVG Shape Divider */}
-                <div className="absolute bottom-0 left-0 w-full" style={{ lineHeight: 0 }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 100" preserveAspectRatio="none" className="w-full h-[70px] md:h-[100px]">
-                        <path d="M0,100 C250,0 550,0 800,100 Z" className="fill-[#fdf6e7] dark:fill-[#1a113c]" />
-                    </svg>
-                </div>
+            <section className="text-center space-y-4 max-w-3xl px-6 animate-fade-in-up">
+                <span className="text-xs font-sans uppercase tracking-[0.5em] text-oxblood font-black opacity-60">The Archive</span>
+                <h1 className="text-5xl md:text-8xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
+                    The Winners' Nook
+                </h1>
+                <p className="text-stone-500 dark:text-stone-400 italic text-lg leading-relaxed">
+                    "A tribute to the triumphant wordsmiths of Poéthra. Here, the chronicles of victory are enshrined in ink and memory."
+                </p>
             </section>
 
             {/* CONTENT SECTION */}
-            <main className="w-full z-10 px-4 pb-8 flex-grow flex flex-col items-center justify-center">
+            <main className="w-full max-w-6xl px-6 flex flex-col items-center gap-8">
                 {currentResult ? (
-                    <div className="w-full max-w-5xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                        <div className="flex justify-between items-center mb-8 px-4">
-                            <button onClick={handlePrev} disabled={currentIndex >= allResults.length - 1} className="p-2 rounded-full text-stone-700 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                <ChevronLeftIcon /> <span className="sr-only">Previous Week</span>
+                    <>
+                        {/* Week Navigation */}
+                        <div className="flex items-center gap-4 md:gap-8 bg-oxblood/5 dark:bg-parchment/5 px-4 md:px-8 py-3 md:py-4 rounded-full border border-oxblood/10 dark:border-parchment/10 w-full max-w-sm md:max-w-none md:w-auto">
+                            <button 
+                                onClick={handlePrev} 
+                                disabled={currentIndex >= allResults.length - 1} 
+                                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-600 dark:text-stone-400 hover:text-oxblood dark:hover:text-parchment disabled:opacity-20 transition-all"
+                                aria-label="Previous Week"
+                            >
+                                <ChevronLeftIcon />
                             </button>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-amber-800 dark:text-yellow-200 text-center">
-                                {currentResult.year} {currentResult.semester} - Week {currentResult.weekNumber}
-                            </h2>
-                            <button onClick={handleNext} disabled={currentIndex === 0} className="p-2 rounded-full text-stone-700 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                <ChevronRightIcon /> <span className="sr-only">Next Week</span>
+                            
+                            <div className="text-center flex-1 md:min-w-[200px]">
+                                <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood/60 dark:text-parchment/40 font-black mb-1">Weekly Chronicle</p>
+                                <h2 className="font-display text-base md:text-2xl font-bold text-ink dark:text-parchment">
+                                    Week {currentResult.weekNumber} <span className="text-stone-400 italic font-medium">— {currentResult.semester} {currentResult.year}</span>
+                                </h2>
+                            </div>
+
+                            <button 
+                                onClick={handleNext} 
+                                disabled={currentIndex === 0} 
+                                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-600 dark:text-stone-400 hover:text-oxblood dark:hover:text-parchment disabled:opacity-20 transition-all"
+                                aria-label="Next Week"
+                            >
+                                <ChevronRightIcon />
                             </button>
                         </div>
 
-                        {/* The Winners' Nook */}
-                        <div className="relative w-full pt-12 pb-16 px-4 sm:pt-16 sm:pb-20 sm:px-8 bg-gradient-to-b from-amber-200 to-amber-300 dark:from-[#4a2e1c] dark:to-[#2a1d13] rounded-lg shadow-[inset_0_4px_8px_rgba(0,0,0,0.1)] dark:shadow-[inset_0_8px_16px_rgba(0,0,0,0.6)] border-t-2 border-amber-300 dark:border-amber-950">
+                        {/* The Shelf of Champions */}
+                        {/* Mobile: vertical stacked list. Desktop: side-by-side shelf */}
+                        
+                        {/* MOBILE LAYOUT — stacked book cards */}
+                        <div className="flex flex-col gap-4 w-full md:hidden">
+                            {[
+                                { winner: currentResult.winners.first, rank: 1 },
+                                { winner: currentResult.winners.second, rank: 2 },
+                                { winner: currentResult.winners.third, rank: 3 },
+                            ].map(({ winner, rank }) => {
+                                const rankLabel = ['🥇 1st Place', '🥈 2nd Place', '🥉 3rd Place'][rank - 1];
+                                return (
+                                    <button
+                                        key={rank}
+                                        onClick={() => handleOpenModal(winner, rank)}
+                                        className="w-full flex items-center gap-5 p-4 rounded-2xl bg-parchment-dark/30 dark:bg-ink-light/30 border border-oxblood/10 dark:border-parchment/10 text-left active:scale-[0.98] transition-transform"
+                                        aria-label={`View ${winner.name}'s winning entry`}
+                                    >
+                                        <WinnerBook
+                                            winnerName={winner.name}
+                                            rank={rank}
+                                            title={winner.title || 'Untitled'}
+                                            onClick={() => {}}
+                                            mobileMode={true}
+                                        />
+                                        <div className="min-w-0">
+                                            <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood font-black mb-1">{rankLabel}</p>
+                                            <p className="font-display font-bold text-lg text-stone-900 dark:text-parchment">{winner.name}</p>
+                                            <p className="mt-2 text-[10px] text-oxblood/60 uppercase tracking-widest font-sans font-bold">Tap to read &rarr;</p>
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                        </div>
 
-                            {/* The Books */}
-                            <div className="flex justify-center md:justify-around items-end gap-x-4 gap-y-12 sm:gap-12 md:gap-8 flex-wrap">
-                                <div className="md:mt-8">
+                        {/* DESKTOP LAYOUT — shelf with 3D books */}
+                        <div className="hidden md:block relative w-full aspect-[21/9] bg-ink/5 dark:bg-parchment/5 rounded-[40px] border border-oxblood/5 dark:border-parchment/5 bg-parchment-texture overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-t from-oxblood/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                            
+                            <div className="absolute inset-0 flex items-end justify-center pb-16 gap-x-16 lg:gap-x-24">
+                                <div className="transition-all duration-700 hover:-translate-y-4">
                                     <WinnerBook
                                         winnerName={currentResult.winners.second.name}
                                         rank={2}
@@ -120,7 +148,7 @@ const WinnersPage: React.FC = () => {
                                         onClick={() => handleOpenModal(currentResult.winners.second, 2)}
                                     />
                                 </div>
-                                <div className="order-first md:order-none md:-mb-8 md:scale-110 z-10">
+                                <div className="mb-12 scale-125 z-20 transition-all duration-700 hover:-translate-y-4">
                                     <WinnerBook
                                         winnerName={currentResult.winners.first.name}
                                         rank={1}
@@ -128,7 +156,7 @@ const WinnersPage: React.FC = () => {
                                         onClick={() => handleOpenModal(currentResult.winners.first, 1)}
                                     />
                                 </div>
-                                <div className="md:mt-8">
+                                <div className="transition-all duration-700 hover:-translate-y-4">
                                     <WinnerBook
                                         winnerName={currentResult.winners.third.name}
                                         rank={3}
@@ -138,27 +166,20 @@ const WinnersPage: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* The Wooden Shelf */}
-                            <div className="absolute bottom-0 left-0 right-0 h-12 perspective-1000">
-                                <div className="absolute bottom-0 left-0 right-0 h-5 bg-gradient-to-b from-amber-300 to-amber-400 dark:from-[#4a2e1c] dark:to-[#3a2214] shadow-lg shadow-black/20 dark:shadow-black/50" /> {/* Shelf top */}
-                                <div className="absolute bottom-0 left-0 right-0 h-8 bg-amber-400 dark:bg-[#3a2214] border-t border-amber-500/50 dark:border-amber-900/50" style={{ transform: 'translateY(100%) rotateX(-70deg)', transformOrigin: 'top center' }} /> {/* Shelf front edge */}
-                                <p className="absolute bottom-1 left-0 right-0 text-center text-xs text-amber-800/50 dark:text-amber-200/50 uppercase tracking-widest font-lora">The Shelf of Champions</p>
+                            <div className="absolute bottom-12 left-20 right-20 h-px bg-gradient-to-r from-transparent via-oxblood/20 dark:via-parchment/20 to-transparent"></div>
+                            <div className="absolute bottom-6 left-0 right-0 text-center opacity-100">
+                                <span className="font-display italic text-sm dark:text-stone-500 uppercase tracking-widest">Select a volume to read its script</span>
                             </div>
                         </div>
-                    </div>
+                    </>
                 ) : (
-                    <div className="text-center flex flex-col items-center animate-fade-in-up px-4">
-                        <BookOpenIcon />
-                        <h2 className="text-2xl sm:text-3xl font-bold mt-4 text-amber-800 dark:text-yellow-200">The Archives are Empty</h2>
-                        <p className="mt-2 text-stone-500 dark:text-gray-400 font-sans text-sm sm:text-base">No weekly winners have been recorded yet.</p>
-                        <p className="text-stone-500 dark:text-gray-400 font-sans text-sm sm:text-base">Chronicles of victory will appear here once they are available.</p>
+                    <div className="text-center py-32 space-y-6 opacity-100">
+                        <div className="flex justify-center"><BookOpenIcon /></div>
+                        <h2 className="text-3xl font-display font-black italic">The Archives are Empty</h2>
+                        <p className="max-w-md mx-auto italic">No weekly winners have been recorded in this ledger yet. Stories are being written as we speak.</p>
                     </div>
                 )}
             </main>
-
-            {/* Background glowing orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/5 dark:bg-yellow-400/10 rounded-full filter blur-3xl opacity-30 dark:opacity-50 animate-pulse-slow"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 dark:bg-purple-500/10 rounded-full filter blur-3xl opacity-30 dark:opacity-50 animate-pulse-slow animation-delay-3000"></div>
 
             <WinnerModal
                 isOpen={isModalOpen}

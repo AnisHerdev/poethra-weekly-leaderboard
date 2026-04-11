@@ -5,21 +5,26 @@ import ThemeToggle from './ThemeToggle';
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const navLinkClasses = "text-gray-600 dark:text-gray-300 hover:text-amber-700 dark:hover:text-yellow-500 transition-colors duration-300 pb-1";
-    const activeNavLinkClasses = "text-amber-700 dark:text-yellow-500 border-b-2 border-amber-700 dark:border-yellow-500";
+    const navLinkClasses = "text-stone-700 dark:text-stone-300 hover:text-oxblood dark:hover:text-parchment-dark transition-all duration-300 pb-1 font-sans uppercase tracking-[0.2em] text-[10px] md:text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood dark:focus-visible:ring-parchment-dark focus-visible:ring-offset-2 rounded-sm";
+    const activeNavLinkClasses = "text-oxblood dark:text-parchment-dark font-bold border-b border-oxblood dark:border-parchment-dark";
 
-    const mobileNavLinkClasses = "text-gray-600 dark:text-gray-300 hover:text-amber-700 dark:hover:text-yellow-500 block w-full text-center px-3 py-2 rounded-md text-base font-medium";
-    const activeMobileNavLinkClasses = "text-amber-700 dark:text-yellow-500 bg-amber-500/10 dark:bg-yellow-500/10";
+    const mobileNavLinkClasses = "text-stone-600 dark:text-stone-400 hover:text-oxblood dark:hover:text-parchment block w-full text-center px-3 py-4 text-xs font-sans uppercase tracking-widest";
+    const activeMobileNavLinkClasses = "text-oxblood dark:text-parchment bg-oxblood/5 dark:bg-parchment/5 font-bold";
 
     return (
-        <header className="bg-stone-100/80 dark:bg-black/30 backdrop-blur-sm sticky top-0 z-50 border-b border-stone-200 dark:border-gray-800">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                <Link to="/" className="text-3xl font-bold text-stone-800 dark:text-white tracking-wider font-lora">
-                    Poéthra
+        <header className="bg-parchment/80 dark:bg-ink/80 backdrop-blur-md sticky top-0 z-50 border-b border-oxblood/10 dark:border-parchment/10">
+            <div className="container mx-auto px-6 py-6 flex justify-between items-center bg-parchment-texture">
+                <Link to="/" className="group flex flex-col items-start gap-0">
+                    <span className="text-3xl font-display font-black text-stone-900 dark:text-parchment leading-none group-hover:text-oxblood dark:group-hover:text-white transition-colors duration-500 uppercase tracking-tighter italic">
+                        Poéthra
+                    </span>
+                    <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood dark:text-stone-500 font-bold ml-1 opacity-70 group-hover:opacity-100 transition-opacity">
+                        Literary Club
+                    </span>
                 </Link>
 
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center space-x-6">
+                <nav className="hidden md:flex items-center space-x-10">
                     <NavLink to="/" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Home
                     </NavLink>
@@ -29,38 +34,50 @@ const Header: React.FC = () => {
                     <NavLink to="/winners" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Winners
                     </NavLink>
-                    <ThemeToggle />
+                    <div className="pl-4 border-l border-oxblood/20 dark:border-parchment/20">
+                        <ThemeToggle />
+                    </div>
                 </nav>
 
                 {/* Mobile Menu Button */}
-                <div className="md:hidden flex items-center gap-2">
+                <div className="md:hidden flex items-center gap-4">
                     <ThemeToggle />
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-600 dark:text-gray-300 hover:text-amber-700 dark:hover:text-yellow-500 focus:outline-none">
-                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"} />
+                    <button 
+                        onClick={() => setIsMenuOpen(!isMenuOpen)} 
+                        className="text-stone-800 dark:text-stone-200 focus:outline-none p-2 hover:bg-oxblood/5 dark:hover:bg-parchment/5 rounded-full transition-colors"
+                        aria-label="Toggle Menu"
+                    >
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 8h16M4 16h16"} />
                         </svg>
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Navigation Menu */}
-            {isMenuOpen && (
-                <nav className="md:hidden bg-stone-100/95 dark:bg-black/50 absolute top-full left-0 right-0">
-                    <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1">
-                        <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Home
-                        </NavLink>
-                        <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Leaderboard
-                        </NavLink>
-                        <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Winners
-                        </NavLink>
-                    </div>
-                </nav>
-            )}
+            {/* Mobile Navigation Menu — CSS-driven transition for snappy feel */}
+            <nav
+                className="md:hidden bg-parchment/95 dark:bg-ink/95 border-b border-oxblood/20 dark:border-parchment/20 backdrop-blur-xl absolute top-full left-0 right-0 overflow-hidden"
+                style={{
+                    maxHeight: isMenuOpen ? '240px' : '0px',
+                    opacity: isMenuOpen ? 1 : 0,
+                    transition: 'max-height 200ms ease, opacity 150ms ease',
+                    pointerEvents: isMenuOpen ? 'auto' : 'none',
+                }}
+            >
+                <div className="flex flex-col items-center py-4 space-y-1 bg-parchment-texture">
+                    <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Home
+                    </NavLink>
+                    <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Leaderboard
+                    </NavLink>
+                    <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Winners
+                    </NavLink>
+                </div>
+            </nav>
         </header>
     );
 };
 
-export default Header;
+export default Header;

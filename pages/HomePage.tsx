@@ -3,23 +3,53 @@ import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     return (
-        <div className="text-center py-10 md:py-20 animate-fade-in-up">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-orange-500 dark:from-yellow-400 dark:to-orange-500">
-                Welcome to Poéthra
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-stone-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto">
-                The heart of our creative writing community. Where words find their wings and stories come to life.
-            </p>
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-6 md:p-8 max-w-4xl mx-auto shadow-lg border border-stone-200 dark:border-gray-700">
-                <h2 className="text-3xl sm:text-4xl font-semibold mb-4 text-amber-700 dark:text-yellow-400">The Weekly Writing Contest</h2>
-                <p className="text-base md:text-lg text-stone-700 dark:text-gray-300 mb-8">
-                    Each week, members of Poéthra are invited to submit their original work based on a unique prompt. Submissions are reviewed by our panel, and the top writers are featured on our leaderboard. It's a chance to challenge yourself, gain recognition, and grow as a writer.
-                </p>
-                <Link to="/leaderboard">
-                    <button className="bg-amber-600 dark:bg-yellow-500 text-white dark:text-gray-900 font-bold py-3 px-8 rounded-full text-base md:text-lg hover:bg-amber-700 dark:hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-amber-600/20 dark:shadow-yellow-500/30">
-                        View This Week's Leaderboard
-                    </button>
-                </Link>
+        <div className="flex flex-col items-center gap-16 py-10 md:py-16">
+            {/* HERO SECTION */}
+            <div className="relative w-full max-w-6xl aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl shadow-ink/20 group animate-fade-in-up">
+                <img 
+                    src="/poethra_hero_literary.png" 
+                    alt="A literary desk with books and quill" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                    loading="eager"
+                    fetchpriority="high"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-8 md:p-12">
+                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black text-parchment leading-tight tracking-tighter italic uppercase animate-fade-in-up">
+                        Words find <br/> their wings.
+                    </h1>
+                </div>
+            </div>
+
+            {/* INFO SECTION */}
+            <div className="w-full max-w-4xl grid md:grid-cols-2 gap-12 items-center px-6">
+                <div className="space-y-6">
+                    <h2 className="text-3xl md:text-4xl font-display font-bold text-ink dark:text-parchment leading-tight">
+                        The Heart of Our <br/> <span className="text-oxblood">Creative Writing</span> Community.
+                    </h2>
+                    <p className="text-stone-600 dark:text-stone-400 text-lg leading-relaxed italic">
+                        "Each week, we invite you to step into the quiet sanctuary of the page. To challenge your voice, to find your rhyme, and to belong to something timeless."
+                    </p>
+                </div>
+
+                <div className="bg-parchment-dark/50 dark:bg-ink-light/50 p-8 rounded-xl border border-oxblood/10 dark:border-parchment/10 shadow-xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-oxblood/5 rounded-full -translate-y-16 translate-x-16 blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                    
+                    <h3 className="text-xl font-display font-bold text-oxblood dark:text-parchment mb-4 uppercase tracking-widest">The Weekly Ledger</h3>
+                    <p className="text-stone-700 dark:text-stone-300 mb-8 leading-relaxed">
+                        Every submission is a piece of history. Every streak is a testament to devotion. Join our panel of reviewers and see your name etched among the triumphants.
+                    </p>
+                    
+                    <Link to="/leaderboard">
+                        <button className="w-full bg-oxblood dark:bg-parchment text-parchment dark:text-ink font-bold py-4 px-8 rounded-lg text-sm uppercase tracking-[0.2em] hover:bg-black dark:hover:bg-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-oxblood/20">
+                            View the Rankings
+                        </button>
+                    </Link>
+                </div>
+            </div>
+            
+            {/* FOOTER QUOTE */}
+            <div className="w-full text-center py-10">
+                <p className="font-display italic text-2xl text-stone-600 dark:text-stone-300">Etched in ink, celebrated in spirit.</p>
             </div>
         </div>
     );
