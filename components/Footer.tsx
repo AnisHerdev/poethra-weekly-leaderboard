@@ -3,15 +3,32 @@ import { TwitterIcon, InstagramIcon, FacebookIcon } from './icons/SocialIcons';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-stone-200 dark:bg-black/20 mt-12">
-            <div className="container mx-auto px-4 py-6 text-center text-stone-600 dark:text-gray-400">
-                <div className="flex justify-center space-x-6 mb-4">
-                    {/* <a href="#" className="hover:text-amber-700 dark:hover:text-yellow-500 transition-colors"><TwitterIcon /></a> */}
-                    <a href="https://www.instagram.com/poethra.rvu/" target="_blank" rel="noopener noreferrer" className="hover:text-amber-700 dark:hover:text-yellow-500 transition-colors"><InstagramIcon /></a>
-                    {/* <a href="#" className="hover:text-amber-700 dark:hover:text-yellow-500 transition-colors"><FacebookIcon /></a> */}
+        <footer className="mt-20 border-t border-oxblood/10 dark:border-parchment/10">
+            <div className="container mx-auto px-6 py-12 flex flex-col items-center bg-parchment-texture">
+                <div className="mb-8 flex flex-col items-center">
+                    <span className="font-display font-black text-3xl italic text-ink dark:text-parchment uppercase tracking-tighter mb-1">Poéthra</span>
+                    <div className="w-12 h-0.5 bg-oxblood opacity-20"></div>
                 </div>
-                <p>&copy; {new Date().getFullYear()} Poéthra Creative Writing Club. All Rights Reserved.</p>
-                <p className="text-sm mt-1">Contact us at: <a href="mailto:poethra.rvu@gmail.com" className="underline hover:text-amber-700 dark:hover:text-yellow-500">poethra.rvu@gmail.com</a></p>
+
+                <div className="flex justify-center space-x-10 mb-8">
+                    <a href="https://www.instagram.com/poethra.rvu/" target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-oxblood dark:text-stone-500 dark:hover:text-parchment transition-all duration-500 transform hover:scale-125">
+                        <InstagramIcon />
+                    </a>
+                </div>
+
+                <div className="text-center space-y-2">
+                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-stone-500 dark:text-stone-500">
+                        &copy; {new Date().getFullYear()} Poéthra Creative Writing Club. <span className="mx-2 opacity-30">|</span> All Rights Reserved.
+                    </p>
+                    <p className="font-display italic text-stone-400 dark:text-stone-500">
+                        "Your stories are the ink that keeps our halls alive."
+                    </p>
+                    <div className="pt-4">
+                        <a href="mailto:poethra.rvu@gmail.com" className="font-sans text-[10px] uppercase tracking-[0.2em] text-oxblood/80 dark:text-parchment/60 hover:text-black dark:hover:text-white transition-colors border-b border-transparent hover:border-current pb-1">
+                            poethra.rvu@gmail.com
+                        </a>
+                    </div>
+                </div>
             </div>
         </footer>
     );
