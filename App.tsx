@@ -11,7 +11,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <HashRouter>
-        <div className="flex flex-col min-h-screen bg-gradient-to-b from-stone-200 to-stone-100 dark:from-[#1a113c] dark:to-gray-900 text-stone-800 dark:text-gray-100">
+        <div className="flex flex-col min-h-screen bg-parchment dark:bg-ink text-stone-800 dark:text-stone-100 bg-parchment-texture">
           <Header />
           <main className="flex-grow container mx-auto px-4 py-8">
             <Routes>

@@ -24,82 +24,104 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
     }, [onClose]);
 
     const modalVisibilityClass = isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none';
-    const bookVisibilityClass = isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0';
+    const bookVisibilityClass = isOpen ? 'scale-100 opacity-100 rotate-0' : 'scale-95 opacity-0 -rotate-1';
 
     if (!winner) {
-        // Render an empty div when there is no winner to allow for fade-out animations
         return <div className={`fixed inset-0 z-50 transition-opacity duration-300 ${modalVisibilityClass}`} />;
     }
 
     const medal = ['🥇', '🥈', '🥉'][winner.rank - 1];
-    const rankTextColors = {
-        1: 'text-amber-700 dark:text-yellow-300',
-        2: 'text-slate-700 dark:text-slate-300',
-        3: 'text-orange-700 dark:text-amber-400',
+    const rankColors = {
+        1: 'text-oxblood dark:text-parchment',
+        2: 'text-stone-600 dark:text-stone-400',
+        3: 'text-amber-800 dark:text-amber-500',
     };
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-opacity duration-300 ${modalVisibilityClass}`}
+            className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-ink/80 dark:bg-black/90 backdrop-blur-xl transition-opacity duration-500 ${modalVisibilityClass}`}
             onClick={onClose}
             aria-modal="true"
             role="dialog"
         >
             <div
-                className={`relative w-full max-w-lg md:max-w-4xl h-auto max-h-[90vh] md:h-[80vh] transform-gpu transition-all duration-300 ease-out ${bookVisibilityClass} flex flex-col md:block`}
+                className={`relative w-full max-w-lg md:max-w-5xl h-auto max-h-[90vh] md:h-[85vh] transform-gpu transition-all duration-700 ease-out ${bookVisibilityClass} flex flex-col md:block shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]`}
                 onClick={e => e.stopPropagation()}
             >
-                {/* Close Button */}
+                {/* Close Button - More elegant */}
                 <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 md:-top-4 md:-right-4 text-white hover:text-yellow-300 transition-colors z-30 bg-black/50 md:bg-black/30 rounded-full p-2"
+                    className="absolute -top-12 right-0 md:-right-12 text-parchment hover:text-oxblood transition-all duration-300 z-[110] bg-white/5 md:bg-transparent rounded-full p-2 group"
                     aria-label="Close"
                 >
-                    <CloseIcon />
+                    <div className="group-hover:rotate-90 transition-transform duration-300">
+                        <CloseIcon />
+                    </div>
                 </button>
 
                 {/* Book Container */}
-                <div className="w-full h-full flex flex-col md:flex-row perspective-1000">
-                    {/* Left Page */}
-                    <div className="w-full h-1/2 md:w-1/2 md:h-full bg-[#fdf6e7] dark:bg-[#2c271f] rounded-t-lg md:rounded-l-lg md:rounded-r-none shadow-2xl p-6 md:p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden">
-                        <div>
-                            <h2 className={`font-lora text-3xl md:text-5xl font-bold ${rankTextColors[winner.rank as keyof typeof rankTextColors]}`}>{winner.name} <span className="text-3xl md:text-4xl">{medal}</span></h2>
-                            <p className="text-stone-600 dark:text-stone-400 mt-2 text-base md:text-lg">Winner of the Week</p>
+                <div className="w-full h-full flex flex-col md:flex-row perspective-1000 bg-parchment-texture overflow-hidden rounded-xl border border-oxblood/10 dark:border-parchment/10">
+                    {/* Left Page (The Recognition) */}
+                    <div className="w-full h-2/5 md:w-1/2 md:h-full bg-parchment dark:bg-parchment-dark/[0.03] p-8 md:p-14 flex flex-col justify-between relative overflow-hidden bg-parchment-texture">
+                        {/* Corner Detail */}
+                        <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-oxblood/5 pointer-events-none"></div>
+                        
+                        <div className="relative z-10 space-y-2">
+                            <span className="text-xs font-sans uppercase tracking-[0.4em] text-oxblood/40 dark:text-parchment/30 font-black">Archive Entry No. {winner.rank}</span>
+                            <h2 className={`font-display text-4xl md:text-6xl font-black italic tracking-tighter ${rankColors[winner.rank as keyof typeof rankColors]}`}>
+                                {winner.name} <span className="text-3xl md:text-5xl not-italic ml-2">{medal}</span>
+                            </h2>
+                            <div className="w-12 h-0.5 bg-oxblood/20"></div>
                         </div>
-                        <div className="text-center">
-                            <p className="text-stone-500 dark:text-stone-500 italic">Winning Entry</p>
-                            <h3 className="font-lora text-xl md:text-3xl text-stone-800 dark:text-stone-200 mt-1">"{winner.title}"</h3>
+
+                        <div className="text-center relative z-10 py-8 md:py-0">
+                            <p className="text-stone-400 dark:text-stone-500 italic text-sm uppercase tracking-widest mb-4 font-sans">Winning Title</p>
+                            <h3 className="font-display text-2xl md:text-4xl text-stone-900 dark:text-parchment leading-tight">
+                                "{winner.title}"
+                            </h3>
                         </div>
-                        <div className="text-center">
-                            <p className="font-lora text-2xl text-amber-800 dark:text-yellow-500">Poéthra</p>
-                            <p className="text-xs text-stone-400 dark:text-stone-600 uppercase tracking-widest">Hall of Champions</p>
+
+                        <div className="text-center relative z-10 border-t border-oxblood/5 pt-8">
+                            <p className="font-display text-3xl text-oxblood dark:text-parchment italic font-black">Poéthra</p>
+                            <p className="text-[10px] text-stone-400 dark:text-stone-500 uppercase tracking-[0.5em] mt-1 font-sans">The Repository of Souls</p>
                         </div>
                     </div>
 
+                    {/* Spine Gutter Shadow */}
+                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-12 -translate-x-1/2 bg-gradient-to-r from-black/10 via-black/20 to-black/10 z-20 pointer-events-none blur-[1px]"></div>
+
                     {/* Right Page (The Work) */}
-                    <div className="w-full h-1/2 md:w-1/2 md:h-full bg-[#fdf6e7] dark:bg-[#2c271f] rounded-b-lg md:rounded-r-lg md:rounded-l-none shadow-2xl p-6 md:p-8 lg:p-12 flex items-center justify-center overflow-y-auto">
-                        <div className="w-full h-full border-4 border-amber-800/20 dark:border-yellow-200/20 p-4 border-dashed flex flex-col items-center justify-start text-center overflow-y-auto">
-                            <h4 className="font-lora text-xl md:text-2xl text-stone-700 dark:text-stone-300 mb-4 sticky top-0 bg-[#fdf6e7] dark:bg-[#2c271f] py-2 w-full">A Glimpse of Brilliance</h4>
-                            <div className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base whitespace-pre-wrap text-left w-full">
-                                {winner.content ? (
-                                    winner.content
-                                ) : (
-                                    <p className="text-center italic text-stone-500 dark:text-stone-500">
-                                        (No content available for this entry.)
-                                    </p>
-                                )}
+                    <div className="w-full h-3/5 md:w-1/2 md:h-full bg-parchment-dark dark:bg-parchment-dark/[0.05] p-8 md:p-14 flex flex-col bg-parchment-texture relative">
+                        <div className="relative z-10 flex flex-col h-full">
+                            <h4 className="font-display text-lg md:text-xl text-stone-400/60 uppercase tracking-[0.3em] mb-10 text-center">The Script</h4>
+                            <div className="flex-grow overflow-y-auto px-4 md:px-0">
+                                <div className="text-stone-700 dark:text-stone-300 leading-[1.8] text-base md:text-lg font-sans font-medium whitespace-pre-wrap max-w-prose mx-auto">
+                                    {winner.content ? (
+                                        winner.content
+                                    ) : (
+                                        <div className="h-full flex flex-col items-center justify-center gap-4 opacity-40">
+                                            <div className="w-12 h-px bg-stone-400"></div>
+                                            <p className="italic text-center font-display text-lg">
+                                                (The ink fades... This entry exists only in memory.)
+                                            </p>
+                                            <div className="w-12 h-px bg-stone-400"></div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            {/* Page Number-like detail */}
+                            <div className="mt-8 text-center text-[10px] font-sans text-stone-400 uppercase tracking-widest opacity-50">
+                                Folio {new Date().getFullYear()}—II
                             </div>
                         </div>
                     </div>
-
-                    {/* Spine Shadow */}
-                    <div className="absolute top-0 left-1/2 w-8 h-full bg-gradient-to-r from-black/20 to-transparent -translate-x-1/2 blur-sm pointer-events-none hidden md:block"></div>
                 </div>
             </div>
 
-            {/* Flickering light effect */}
-            <div className="absolute top-10 left-10 w-64 h-64 bg-yellow-400/5 dark:bg-yellow-400/10 rounded-full filter blur-3xl opacity-40 dark:opacity-60 animate-pulse-slow"></div>
-            <div className="absolute bottom-10 right-10 w-64 h-64 bg-purple-500/5 dark:bg-purple-500/10 rounded-full filter blur-3xl opacity-40 dark:opacity-60 animate-pulse-slow animation-delay-3000"></div>
+            {/* Atmosphere orbs */}
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-oxblood/5 rounded-full filter blur-[120px] pointer-events-none animate-pulse-slow"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-parchment/5 rounded-full filter blur-[120px] pointer-events-none animate-pulse-slow animation-delay-3000"></div>
         </div>
     );
 };

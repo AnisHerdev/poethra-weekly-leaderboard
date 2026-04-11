@@ -9,55 +9,62 @@ interface WinnerBookProps {
 
 const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClick }) => {
     const rankColors = {
-        1: 'from-yellow-400 to-amber-500 border-yellow-300',
-        2: 'from-slate-300 to-gray-400 border-slate-200',
-        3: 'from-orange-500 to-amber-600 border-orange-400',
+        1: 'from-oxblood to-[#4A111D] border-oxblood-light/20 shadow-oxblood/40',
+        2: 'from-stone-600 to-stone-800 border-stone-500/20 shadow-stone-900/40',
+        3: 'from-amber-800 to-amber-950 border-amber-700/20 shadow-amber-900/40',
     };
 
-    const rankTextColors = {
-        1: 'text-amber-900',
-        2: 'text-slate-900',
-        3: 'text-orange-900',
-    };
-    
     const rankSpineColors = {
-        1: 'from-yellow-600 to-amber-700',
-        2: 'from-slate-500 to-gray-600',
-        3: 'from-orange-700 to-amber-800',
+        1: 'from-[#4A111D] to-oxblood',
+        2: 'from-stone-900 to-stone-700',
+        3: 'from-amber-950 to-amber-900',
     };
 
     const medal = ['🥇', '🥈', '🥉'][rank - 1];
     
-    // Combine transform classes for hover effect
-    const hoverTransform = { transform: 'rotateY(-25deg) scale(1.05)' };
-
     return (
         <div className="group perspective-1000" onClick={onClick}>
             <div 
-                className="relative w-40 h-56 sm:w-48 sm:h-64 rounded-lg transform-style-preserve-3d transition-transform duration-500 cursor-pointer shadow-2xl shadow-black/20 dark:shadow-black/50"
-                style={{ transition: 'transform 0.5s' }}
-                onMouseEnter={e => e.currentTarget.style.transform = hoverTransform.transform}
-                onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+                className={`relative w-40 h-56 sm:w-48 sm:h-64 rounded-r-lg transform-style-preserve-3d transition-all duration-700 cursor-pointer shadow-2xl group-hover:[transform:rotateY(-25deg)_rotateX(5deg)_scale(1.05)]`}
             >
-                {/* Spine */}
-                <div className={`absolute left-0 top-0 w-8 h-full bg-gradient-to-r ${rankSpineColors[rank]} transform origin-left flex items-center justify-center`} style={{transform: 'rotateY(-90deg)'}}>
-                    <p className="transform rotate-180 text-white font-lora whitespace-nowrap opacity-80 text-xs sm:text-sm" style={{ writingMode: 'vertical-rl' }}>{winnerName}</p>
+                {/* Spine - The physical binding */}
+                <div className={`absolute left-0 top-0 w-10 h-full bg-gradient-to-r ${rankSpineColors[rank]} transform origin-left flex items-center justify-center border-r border-white/10 z-20 shadow-[inset_-2px_0_10px_rgba(0,0,0,0.5)]`} style={{transform: 'rotateY(-90deg)'}}>
+                    <p className="transform rotate-180 text-parchment font-display font-medium whitespace-nowrap opacity-60 text-[10px] sm:text-xs uppercase tracking-[0.3em]" style={{ writingMode: 'vertical-rl' }}>
+                        {winnerName}
+                    </p>
                 </div>
 
-                {/* Cover */}
-                <div className={`absolute left-0 top-0 w-full h-full bg-gradient-to-br ${rankColors[rank]} rounded-lg flex flex-col justify-between p-3 sm:p-4 border-l-4 border-opacity-50 ${rankColors[rank]}`}>
-                    <div className="text-center">
-                        <span className="text-3xl sm:text-4xl">{medal}</span>
-                        <h3 className={`font-lora text-xl sm:text-2xl font-bold mt-2 ${rankTextColors[rank]}`}>{winnerName}</h3>
+                {/* Cover - The face of the achievement */}
+                <div className={`absolute left-0 top-0 w-full h-full bg-gradient-to-br ${rankColors[rank]} rounded-r-lg flex flex-col justify-between p-4 sm:p-6 border-l border-white/10 overflow-hidden bg-parchment-texture`}>
+                    {/* Texture overlay */}
+                    <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none bg-parchment-texture"></div>
+                    
+                    <div className="text-center relative z-10 flex flex-col items-center gap-2">
+                        <span className="text-3xl sm:text-4xl drop-shadow-lg">{medal}</span>
+                        <h3 className="font-display text-lg sm:text-xl font-black text-parchment leading-tight uppercase tracking-tighter">
+                            {winnerName}
+                        </h3>
                     </div>
-                    <div className="text-center opacity-80">
-                        <p className={`text-xs sm:text-sm italic ${rankTextColors[rank]}`}>Winning Entry</p>
-                        <p className={`font-semibold mt-1 text-sm ${rankTextColors[rank]}`}>"{title}"</p>
+
+                    <div className="text-center relative z-10 space-y-1">
+                        <div className="h-px w-8 bg-parchment/20 mx-auto mb-2"></div>
+                        <p className="text-[10px] sm:text-xs italic text-parchment/60 font-sans uppercase tracking-widest">Winning Entry</p>
+                        <p className="font-display font-bold text-parchment text-sm sm:text-base leading-tight">
+                            "{title}"
+                        </p>
+                    </div>
+                    
+                    {/* Bottom detail */}
+                    <div className="absolute bottom-2 right-2 opacity-20 transform -rotate-12">
+                        <span className="font-display text-[8px] uppercase tracking-widest text-parchment">Poéthra Archive</span>
                     </div>
                 </div>
+
+                {/* Page edges (The 3D depth) */}
+                <div className="absolute right-0 top-0 w-4 h-full bg-stone-200 transform origin-right shadow-inner z-0" style={{transform: 'rotateY(90deg)'}}></div>
             </div>
         </div>
     );
 };
 
-export default WinnerBook;
+export default WinnerBook;
