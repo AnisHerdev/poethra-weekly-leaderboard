@@ -123,11 +123,11 @@ const WinnersPage: React.FC = () => {
                                             rank={rank}
                                             title={winner.title || 'Untitled'}
                                             onClick={() => {}}
+                                            mobileMode={true}
                                         />
                                         <div className="min-w-0">
                                             <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood font-black mb-1">{rankLabel}</p>
                                             <p className="font-display font-bold text-lg text-stone-900 dark:text-parchment">{winner.name}</p>
-                                            <p className="font-display italic text-sm text-stone-500 dark:text-stone-400">"{winner.title || 'Untitled'}"</p>
                                             <p className="mt-2 text-[10px] text-oxblood/60 uppercase tracking-widest font-sans font-bold">Tap to read &rarr;</p>
                                         </div>
                                     </button>
