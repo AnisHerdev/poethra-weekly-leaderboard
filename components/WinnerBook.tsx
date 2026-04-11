@@ -5,9 +5,11 @@ interface WinnerBookProps {
     rank: number;
     title: string;
     onClick: () => void;
+    /** When true, hides the author name + label and promotes the title as the dominant cover element (mobile-only) */
+    mobileMode?: boolean;
 }
 
-const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClick }) => {
+const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClick, mobileMode = false }) => {
     const rankColors = {
         1: 'from-oxblood to-[#4A111D] border-oxblood-light/20 shadow-oxblood/40',
         2: 'from-stone-600 to-stone-800 border-stone-500/20 shadow-stone-900/40',
@@ -43,20 +45,52 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
                     {/* Texture overlay */}
                     <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none bg-parchment-texture"></div>
                     
-                    <div className="text-center relative z-10 flex flex-col items-center gap-2">
-                        <span className="text-3xl sm:text-4xl drop-shadow-lg">{medal}</span>
-                        <h3 className="font-display text-lg sm:text-xl font-black text-parchment leading-tight uppercase tracking-tighter">
-                            {winnerName}
-                        </h3>
-                    </div>
+                    {mobileMode ? (
+                        /* ── Mobile cover: medal + title only, title is the hero ── */
+                        <div className="flex flex-col items-center justify-between h-full w-full px-1 py-2 relative z-10">
+                            {/* Medal — top anchor */}
+                            <span className="text-2xl drop-shadow-lg">{medal}</span>
 
-                    <div className="text-center relative z-10 space-y-1">
-                        <div className="h-px w-8 bg-parchment/20 mx-auto mb-2"></div>
-                        <p className="text-[10px] sm:text-xs italic text-parchment/60 font-sans uppercase tracking-widest">Winning Entry</p>
-                        <p className="font-display font-bold text-parchment text-sm sm:text-base leading-tight">
-                            "{title}"
-                        </p>
-                    </div>
+                            {/* Entry title — dominant book-cover element */}
+                            <div className="flex-1 flex items-center justify-center w-full py-3">
+                                <p
+                                    className="text-center text-parchment leading-snug px-1"
+                                    style={{
+                                        fontFamily: '"Georgia", "Palatino Linotype", serif',
+                                        fontSize: '1rem',
+                                        fontWeight: 700,
+                                        fontStyle: 'italic',
+                                        lineHeight: 1.25,
+                                        letterSpacing: '0.01em',
+                                        textShadow: '0 1px 4px rgba(0,0,0,0.5)',
+                                    }}
+                                >
+                                    {title}
+                                </p>
+                            </div>
+
+                            {/* Subtle decorative rule at bottom */}
+                            <div className="h-px w-10 bg-parchment/25 mx-auto" />
+                        </div>
+                    ) : (
+                        /* ── Desktop cover: original layout — untouched ── */
+                        <>
+                            <div className="text-center relative z-10 flex flex-col items-center gap-2">
+                                <span className="text-3xl sm:text-4xl drop-shadow-lg">{medal}</span>
+                                <h3 className="font-display text-lg sm:text-xl font-black text-parchment leading-tight uppercase tracking-tighter">
+                                    {winnerName}
+                                </h3>
+                            </div>
+
+                            <div className="text-center relative z-10 space-y-1">
+                                <div className="h-px w-8 bg-parchment/20 mx-auto mb-2"></div>
+                                <p className="text-[10px] sm:text-xs italic text-parchment/60 font-sans uppercase tracking-widest">Winning Entry</p>
+                                <p className="font-display font-bold text-parchment text-sm sm:text-base leading-tight">
+                                    &ldquo;{title}&rdquo;
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 {/* Page edges (The 3D depth) */}
