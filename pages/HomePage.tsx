@@ -10,6 +10,8 @@ const HomePage: React.FC = () => {
                     src="/poethra_hero_literary.png" 
                     alt="A literary desk with books and quill" 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                    loading="eager"
+                    fetchpriority="high"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-8 md:p-12">
                     <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black text-parchment leading-tight tracking-tighter italic uppercase animate-fade-in-up">
@@ -46,8 +48,8 @@ const HomePage: React.FC = () => {
             </div>
             
             {/* FOOTER QUOTE */}
-            <div className="w-full text-center py-10 opacity-30">
-                <p className="font-display italic text-2xl text-stone-500">Etched in ink, celebrated in spirit.</p>
+            <div className="w-full text-center py-10">
+                <p className="font-display italic text-2xl text-stone-600 dark:text-stone-300">Etched in ink, celebrated in spirit.</p>
             </div>
         </div>
     );

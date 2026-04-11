@@ -75,7 +75,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                         </div>
 
                         <div className="text-center relative z-10 py-8 md:py-0">
-                            <p className="text-stone-400 dark:text-stone-500 italic text-sm uppercase tracking-widest mb-4 font-sans">Winning Title</p>
+                            <p className="text-stone-600 dark:text-stone-500 italic text-sm uppercase tracking-widest mb-4 font-sans">Winning Title</p>
                             <h3 className="font-display text-2xl md:text-4xl text-stone-900 dark:text-parchment leading-tight">
                                 "{winner.title}"
                             </h3>
@@ -83,7 +83,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
 
                         <div className="text-center relative z-10 border-t border-oxblood/5 pt-8">
                             <p className="font-display text-3xl text-oxblood dark:text-parchment italic font-black">Poéthra</p>
-                            <p className="text-[10px] text-stone-400 dark:text-stone-500 uppercase tracking-[0.5em] mt-1 font-sans">The Repository of Souls</p>
+                            <p className="text-[10px] text-stone-600 dark:text-stone-500 uppercase tracking-[0.5em] mt-1 font-sans">The Repository of Souls</p>
                         </div>
                     </div>
 
@@ -93,15 +93,15 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                     {/* Right Page (The Work) */}
                     <div className="w-full h-3/5 md:w-1/2 md:h-full bg-parchment-dark dark:bg-parchment-dark/[0.05] p-8 md:p-14 flex flex-col bg-parchment-texture relative">
                         <div className="relative z-10 flex flex-col h-full">
-                            <h4 className="font-display text-lg md:text-xl text-stone-400/60 uppercase tracking-[0.3em] mb-10 text-center">The Script</h4>
+                            <h4 className="font-display text-lg md:text-xl text-stone-600 dark:text-stone-500 uppercase tracking-[0.3em] mb-10 text-center">The Script</h4>
                             <div className="flex-grow overflow-y-auto px-4 md:px-0">
                                 <div className="text-stone-700 dark:text-stone-300 leading-[1.8] text-base md:text-lg font-sans font-medium whitespace-pre-wrap max-w-prose mx-auto">
                                     {winner.content ? (
                                         winner.content
                                     ) : (
-                                        <div className="h-full flex flex-col items-center justify-center gap-4 opacity-40">
+                                        <div className="h-full flex flex-col items-center justify-center gap-4 opacity-80">
                                             <div className="w-12 h-px bg-stone-400"></div>
-                                            <p className="italic text-center font-display text-lg">
+                                            <p className="italic text-stone-600 text-center font-display text-lg">
                                                 (The ink fades... This entry exists only in memory.)
                                             </p>
                                             <div className="w-12 h-px bg-stone-400"></div>
@@ -111,7 +111,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                             </div>
                             
                             {/* Page Number-like detail */}
-                            <div className="mt-8 text-center text-[10px] font-sans text-stone-400 uppercase tracking-widest opacity-50">
+                            <div className="mt-8 text-center text-[10px] font-sans text-stone-600 uppercase tracking-widest opacity-70">
                                 Folio {new Date().getFullYear()}—II
                             </div>
                         </div>

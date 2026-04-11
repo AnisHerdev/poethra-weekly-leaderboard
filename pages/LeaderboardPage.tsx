@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { fetchLeaderboard } from '../services/leaderboardService';
-import { Participant } from '../types';
+import type{ Participant } from '../types';
 import { FireIcon } from '../components/icons/SocialIcons';
 
 const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({ participant, rank }) => {
@@ -18,14 +18,13 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
     return (
         <div className={baseClass}>
             {/* Rank Indicator */}
-            <div className={`w-12 h-12 flex items-center justify-center rounded-full font-display text-xl font-black transition-transform duration-500 group-hover:scale-110 ${isTopThree ? rankColors[rank - 1] : 'text-stone-400 dark:text-stone-600'}`}>
+            <div className={`w-12 h-12 flex items-center justify-center rounded-full font-display text-xl font-black transition-transform duration-500 group-hover:scale-110 ${isTopThree ? rankColors[rank - 1] : 'text-stone-500 dark:text-stone-500'}`}>
                 {rank}
             </div>
             
-            {/* Name - Feeling like a handwritten entry */}
-            <div className={`flex-grow px-6 font-display text-xl md:text-2xl transition-colors duration-300 ${isTopThree ? 'text-stone-900 dark:text-parchment font-bold' : 'text-stone-600 dark:text-stone-400'}`}>
+            <div className={`flex-grow px-6 font-display text-xl md:text-2xl transition-colors duration-300 ${isTopThree ? 'text-stone-900 dark:text-parchment font-bold' : 'text-stone-700 dark:text-stone-300'}`}>
                 {participant.name}
-                {isTopThree && <span className="ml-2 text-[10px] uppercase tracking-widest text-oxblood opacity-50 font-sans">Triumphed</span>}
+                {isTopThree && <span className="ml-2 text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-light font-sans font-black">Triumphed</span>}
             </div>
 
             {/* Streak - Literary devotion */}
@@ -40,12 +39,11 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                 )}
             </div>
 
-            {/* Points - The Ledger Value */}
             <div className="w-32 text-right">
                 <span className="text-2xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood transition-colors">
                     {participant.totalPoints}
                 </span>
-                <span className="ml-1 text-[10px] uppercase tracking-tighter text-stone-400 font-sans">pts</span>
+                <span className="ml-1 text-[10px] uppercase tracking-tighter text-stone-500 dark:text-stone-500 font-sans font-bold">pts</span>
             </div>
         </div>
     );
@@ -56,7 +54,7 @@ const HallOfFameCard: React.FC<{ title: string; participant?: Participant; color
         {/* Decorative background element */}
         <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${color} opacity-50`}></div>
         
-        <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood/60 dark:text-parchment/40 mb-6">{title}</h3>
+        <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood dark:text-parchment/60 mb-6">{title}</h3>
         
         {participant ? (
             <div className="space-y-2">
@@ -64,12 +62,12 @@ const HallOfFameCard: React.FC<{ title: string; participant?: Participant; color
                     {participant.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-oxblood/20 group-hover:w-full transition-all duration-500"></span>
                 </p>
-                <div className="flex items-center justify-center gap-2 text-stone-500 dark:text-stone-500 italic text-sm">
+                <div className="flex items-center justify-center gap-2 text-stone-600 dark:text-stone-400 italic text-sm font-medium">
                     <span>Devoted for {participant.participationHistory.length} weeks</span>
                 </div>
             </div>
         ) : (
-            <p className="text-stone-400 italic">The entry remains blank...</p>
+            <p className="text-stone-500 dark:text-stone-400 italic font-medium">The entry remains blank...</p>
         )}
     </div>
 );
@@ -131,14 +129,16 @@ const LeaderboardPage: React.FC = () => {
 
                 {allParticipants.length > 0 && (
                     <div className="relative max-w-md mx-auto mt-12 group">
+                        <label htmlFor="wordsmith-search" className="sr-only">Search for a wordsmith</label>
                         <input
+                            id="wordsmith-search"
                             type="text"
                             placeholder="Find a wordsmith..."
-                            className="w-full bg-parchment-dark/50 dark:bg-ink-light/50 border border-oxblood/10 dark:border-parchment/10 rounded-xl px-6 py-4 text-stone-800 dark:text-parchment focus:outline-none focus:ring-2 focus:ring-oxblood/20 dark:focus:ring-parchment/20 transition-all font-display italic text-lg"
+                            className="w-full bg-parchment-dark/50 dark:bg-ink-light/50 border border-oxblood/10 dark:border-parchment/10 rounded-xl px-6 py-4 text-stone-900 dark:text-parchment focus:outline-none focus:ring-2 focus:ring-oxblood/20 dark:focus:ring-parchment/20 transition-all font-display italic text-lg"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-50 transition-opacity">
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-40 group-focus-within:opacity-80 transition-opacity">
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                         </div>
                     </div>
@@ -168,8 +168,8 @@ const LeaderboardPage: React.FC = () => {
                     ))
                 ) : (
                     <div className="text-center py-20 bg-parchment-dark/20 dark:bg-ink-light/20 rounded-3xl border border-dashed border-oxblood/20">
-                        <h3 className="text-3xl font-display font-black text-stone-400 mb-2 italic">The silence is deafening.</h3>
-                        <p className="text-stone-400">No entries match your search in this ledger.</p>
+                        <h3 className="text-3xl font-display font-black text-stone-600 mb-2 italic">The silence is deafening.</h3>
+                        <p className="text-stone-500">No entries match your search in this ledger.</p>
                     </div>
                 )}
             </div>
@@ -177,4 +177,4 @@ const LeaderboardPage: React.FC = () => {
     );
 };
 
-export default LeaderboardPage;
+export default LeaderboardPage;
