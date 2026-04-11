@@ -54,22 +54,28 @@ const Header: React.FC = () => {
                 </div>
             </div>
 
-            {/* Mobile Navigation Menu */}
-            {isMenuOpen && (
-                <nav className="md:hidden bg-parchment/95 dark:bg-ink/95 border-b border-oxblood/20 dark:border-parchment/20 backdrop-blur-xl absolute top-full left-0 right-0 animate-fade-in-up">
-                    <div className="flex flex-col items-center py-4 space-y-2 bg-parchment-texture">
-                        <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Home
-                        </NavLink>
-                        <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Leaderboard
-                        </NavLink>
-                        <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            Winners
-                        </NavLink>
-                    </div>
-                </nav>
-            )}
+            {/* Mobile Navigation Menu — CSS-driven transition for snappy feel */}
+            <nav
+                className="md:hidden bg-parchment/95 dark:bg-ink/95 border-b border-oxblood/20 dark:border-parchment/20 backdrop-blur-xl absolute top-full left-0 right-0 overflow-hidden"
+                style={{
+                    maxHeight: isMenuOpen ? '240px' : '0px',
+                    opacity: isMenuOpen ? 1 : 0,
+                    transition: 'max-height 200ms ease, opacity 150ms ease',
+                    pointerEvents: isMenuOpen ? 'auto' : 'none',
+                }}
+            >
+                <div className="flex flex-col items-center py-4 space-y-1 bg-parchment-texture">
+                    <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Home
+                    </NavLink>
+                    <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Leaderboard
+                    </NavLink>
+                    <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Winners
+                    </NavLink>
+                </div>
+            </nav>
         </header>
     );
 };
