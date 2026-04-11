@@ -5,7 +5,7 @@ import ThemeToggle from './ThemeToggle';
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const navLinkClasses = "text-stone-600 dark:text-stone-400 hover:text-oxblood dark:hover:text-parchment-dark transition-all duration-300 pb-1 font-sans uppercase tracking-[0.2em] text-[10px] md:text-xs";
+    const navLinkClasses = "text-stone-700 dark:text-stone-300 hover:text-oxblood dark:hover:text-parchment-dark transition-all duration-300 pb-1 font-sans uppercase tracking-[0.2em] text-[10px] md:text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood dark:focus-visible:ring-parchment-dark focus-visible:ring-offset-2 rounded-sm";
     const activeNavLinkClasses = "text-oxblood dark:text-parchment-dark font-bold border-b border-oxblood dark:border-parchment-dark";
 
     const mobileNavLinkClasses = "text-stone-600 dark:text-stone-400 hover:text-oxblood dark:hover:text-parchment block w-full text-center px-3 py-4 text-xs font-sans uppercase tracking-widest";

@@ -23,9 +23,13 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
     const medal = ['🥇', '🥈', '🥉'][rank - 1];
     
     return (
-        <div className="group perspective-1000" onClick={onClick}>
+        <button 
+            className="group perspective-1000 bg-transparent border-none text-left p-0 cursor-pointer block focus-visible:outline-oxblood dark:focus-visible:outline-parchment rounded-lg" 
+            onClick={onClick}
+            aria-label={`View submission by ${winnerName}: ${title}`}
+        >
             <div 
-                className={`relative w-40 h-56 sm:w-48 sm:h-64 rounded-r-lg transform-style-preserve-3d transition-all duration-700 cursor-pointer shadow-2xl group-hover:[transform:rotateY(-25deg)_rotateX(5deg)_scale(1.05)]`}
+                className={`relative w-40 h-56 sm:w-48 sm:h-64 rounded-r-lg transform-style-preserve-3d transition-all duration-700 shadow-2xl group-hover:[transform:rotateY(-25deg)_rotateX(5deg)_scale(1.05)] group-focus:[transform:rotateY(-25deg)_rotateX(5deg)_scale(1.05)]`}
             >
                 {/* Spine - The physical binding */}
                 <div className={`absolute left-0 top-0 w-10 h-full bg-gradient-to-r ${rankSpineColors[rank]} transform origin-left flex items-center justify-center border-r border-white/10 z-20 shadow-[inset_-2px_0_10px_rgba(0,0,0,0.5)]`} style={{transform: 'rotateY(-90deg)'}}>
@@ -53,18 +57,13 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
                             "{title}"
                         </p>
                     </div>
-                    
-                    {/* Bottom detail */}
-                    <div className="absolute bottom-2 right-2 opacity-20 transform -rotate-12">
-                        <span className="font-display text-[8px] uppercase tracking-widest text-parchment">Poéthra Archive</span>
-                    </div>
                 </div>
 
                 {/* Page edges (The 3D depth) */}
                 <div className="absolute right-0 top-0 w-4 h-full bg-stone-200 transform origin-right shadow-inner z-0" style={{transform: 'rotateY(90deg)'}}></div>
             </div>
-        </div>
+        </button>
     );
 };
 
-export default WinnerBook;
+export default WinnerBook;

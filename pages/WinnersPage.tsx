@@ -141,7 +141,7 @@ const WinnersPage: React.FC = () => {
                         </div>
                     </>
                 ) : (
-                    <div className="text-center py-32 space-y-6 opacity-40">
+                    <div className="text-center py-32 space-y-6 opacity-100">
                         <div className="flex justify-center"><BookOpenIcon /></div>
                         <h2 className="text-3xl font-display font-black italic">The Archives are Empty</h2>
                         <p className="max-w-md mx-auto italic">No weekly winners have been recorded in this ledger yet. Stories are being written as we speak.</p>
