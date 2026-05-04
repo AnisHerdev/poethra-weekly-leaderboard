@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
                     <div className="pt-4">
                         <a 
                             href="mailto:poethra.rvu@gmail.com" 
-                            className="font-sans text-[10px] uppercase tracking-[0.2em] text-oxblood dark:text-lamplight/80 hover:text-black dark:hover:text-lamplight transition-colors border-b border-transparent hover:border-current pb-1 font-bold"
+                            className="font-sans text-[10px] uppercase tracking-[0.2em] text-oxblood dark:text-oxblood-bright hover:text-black dark:hover:text-lamplight transition-colors border-b border-transparent hover:border-current pb-1 font-bold"
                         >
                             poethra.rvu@gmail.com
                         </a>

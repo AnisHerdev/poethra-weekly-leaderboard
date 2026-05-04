@@ -50,11 +50,11 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                     ? 'text-stone-900 dark:text-parchment font-black text-lg md:text-2xl'
                     : isTopThree
                         ? 'text-stone-900 dark:text-parchment font-bold text-base md:text-2xl'
-                        : 'text-stone-700 dark:text-parchment/80 text-base md:text-2xl'
+                        : 'text-stone-700 dark:text-parchment text-base md:text-2xl'
             }`}>
                 <span className="block">{participant.name}</span>
                 {isTopThree && (
-                    <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-light font-sans font-black">
+                    <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-bright font-sans font-black">
                         Triumphed
                     </span>
                 )}
@@ -65,7 +65,7 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                 {participant.currentStreak > 0 && (
                     <div className="flex items-center gap-0.5">
                         <span className={`font-display text-sm md:text-lg font-bold ${
-                            isTopThree ? 'text-oxblood dark:text-oxblood-light' : 'text-oxblood dark:text-lamplight/90'
+                            isTopThree ? 'text-oxblood dark:text-oxblood-bright' : 'text-oxblood dark:text-oxblood-bright'
                         }`}>{participant.currentStreak}</span>
                         <div className="text-oxblood animate-pulse-slow">
                             <FireIcon />
@@ -79,7 +79,7 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                 <span className={`text-lg md:text-2xl font-display font-black transition-colors ${
                     isTopThree
                         ? pointsColorClass[rank - 1]
-                        : 'text-stone-900 dark:text-parchment group-hover:text-oxblood'
+                        : 'text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright'
                 }`}>
                     {participant.totalPoints}
                 </span>
@@ -94,11 +94,11 @@ const HallOfFameCard: React.FC<{ title: string; participant?: Participant; color
         {/* Decorative background element */}
         <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${color} opacity-50`}></div>
         
-        <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood dark:text-parchment/70 mb-6">{title}</h3>
+        <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood dark:text-parchment mb-6">{title}</h3>
         
         {participant ? (
             <div className="space-y-2">
-                <p className="text-3xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood transition-colors inline-block relative">
+                <p className="text-3xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors inline-block relative">
                     {participant.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-oxblood/20 group-hover:w-full transition-all duration-500"></span>
                 </p>
@@ -208,7 +208,7 @@ const LeaderboardPage: React.FC = () => {
                 <div className="w-full max-w-6xl px-4 space-y-8 pb-4">
                     <div className="flex items-center gap-6">
                         <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10"></div>
-                        <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/30 font-black whitespace-nowrap">Hall of Fame</span>
+                        <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/60 font-black whitespace-nowrap">Hall of Fame</span>
                         <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10"></div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

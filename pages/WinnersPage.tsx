@@ -59,7 +59,7 @@ const WinnersPage: React.FC = () => {
         <div className="flex flex-col items-center gap-12 py-10">
             {/* HERO SECTION */}
             <section className="text-center space-y-4 max-w-3xl px-6 animate-fade-in-up">
-                <span className="text-xs font-sans uppercase tracking-[0.5em] text-oxblood font-black opacity-60">The Archive</span>
+                <span className="text-xs font-sans uppercase tracking-[0.5em] text-oxblood dark:text-oxblood-bright font-black opacity-80">The Archive</span>
                 <h1 className="text-5xl md:text-8xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
                     The Winners' Nook
                 </h1>
@@ -77,14 +77,14 @@ const WinnersPage: React.FC = () => {
                             <button 
                                 onClick={handlePrev} 
                                 disabled={currentIndex >= allResults.length - 1} 
-                                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-600 dark:text-parchment/60 hover:text-oxblood dark:hover:text-parchment disabled:opacity-20 transition-all"
+                                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-600 dark:text-parchment/80 hover:text-oxblood dark:hover:text-oxblood-bright disabled:opacity-20 transition-all"
                                 aria-label="Previous Week"
                             >
                                 <ChevronLeftIcon />
                             </button>
                             
                             <div className="text-center flex-1 md:min-w-[200px]">
-                                <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood/60 dark:text-parchment/40 font-black mb-1">Weekly Chronicle</p>
+                                <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood dark:text-oxblood-bright font-black mb-1">Weekly Chronicle</p>
                                 <h2 className="font-display text-base md:text-2xl font-bold text-ink dark:text-parchment">
                                     Week {currentResult.weekNumber} <span className="text-stone-400 dark:text-parchment/50 italic font-medium">— {currentResult.semester} {currentResult.year}</span>
                                 </h2>
@@ -93,7 +93,7 @@ const WinnersPage: React.FC = () => {
                             <button 
                                 onClick={handleNext} 
                                 disabled={currentIndex === 0} 
-                                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-600 dark:text-parchment/60 hover:text-oxblood dark:hover:text-parchment disabled:opacity-20 transition-all"
+                                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-600 dark:text-parchment/80 hover:text-oxblood dark:hover:text-oxblood-bright disabled:opacity-20 transition-all"
                                 aria-label="Next Week"
                             >
                                 <ChevronRightIcon />
@@ -126,9 +126,9 @@ const WinnersPage: React.FC = () => {
                                             mobileMode={true}
                                         />
                                         <div className="min-w-0">
-                                            <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood font-black mb-1">{rankLabel}</p>
+                                            <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood dark:text-oxblood-bright font-black mb-1">{rankLabel}</p>
                                             <p className="font-display font-bold text-lg text-stone-900 dark:text-parchment">{winner.name}</p>
-                                            <p className="mt-2 text-[10px] text-oxblood/60 uppercase tracking-widest font-sans font-bold">Tap to read &rarr;</p>
+                                            <p className="mt-2 text-[10px] text-oxblood dark:text-oxblood-bright uppercase tracking-widest font-sans font-bold">Tap to read &rarr;</p>
                                         </div>
                                     </button>
                                 );

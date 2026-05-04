@@ -5,10 +5,10 @@ import ThemeToggle from './ThemeToggle';
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const navLinkClasses = "text-stone-700 dark:text-parchment/80 hover:text-oxblood dark:hover:text-parchment transition-all duration-300 pb-1 font-sans uppercase tracking-[0.2em] text-[10px] md:text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood dark:focus-visible:ring-lamplight/50 focus-visible:ring-offset-2 focus-visible:ring-offset-parchment dark:focus-visible:ring-offset-ink rounded-sm";
+    const navLinkClasses = "text-stone-700 dark:text-parchment hover:text-oxblood dark:hover:text-oxblood-bright transition-all duration-300 pb-1 font-sans uppercase tracking-[0.2em] text-[10px] md:text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood dark:focus-visible:ring-lamplight/50 focus-visible:ring-offset-2 focus-visible:ring-offset-parchment dark:focus-visible:ring-offset-ink rounded-sm";
     const activeNavLinkClasses = "text-oxblood dark:text-lamplight font-bold border-b border-oxblood dark:border-lamplight/70";
 
-    const mobileNavLinkClasses = "text-stone-600 dark:text-parchment/70 hover:text-oxblood dark:hover:text-parchment block w-full text-center px-3 py-4 text-xs font-sans uppercase tracking-widest";
+    const mobileNavLinkClasses = "text-stone-600 dark:text-parchment/90 hover:text-oxblood dark:hover:text-oxblood-bright block w-full text-center px-3 py-4 text-xs font-sans uppercase tracking-widest";
     const activeMobileNavLinkClasses = "text-oxblood dark:text-parchment bg-oxblood/5 dark:bg-parchment/5 font-bold";
 
     return (
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
                     <span className="text-3xl font-display font-black text-stone-900 dark:text-parchment leading-none group-hover:text-oxblood dark:group-hover:text-lamplight transition-colors duration-500 uppercase tracking-tighter italic">
                         Poéthra
                     </span>
-                    <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood dark:text-parchment/50 font-bold ml-1 opacity-70 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood dark:text-oxblood-bright font-bold ml-1 opacity-70 group-hover:opacity-100 transition-opacity">
                         Literary Club
                     </span>
                 </Link>
