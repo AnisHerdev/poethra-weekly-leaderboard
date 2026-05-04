@@ -33,13 +33,13 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
     const medal = ['🥇', '🥈', '🥉'][winner.rank - 1];
     const rankColors = {
         1: 'text-oxblood dark:text-parchment',
-        2: 'text-stone-600 dark:text-stone-400',
+        2: 'text-stone-600 dark:text-parchment/60',
         3: 'text-amber-800 dark:text-amber-500',
     };
 
     return (
         <div
-            className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-ink/80 dark:bg-black/90 backdrop-blur-xl transition-opacity duration-500 ${modalVisibilityClass}`}
+            className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-ink/80 dark:bg-ink/95 backdrop-blur-xl transition-opacity duration-500 ${modalVisibilityClass}`}
             onClick={onClose}
             aria-modal="true"
             role="dialog"
@@ -51,7 +51,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                 {/* Close Button - More elegant */}
                 <button
                     onClick={onClose}
-                    className="absolute -top-12 right-0 md:-right-12 text-parchment hover:text-oxblood transition-all duration-300 z-[110] bg-white/5 md:bg-transparent rounded-full p-2 group"
+                    className="absolute -top-12 right-0 md:-right-12 text-parchment hover:text-oxblood dark:hover:text-lamplight transition-all duration-300 z-[110] bg-white/5 md:bg-transparent rounded-full p-2 group"
                     aria-label="Close"
                 >
                     <div className="group-hover:rotate-90 transition-transform duration-300">
@@ -62,7 +62,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                 {/* Book Container */}
                 <div className="w-full h-full flex flex-col md:flex-row perspective-1000 bg-parchment-texture overflow-hidden rounded-xl border border-oxblood/10 dark:border-parchment/10">
                     {/* Left Page (The Recognition) */}
-                    <div className="w-full h-2/5 md:w-1/2 md:h-full bg-parchment dark:bg-parchment-dark/[0.03] p-8 md:p-14 flex flex-col justify-between relative overflow-hidden bg-parchment-texture">
+                    <div className="w-full h-2/5 md:w-1/2 md:h-full bg-parchment dark:bg-ink-light/50 p-8 md:p-14 flex flex-col justify-between relative overflow-hidden bg-parchment-texture">
                         {/* Corner Detail */}
                         <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-oxblood/5 pointer-events-none"></div>
                         
@@ -75,7 +75,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                         </div>
 
                         <div className="text-center relative z-10 py-8 md:py-0">
-                            <p className="text-stone-600 dark:text-stone-500 italic text-sm uppercase tracking-widest mb-4 font-sans">Winning Title</p>
+                            <p className="text-stone-600 dark:text-parchment/50 italic text-sm uppercase tracking-widest mb-4 font-sans">Winning Title</p>
                             <h3 className="font-display text-2xl md:text-4xl text-stone-900 dark:text-parchment leading-tight">
                                 "{winner.title}"
                             </h3>
@@ -83,35 +83,35 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
 
                         <div className="text-center relative z-10 border-t border-oxblood/5 pt-8">
                             <p className="font-display text-3xl text-oxblood dark:text-parchment italic font-black">Poéthra</p>
-                            <p className="text-[10px] text-stone-600 dark:text-stone-500 uppercase tracking-[0.5em] mt-1 font-sans">The Repository of Souls</p>
+                            <p className="text-[10px] text-stone-600 dark:text-parchment/50 uppercase tracking-[0.5em] mt-1 font-sans">The Repository of Souls</p>
                         </div>
                     </div>
 
                     {/* Spine Gutter Shadow */}
-                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-12 -translate-x-1/2 bg-gradient-to-r from-black/10 via-black/20 to-black/10 z-20 pointer-events-none blur-[1px]"></div>
+                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-12 -translate-x-1/2 bg-gradient-to-r from-ink/20 via-ink/30 to-ink/20 dark:from-black/20 dark:via-black/30 dark:to-black/20 z-20 pointer-events-none blur-[1px]"></div>
 
                     {/* Right Page (The Work) */}
-                    <div className="w-full h-3/5 md:w-1/2 md:h-full bg-parchment-dark dark:bg-parchment-dark/[0.05] p-8 md:p-14 flex flex-col bg-parchment-texture relative">
+                    <div className="w-full h-3/5 md:w-1/2 md:h-full bg-parchment-dark dark:bg-ink-light/50 p-8 md:p-14 flex flex-col bg-parchment-texture relative">
                         <div className="relative z-10 flex flex-col h-full">
-                            <h4 className="font-display text-lg md:text-xl text-stone-600 dark:text-stone-500 uppercase tracking-[0.3em] mb-10 text-center">The Script</h4>
+                            <h4 className="font-display text-lg md:text-xl text-stone-600 dark:text-parchment/50 uppercase tracking-[0.3em] mb-10 text-center">The Script</h4>
                             <div className="flex-grow overflow-y-auto px-4 md:px-0">
-                                <div className="text-stone-700 dark:text-stone-300 leading-[1.8] text-base md:text-lg font-sans font-medium whitespace-pre-wrap max-w-prose mx-auto">
+                                <div className="text-stone-700 dark:text-parchment/80 leading-[1.8] text-base md:text-lg font-sans font-medium whitespace-pre-wrap max-w-prose mx-auto">
                                     {winner.content ? (
                                         winner.content
                                     ) : (
                                         <div className="h-full flex flex-col items-center justify-center gap-4 opacity-80">
-                                            <div className="w-12 h-px bg-stone-400"></div>
-                                            <p className="italic text-stone-600 text-center font-display text-lg">
+                                            <div className="w-12 h-px bg-stone-400 dark:bg-parchment/30"></div>
+                                            <p className="italic text-stone-600 dark:text-parchment/60 text-center font-display text-lg">
                                                 (The ink fades... This entry exists only in memory.)
                                             </p>
-                                            <div className="w-12 h-px bg-stone-400"></div>
+                                            <div className="w-12 h-px bg-stone-400 dark:bg-parchment/30"></div>
                                         </div>
                                     )}
                                 </div>
                             </div>
                             
                             {/* Page Number-like detail */}
-                            <div className="mt-8 text-center text-[10px] font-sans text-stone-600 uppercase tracking-widest opacity-70">
+                                <div className="mt-8 text-center text-[10px] font-sans text-stone-600 dark:text-parchment/50 uppercase tracking-widest opacity-70">
                                 Folio {new Date().getFullYear()}—II
                             </div>
                         </div>

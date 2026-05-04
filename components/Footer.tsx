@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
                         href="https://www.instagram.com/poethra.rvu/" 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="text-stone-600 hover:text-oxblood dark:text-stone-300 dark:hover:text-parchment transition-all duration-500 transform hover:scale-125"
+                        className="text-stone-600 hover:text-oxblood dark:text-parchment/60 dark:hover:text-parchment transition-all duration-500 transform hover:scale-125"
                         aria-label="Follow Poéthra on Instagram"
                     >
                         <InstagramIcon />
@@ -23,16 +23,16 @@ const Footer: React.FC = () => {
                 </div>
 
                 <div className="text-center space-y-4">
-                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-stone-600 dark:text-stone-300">
+                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-stone-600 dark:text-parchment/50">
                         &copy; {new Date().getFullYear()} Poéthra Creative Writing Club. <span className="mx-2 opacity-30">|</span> All Rights Reserved.
                     </p>
-                    <p className="font-display italic text-lg text-stone-700 dark:text-stone-200">
+                    <p className="font-display italic text-lg text-stone-700 dark:text-parchment/80">
                         "Your stories are the ink that keeps our halls alive."
                     </p>
                     <div className="pt-4">
                         <a 
                             href="mailto:poethra.rvu@gmail.com" 
-                            className="font-sans text-[10px] uppercase tracking-[0.2em] text-oxblood dark:text-parchment-dark hover:text-black dark:hover:text-white transition-colors border-b border-transparent hover:border-current pb-1 font-bold"
+                            className="font-sans text-[10px] uppercase tracking-[0.2em] text-oxblood dark:text-lamplight/80 hover:text-black dark:hover:text-lamplight transition-colors border-b border-transparent hover:border-current pb-1 font-bold"
                         >
                             poethra.rvu@gmail.com
                         </a>

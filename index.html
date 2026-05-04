@@ -12,20 +12,24 @@
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            parchment: {
-              DEFAULT: '#F5ECD7',
-              dark: '#E8DDBE',
-            },
-            ink: {
-              DEFAULT: '#1B2A4A',
-              light: '#2A3B5A',
-            },
-            oxblood: {
-              DEFAULT: '#6B1C2A',
-              light: '#8B2C3A',
-            }
-          },
+      colors: {
+        parchment: {
+          DEFAULT: '#F5ECD7',
+          dark: '#E8DDBE',
+        },
+        ink: {
+          DEFAULT: '#1B2A4A',
+          light: '#2A3B5A',
+        },
+        oxblood: {
+          DEFAULT: '#6B1C2A',
+          light: '#8B2C3A',
+        },
+        lamplight: {
+          DEFAULT: '#F2E8C9',
+          glow: '#FAF3E0',
+        }
+      },
           fontFamily: {
             sans: ['Literata', 'serif'],
             serif: ['Petrona', 'serif'],
@@ -52,7 +56,7 @@
     }
 
     .bg-parchment-texture {
-      background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C9281' fill-opacity='0.08' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     }
 
     /* Custom styles for Winners Page */
@@ -140,11 +144,28 @@
         transform: translateY(0) scale(1, 1);
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .animate-pulse-slow {
+        animation: none !important;
+      }
+      .group:hover [transform],
+      .group:focus [transform] {
+        transform: none !important;
+      }
+    }
   </style>
   <link rel="stylesheet" href="/index.css">
 </head>
 
-<body class="bg-stone-100 dark:bg-gray-900 text-stone-800 dark:text-white transition-colors duration-500">
+<body class="bg-parchment dark:bg-ink text-stone-800 dark:text-parchment/90 transition-colors duration-500">
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

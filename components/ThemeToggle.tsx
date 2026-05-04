@@ -20,7 +20,7 @@ const ThemeToggle: React.FC = () => {
     return (
         <button
             onClick={toggleTheme}
-            className="p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-stone-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-100 dark:focus:ring-offset-gray-800 focus:ring-amber-600 dark:focus:ring-yellow-500 transition-colors duration-300"
+            className="p-2 rounded-full text-stone-500 dark:text-parchment/60 hover:bg-oxblood/10 dark:hover:bg-parchment/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-parchment dark:focus:ring-offset-ink focus:ring-oxblood dark:focus:ring-lamplight/50 transition-colors duration-300"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >
             {theme === 'light' ? <MoonIcon /> : <SunIcon />}

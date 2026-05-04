@@ -94,7 +94,7 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
                 </div>
 
                 {/* Page edges (The 3D depth) */}
-                <div className="absolute right-0 top-0 w-4 h-full bg-stone-200 transform origin-right shadow-inner z-0" style={{transform: 'rotateY(90deg)'}}></div>
+                <div className="absolute right-0 top-0 w-4 h-full bg-parchment-dark/40 dark:bg-parchment-dark/60 transform origin-right shadow-inner z-0" style={{transform: 'rotateY(90deg)'}}></div>
             </div>
         </button>
     );

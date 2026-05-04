@@ -26,16 +26,16 @@ const HomePage: React.FC = () => {
                     <h2 className="text-3xl md:text-4xl font-display font-bold text-ink dark:text-parchment leading-tight">
                         The Heart of Our <br/> <span className="text-oxblood">Creative Writing</span> Community.
                     </h2>
-                    <p className="text-stone-600 dark:text-stone-400 text-lg leading-relaxed italic">
+                    <p className="text-stone-600 dark:text-parchment/70 text-lg leading-relaxed italic">
                         "Each week, we invite you to step into the quiet sanctuary of the page. To challenge your voice, to find your rhyme, and to belong to something timeless."
                     </p>
                 </div>
 
-                <div className="bg-parchment-dark/50 dark:bg-ink-light/50 p-8 rounded-xl border border-oxblood/10 dark:border-parchment/10 shadow-xl relative overflow-hidden group">
+                <div className="bg-parchment-dark/50 dark:bg-ink-light/70 p-8 rounded-xl border border-oxblood/10 dark:border-parchment/10 shadow-xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-oxblood/5 rounded-full -translate-y-16 translate-x-16 blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
                     
                     <h3 className="text-xl font-display font-bold text-oxblood dark:text-parchment mb-4 uppercase tracking-widest">The Weekly Ledger</h3>
-                    <p className="text-stone-700 dark:text-stone-300 mb-8 leading-relaxed">
+                    <p className="text-stone-700 dark:text-parchment/80 mb-8 leading-relaxed">
                         Every submission is a piece of history. Every streak is a testament to devotion. Join our panel of reviewers and see your name etched among the triumphants.
                     </p>
                     
@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
             
             {/* FOOTER QUOTE */}
             <div className="w-full text-center py-10">
-                <p className="font-display italic text-2xl text-stone-600 dark:text-stone-300">Etched in ink, celebrated in spirit.</p>
+                <p className="font-display italic text-2xl text-stone-600 dark:text-parchment/70">Etched in ink, celebrated in spirit.</p>
             </div>
         </div>
     );
