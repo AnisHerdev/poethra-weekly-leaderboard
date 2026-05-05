@@ -3,7 +3,7 @@ import { db } from '../src/firebase';
 import { collection, getDocs, query, orderBy, doc, Timestamp } from 'firebase/firestore';
 
 // --- Firestore Integration ---
-const IS_PRODUCTION = false;
+const IS_PRODUCTION = true;
 
 const PARTICIPANTS_COLLECTION = IS_PRODUCTION
     ? 'participants_production'
