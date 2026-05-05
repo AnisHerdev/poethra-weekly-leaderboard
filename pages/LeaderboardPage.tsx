@@ -159,7 +159,7 @@ const LeaderboardPage: React.FC = () => {
     return (
         <div className="flex flex-col gap-10 py-10 items-center">
             {/* HEADER */}
-            <div className="text-center space-y-4 max-w-2xl px-4">
+            <div className="text-center space-y-4 max-w-2xl px-2">
                 <h1 className="text-5xl md:text-7xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
                     The Weekly Ledger
                 </h1>
@@ -186,7 +186,7 @@ const LeaderboardPage: React.FC = () => {
             </div>
 
             {/* LEADERBOARD LIST — directly below search */}
-            <div className="w-full max-w-5xl px-4 flex flex-col gap-2">
+            <div className="w-full max-w-5xl px-2 flex flex-col gap-2">
                 {loading ? (
                     <div className="text-center p-20 opacity-50 italic font-display text-2xl animate-pulse">
                         Unrolling the scrolls...
