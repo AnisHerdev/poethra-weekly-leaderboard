@@ -34,6 +34,9 @@ const Header: React.FC = () => {
                     <NavLink to="/winners" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Winners
                     </NavLink>
+                    <NavLink to="/quill-council" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
+                        Quill Council
+                    </NavLink>
                     <div className="pl-4 border-l border-oxblood/20 dark:border-parchment/20">
                         <ThemeToggle />
                     </div>
@@ -73,6 +76,9 @@ const Header: React.FC = () => {
                     </NavLink>
                     <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
                         Winners
+                    </NavLink>
+                    <NavLink to="/quill-council" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Quill Council
                     </NavLink>
                 </div>
             </nav>
