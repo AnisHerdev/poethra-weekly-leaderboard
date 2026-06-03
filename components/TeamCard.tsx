@@ -12,15 +12,15 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
   // First letter of the first name — used as the monogram character.
   const monogram = member.name.trim().charAt(0).toUpperCase();
 
-  const monogramClasses =
-    size === 'leadership'
-      ? 'w-20 h-20 text-3xl'
-      : 'w-16 h-16 text-2xl';
+  // Leadership gets a taller portrait stage; department cards are more compact
+  // so a 4-up grid stays tight.
+  const stageHeight = size === 'leadership' ? 'h-[200px]' : 'h-[140px]';
+  const monogramSize = size === 'leadership' ? 'w-24 h-24 text-4xl' : 'w-20 h-20 text-3xl';
 
   return (
     <article
       aria-label={member.name}
-      className="group relative flex flex-col items-center text-center p-6 rounded-2xl
+      className="group relative flex flex-col overflow-hidden rounded-2xl
                  bg-parchment-dark/40 dark:bg-ink-light/50
                  border border-oxblood/10 dark:border-parchment/10
                  shadow-md shadow-oxblood/5 dark:shadow-black/20
@@ -30,44 +30,59 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
                  animate-fade-in-up"
       style={{ animationDelay: `${index * 80}ms`, animationFillMode: 'backwards' }}
     >
-      {/* Monogram — wax-seal stamp */}
-      {member.imageUrl ? (
-        <img
-          src={member.imageUrl}
-          alt={member.name}
-          className={`${monogramClasses} rounded-full object-cover mb-4 ring-1 ring-oxblood/20 dark:ring-parchment/20`}
-        />
-      ) : (
-        <div
-          aria-hidden="true"
-          className={`${monogramClasses} mb-4 rounded-full bg-oxblood text-lamplight
-                      flex items-center justify-center
-                      font-display italic font-black
-                      ring-1 ring-oxblood-light/30 dark:ring-oxblood/40
-                      shadow-inner shadow-oxblood-light/40
-                      transition-transform duration-500 group-hover:rotate-[-6deg] group-hover:scale-105`}
-        >
-          <span className="-mt-0.5">{monogram}</span>
-        </div>
-      )}
+      {/* ── PORTRAIT STAGE ──────────────────────────────────────── */}
+      <div
+        className={`relative ${stageHeight}
+                    bg-gradient-to-b from-transparent to-parchment-dark/40 dark:to-ink-light/40`}
+      >
+        {member.imageUrl ? (
+          <img
+            src={member.imageUrl}
+            alt={member.name}
+            className="absolute inset-x-0 bottom-0 h-full w-full object-contain pointer-events-none
+                       transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className={`absolute left-1/2 bottom-4 -translate-x-1/2
+                        ${monogramSize} rounded-full bg-oxblood text-lamplight
+                        flex items-center justify-center
+                        font-display italic font-black
+                        ring-1 ring-oxblood-light/30 dark:ring-oxblood/40
+                        shadow-inner shadow-oxblood-light/40
+                        transition-transform duration-500 group-hover:rotate-[-6deg] group-hover:scale-105`}
+          >
+            <span className="-mt-0.5">{monogram}</span>
+          </div>
+        )}
 
-      {/* Name */}
-      <h3 className="font-display italic font-black text-xl text-ink dark:text-parchment leading-tight">
-        {member.name}
-      </h3>
+        {/* Subtle oxblood baseline — the museum plinth the figure stands on */}
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-0 h-px w-8 bg-oxblood/30 dark:bg-parchment/30" />
+      </div>
 
-      {/* Role */}
-      <p className="mt-1 font-sans uppercase tracking-[0.2em] text-[10px] text-oxblood dark:text-oxblood-bright font-bold">
-        {member.role}
-      </p>
+      {/* ── CAPTION STRIP ───────────────────────────────────────── */}
+      <div className="flex flex-col items-center text-center px-5 pt-4 pb-5
+                      bg-parchment-dark/30 dark:bg-ink-light/60
+                      border-t border-oxblood/10 dark:border-parchment/10">
+        {/* Name */}
+        <h3 className="font-display italic font-black text-xl text-ink dark:text-parchment leading-tight">
+          {member.name}
+        </h3>
 
-      {/* Hairline */}
-      <div className="mt-3 mb-3 h-px w-8 bg-oxblood/20 dark:bg-parchment/20" />
+        {/* Role */}
+        <p className="mt-1 font-sans uppercase tracking-[0.2em] text-[10px] text-oxblood dark:text-oxblood-bright font-bold">
+          {member.role}
+        </p>
 
-      {/* Description */}
-      <p className="font-display italic text-stone-600 dark:text-parchment/70 text-sm leading-relaxed max-w-[28ch]">
-        {member.description}
-      </p>
+        {/* Hairline */}
+        <div className="mt-3 mb-3 h-px w-8 bg-oxblood/20 dark:bg-parchment/20" />
+
+        {/* Description */}
+        <p className="font-display italic text-stone-600 dark:text-parchment/70 text-sm leading-relaxed max-w-[28ch]">
+          {member.description}
+        </p>
+      </div>
     </article>
   );
 };
