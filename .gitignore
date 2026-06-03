@@ -26,3 +26,5 @@ dist-ssr
 
 .agents/
 skills-lock.json
+
+PRODUCT.md

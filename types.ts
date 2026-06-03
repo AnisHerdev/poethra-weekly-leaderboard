@@ -4,13 +4,28 @@ export interface Participant {
     name: string;
     totalPoints: number;
     currentStreak: number;
-    participationHistory: number[]; // Array of weeks participated
-    bestRank: number | null;
+    participationHistory?: number[]; // Optional/deprecated for new schema
+    bestRank?: number | null; // Optional/deprecated for new schema
+}
+
+export interface Semester {
+    id: string;
+    isActive: boolean;
+    name?: string;
+}
+
+export interface SemesterStats {
+    id: string;
+    participantId: string;
+    semesterId: string;
+    totalScore: number;
+    currentStreak: number;
 }
 
 export interface WeeklyWinnerInfo {
     name: string;
-    id: string;
+    participantId?: string; // New field from updated schema
+    id?: string; // Kept for backward compatibility
     content?: string;
     title?: string;
 }
@@ -20,7 +35,7 @@ export interface WeeklyResult {
     year: number;
     semester: string; // "H1" | "H2"
     weekNumber: number;
-    weeklyParticipants: string[]; // Array of participant names
+    participantIds: string[]; // Replaced weeklyParticipants
     winners: {
         first: WeeklyWinnerInfo;
         second: WeeklyWinnerInfo;

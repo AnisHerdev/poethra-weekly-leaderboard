@@ -3,11 +3,19 @@ import { db } from '../src/firebase';
 import { collection, getDocs, query, orderBy, doc, Timestamp } from 'firebase/firestore';
 
 // --- Firestore Integration ---
-const IS_PRODUCTION = true;
+const IS_PRODUCTION = false;
 
 const PARTICIPANTS_COLLECTION = IS_PRODUCTION
     ? 'participants_production'
     : 'participants_test';
+
+const SEMESTERS_COLLECTION = IS_PRODUCTION
+    ? 'semesters_production'
+    : 'semesters_test';
+
+const SEMESTER_STATS_COLLECTION = IS_PRODUCTION
+    ? 'semester_stats_production'
+    : 'semester_stats_test';
 
 // Toggle between 'weekly_results_production' and 'weekly_results_test'
 const LEADERBOARD_COLLECTION = IS_PRODUCTION
@@ -17,22 +25,49 @@ const LEADERBOARD_COLLECTION = IS_PRODUCTION
 
 export const fetchLeaderboard = async (): Promise<Participant[]> => {
     try {
-        const q = query(collection(db, PARTICIPANTS_COLLECTION));
-        const querySnapshot = await getDocs(q);
+        // 1. Fetch active semester
+        const semestersQ = query(collection(db, SEMESTERS_COLLECTION));
+        const semestersSnapshot = await getDocs(semestersQ);
+        const activeSemesterDoc = semestersSnapshot.docs.find(doc => doc.data().isActive === true);
+        
+        if (!activeSemesterDoc) {
+            console.warn("No active semester found.");
+            return [];
+        }
 
-        const participants: Participant[] = querySnapshot.docs.map(doc => {
-            const data = doc.data();
+        const activeSemesterId = activeSemesterDoc.id;
+
+        // 2. Fetch stats for active semester
+        const statsQ = query(collection(db, SEMESTER_STATS_COLLECTION));
+        const statsSnapshot = await getDocs(statsQ);
+        const semesterStats = statsSnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter((data: any) => data.semesterId === activeSemesterId);
+
+        // 3. Fetch master roster
+        const participantsQ = query(collection(db, PARTICIPANTS_COLLECTION));
+        const participantsSnapshot = await getDocs(participantsQ);
+        
+        // Create a map for quick lookup: participantId -> name
+        const participantsMap = new Map<string, any>();
+        participantsSnapshot.docs.forEach(doc => {
+            participantsMap.set(doc.id, doc.data());
+        });
+
+        // 4. Map stats to Participant return type
+        const participants: Participant[] = semesterStats.map((stat: any) => {
+            const masterData = participantsMap.get(stat.participantId);
             return {
-                id: doc.id,
-                name: data.name || "Unknown",
-                totalPoints: parseInt(data.totalScore) || 0,
-                currentStreak: parseInt(data.currentStreak) || 0,
-                participationHistory: data.participationHistory || [],
-                bestRank: data.bestRank || null
+                id: stat.participantId, // We use participantId as the id for the Participant object
+                name: masterData?.name || "Unknown",
+                totalPoints: parseInt(stat.totalScore) || 0,
+                currentStreak: parseInt(stat.currentStreak) || 0,
+                participationHistory: [], // Optional/deprecated
+                bestRank: null // Optional/deprecated
             };
         });
 
-        // Sort by points descending, then streak descending
+        // 5. Sort by points descending, then streak descending
         return participants.sort((a, b) => {
             if (b.totalPoints !== a.totalPoints) {
                 return b.totalPoints - a.totalPoints;
@@ -60,7 +95,7 @@ export const fetchWeeklyResults = async (): Promise<WeeklyResult[]> => {
                 year: data.year,
                 semester: data.semester,
                 weekNumber: data.weekNumber,
-                weeklyParticipants: data.weeklyParticipants || [],
+                participantIds: data.participantIds || [],
                 winners: data.winners,
                 createdAt: data.createdAt,
                 updatedAt: data.updatedAt,

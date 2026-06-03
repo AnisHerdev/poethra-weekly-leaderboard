@@ -160,9 +160,11 @@ const LeaderboardPage: React.FC = () => {
         <div className="flex flex-col gap-10 py-10 items-center">
             {/* HEADER */}
             <div className="text-center space-y-4 max-w-2xl px-1">
+
                 <h1 className="text-5xl md:text-7xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
                     The Weekly Ledger
                 </h1>
+
                 <p className="text-stone-500 dark:text-parchment/60 italic text-lg leading-relaxed">
                     "Our history, recorded in scores and streaks. A celebration of those who show up to the blank page, week after week."
                 </p>
@@ -211,11 +213,13 @@ const LeaderboardPage: React.FC = () => {
                         <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/60 font-black whitespace-nowrap">Hall of Fame</span>
                         <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10"></div>
                     </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <HallOfFameCard title="Poet Laureate" participant={hallOfFame.highestBestRank} color="from-oxblood to-transparent" />
                         <HallOfFameCard title="The Unbroken Flame" participant={hallOfFame.highestStreak} color="from-amber-600 to-transparent" />
                         <HallOfFameCard title="The Faithful Scroll" participant={hallOfFame.mostConsistent} color="from-stone-600 to-transparent" />
                     </div>
+
                 </div>
             )}
         </div>

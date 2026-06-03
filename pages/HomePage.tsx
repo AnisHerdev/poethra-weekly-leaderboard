@@ -152,11 +152,13 @@ const HomePage: React.FC = () => {
                     loading="eager"
                     fetchpriority="high"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-8 md:p-12">
                     <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black text-parchment leading-tight tracking-tighter italic uppercase animate-fade-in-up">
                         Words find <br/> their wings.
                     </h1>
                 </div>
+
             </div>
 
             {/* INFO SECTION */}
