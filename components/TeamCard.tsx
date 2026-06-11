@@ -69,7 +69,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
 
       {/* ── CAPTION STRIP ───────────────────────────────────────── */}
       <div className="relative z-10 flex flex-col items-center text-center px-5 pt-4 pb-5
-                      bg-parchment-dark/30 dark:bg-ink-light/60
+                      bg-parchment-dark/50 dark:bg-ink-light/90
                       border-t border-oxblood/10 dark:border-parchment/10">
         {/* Name */}
         <h3 className="font-display italic font-black text-xl text-ink dark:text-parchment leading-tight">
