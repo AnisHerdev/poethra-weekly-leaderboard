@@ -39,12 +39,18 @@ export const ROLES: Record<string, Role> = {
   },
   'co-founder': {
     id: 'co-founder',
-    title: 'Co-founder & Finance Head',
-    description: 'Co-architect of the council, balancing vision with execution and guarding the treasury.',
+    title: 'Co-founder',
+    description: 'Co-architect of the council, balancing vision with execution.',
     category: 'founders',
   },
 
   // ── Departments ─────────────────────────────────────────────
+  'financial-head': {
+    id: 'financial-head',
+    title: 'Financial Head',
+    description: 'Guards the treasury so the words may flow freely.',
+    category: 'department',
+  },
   'marketing-head': {
     id: 'marketing-head',
     title: 'Marketing Head',

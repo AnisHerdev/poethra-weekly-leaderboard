@@ -47,7 +47,7 @@ export interface TeamMember {
 // ── Founders (permanent, never change) ───────────────────────────────────────
 
 export const FOUNDERS_MAP: Array<{ roleId: string; personId: string }> = [
-  { roleId: 'founder',          personId: 'suman-br'      },
+  { roleId: 'founder', personId: 'suman-br' },
   { roleId: 'co-founder', personId: 'herdev-anish' },
 ];
 
@@ -55,17 +55,33 @@ export const FOUNDERS_MAP: Array<{ roleId: string; personId: string }> = [
 
 export const TEAM_HISTORY: YearData[] = [
   {
+    year: 2026,
+    roles: {
+      'president': [{ personId: 'suman-br', termLabel: 'First Half' }],
+      'vice-president': [{ personId: 'swesthika' }],
+      'financial-head': [{ personId: 'herdev-anish', termLabel: 'First Half' }],
+      'marketing-head': [{ personId: 'apoorva-ramesh', termLabel: 'First Half' }],
+      'events-head': [{ personId: 'neha-rudra-murthy' }],
+      'literary-head': [{ personId: 'aditya-p-dixit' }],
+      'design': [{ personId: 'likitha-nanaiah' }],
+      'content-curator': [{ personId: 'suisha' }],
+      'performance-head': [{ personId: 'tanmay', termLabel: 'First Half' }],
+      'logistics': [{ personId: 'sanjana-kulkarni', termLabel: 'First Half' }],
+    },
+  },
+  {
     year: 2025,
     roles: {
-      'president':       [{ personId: 'suman-br'           }],
-      'vice-president':  [{ personId: 'swesthika'           }],
-      'marketing-head':  [{ personId: 'apoorva-ramesh'      }],
-      'events-head':     [{ personId: 'neha-rudra-murthy'   }],
-      'literary-head':   [{ personId: 'aditya-p-dixit'      }],
-      'design':          [{ personId: 'likitha-nanaiah'      }],
-      'content-curator': [{ personId: 'suisha'              }],
-      'performance-head':[{ personId: 'tanmay'              }],
-      'logistics':       [{ personId: 'sanjana-kulkarni'    }],
+      'president': [{ personId: 'suman-br' }],
+      'vice-president': [{ personId: 'swesthika' }],
+      'financial-head': [{ personId: 'herdev-anish' }],
+      'marketing-head': [{ personId: 'apoorva-ramesh' }],
+      'events-head': [{ personId: 'neha-rudra-murthy' }],
+      'literary-head': [{ personId: 'aditya-p-dixit' }],
+      'design': [{ personId: 'likitha-nanaiah' }],
+      'content-curator': [{ personId: 'suisha' }],
+      'performance-head': [{ personId: 'tanmay' }],
+      'logistics': [{ personId: 'sanjana-kulkarni' }],
     },
   },
   // ── Add past years below as needed ───────────────────────────────────────
@@ -96,11 +112,11 @@ export function resolvePerson(identifier: string): Person | null {
 
   // 2. Fallback to matching by readable `id`
   const matches = Object.values(PEOPLE).filter((p) => p.id === identifier);
-  
+
   if (matches.length === 1) {
     return matches[0];
   }
-  
+
   if (matches.length > 1) {
     throw new Error(`Multiple people found with id '${identifier}'. Please use their exact UID instead to disambiguate.`);
   }
