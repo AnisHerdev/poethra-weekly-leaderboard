@@ -1,5 +1,10 @@
-import React, { useMemo } from 'react';
-import { TEAM, type TeamMember } from '../data/team';
+import React, { useMemo, useState } from 'react';
+import {
+  getTeamForYear,
+  getFounders,
+  getAvailableYears,
+  type TeamMember,
+} from '../data/teamHistory';
 import TeamCard from '../components/TeamCard';
 
 // Small-caps section label flanked by hairlines — same pattern as
@@ -14,18 +19,62 @@ const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   </div>
 );
 
-const QuillCouncilPage: React.FC = () => {
-  const leadership = useMemo(
-    () => TEAM.filter((m) => m.category === 'current-leadership'),
-    []
+// ── Year Selector ─────────────────────────────────────────────────────────────
+interface YearSelectorProps {
+  years: number[];
+  selected: number;
+  onChange: (year: number) => void;
+}
+
+const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }) => {
+  if (years.length <= 1) return null; // Hide if only one year exists
+
+  return (
+    <div className="flex items-center gap-3 flex-wrap justify-center">
+      <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/40 font-black">
+        Year
+      </span>
+      <div className="flex items-center gap-2 flex-wrap justify-center">
+        {years.map((year) => {
+          const isActive = year === selected;
+          return (
+            <button
+              key={year}
+              id={`year-selector-${year}`}
+              onClick={() => onChange(year)}
+              className={`px-4 py-1.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest
+                          border transition-all duration-300
+                          ${isActive
+                            ? 'bg-oxblood text-lamplight border-oxblood shadow-md shadow-oxblood/30'
+                            : 'bg-transparent text-oxblood dark:text-parchment/60 border-oxblood/20 dark:border-parchment/20 hover:border-oxblood/60 dark:hover:border-parchment/40 hover:text-oxblood dark:hover:text-parchment'
+                          }`}
+            >
+              {year}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
-  const founders = useMemo(
-    () => TEAM.filter((m) => m.category === 'founders'),
-    []
+};
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
+const QuillCouncilPage: React.FC = () => {
+  const availableYears = useMemo(() => getAvailableYears(), []);
+  const [selectedYear, setSelectedYear] = useState<number>(availableYears[0]);
+
+  const founders = useMemo(() => getFounders(), []);
+
+  const yearTeam = useMemo(() => getTeamForYear(selectedYear), [selectedYear]);
+
+  const leadership = useMemo(
+    () => yearTeam.filter((m) => m.category === 'current-leadership'),
+    [yearTeam]
   );
   const departments = useMemo(
-    () => TEAM.filter((m) => m.category === 'department'),
-    []
+    () => yearTeam.filter((m) => m.category === 'department'),
+    [yearTeam]
   );
 
   const renderSection = (
@@ -40,7 +89,7 @@ const QuillCouncilPage: React.FC = () => {
           <TeamCard
             key={m.id}
             member={m}
-            size={title === 'The Departments' ? 'department' : 'leadership'}
+            size={title.startsWith('The Department') ? 'department' : 'leadership'}
             index={i}
           />
         ))}
@@ -82,14 +131,29 @@ const QuillCouncilPage: React.FC = () => {
         </svg>
       </section>
 
-      {/* THE HELM */}
+      {/* YEAR SELECTOR — Only shown when multiple years exist */}
+      {availableYears.length > 1 && (
+        <div className="w-full max-w-6xl px-4">
+          <YearSelector
+            years={availableYears}
+            selected={selectedYear}
+            onChange={setSelectedYear}
+          />
+        </div>
+      )}
+
+      {/* THE HELM — Changes per year */}
       {renderSection('The Helm', leadership, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE FOUNDERS */}
+      {/* THE FOUNDERS — Permanent, unaffected by year selector */}
       {renderSection('The Founders', founders, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE DEPARTMENTS */}
-      {renderSection('The Departments', departments, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4')}
+      {/* THE DEPARTMENTS — Changes per year */}
+      {renderSection(
+        `The Departments — ${selectedYear}`,
+        departments,
+        'grid-cols-1 sm:grid-cols-2 md:grid-cols-4'
+      )}
     </div>
   );
 };
