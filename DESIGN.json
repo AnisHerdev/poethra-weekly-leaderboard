@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-03T18:04:00Z",
+  "title": "Design System: Poéthra Leaderboard",
+  "extensions": {
+    "colorMeta": {
+      "parchment": { "role": "primary", "displayName": "Soft Cream Paper", "canonical": "#F5ECD7", "tonalRamp": ["#FFFFFF", "#FAF3E0", "#F5ECD7", "#E8DDBE", "#D4C5A3", "#B5A47E", "#968560", "#736444"] },
+      "ink": { "role": "neutral", "displayName": "Deep Midnight Ink", "canonical": "#1B2A4A", "tonalRamp": ["#4E648D", "#3B4D72", "#2A3B5A", "#1B2A4A", "#121E36", "#0A1324", "#050A14", "#000000"] },
+      "oxblood": { "role": "secondary", "displayName": "Rich Burgundy Leather", "canonical": "#6B1C2A", "tonalRamp": ["#F8D6DC", "#EDA0AE", "#C4506A", "#A1354A", "#8B2C3A", "#6B1C2A", "#4A111C", "#2E0810"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Petrona)", "purpose": "Hero headlines and main titles." },
+      "body": { "displayName": "Body (Literata)", "purpose": "Legible, warm reading text." }
+    },
+    "shadows": [
+      { "name": "lamplight-glow", "value": "0 4px 24px rgba(250, 243, 224, 0.4)", "purpose": "Softly lifts cards and interactive elements." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for state transitions." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Tactile and handmade primary action.",
+      "html": "<button class=\"ds-btn-primary\">View Leaderboard</button>",
+      "css": ".ds-btn-primary { background: #6B1C2A; color: #F5ECD7; padding: 12px 24px; font-family: 'Literata', serif; font-weight: 500; border: none; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(107, 28, 42, 0.2); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(107, 28, 42, 0.4); }"
+    },
+    {
+      "name": "Base Card",
+      "kind": "card",
+      "refersTo": "card-base",
+      "description": "A warmly lifted container resembling paper.",
+      "html": "<div class=\"ds-card\"><h3>Student Profile</h3><p>Streak: 4 weeks</p></div>",
+      "css": ".ds-card { background: #F5ECD7; color: #1B2A4A; padding: 24px; border-radius: 8px; font-family: 'Literata', serif; box-shadow: 0 4px 24px rgba(27, 42, 74, 0.08); border: 1px solid rgba(27, 42, 74, 0.05); } .ds-card h3 { font-family: 'Petrona', serif; margin-top: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Indie Bookstore Archive",
+    "overview": "Intimate, grounded, and tactile, evoking a sense of history and warmth. It explicitly rejects the coldness of SaaS and the loudness of gaming dashboards. The design feels like a safe, curated space—an indie bookstore or a literary magazine. It prioritizes feeling, nostalgia, and a handmade physical feel over aggressive metric displays.",
+    "keyCharacteristics": [
+      "Warm, tactile, and nostalgic",
+      "Handmade and curated",
+      "Intentionally timeless",
+      "Rejects modern SaaS coldness"
+    ],
+    "rules": [
+      { "name": "The Ink Rule", "body": "Deep Midnight Ink is used instead of gray or pure black for all structural borders and text to maintain the warmth of a printed page.", "section": "colors" },
+      { "name": "The Soft Lamplight Rule", "body": "Shadows should never feel harsh or industrial; they should emulate the soft, warm glow of lamplight over paper.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do prioritize a \"handmade\" or \"physical\" feel (paper textures, soft shadows).",
+      "Do use Deep Midnight Ink instead of gray for depth and text.",
+      "Do make the interface feel like entries in a yearbook or an archive."
+    ],
+    "donts": [
+      "Don't use cold, pixel-perfect industrial clean-lines.",
+      "Don't design aggressive metric displays or harsh competitive rankings.",
+      "Don't fall back to modern SaaS aesthetics."
+    ]
+  }
+}

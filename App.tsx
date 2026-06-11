@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import WinnersPage from './pages/WinnersPage';
+import QuillCouncilPage from './pages/QuillCouncilPage';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 const App: React.FC = () => {
@@ -18,6 +19,7 @@ const App: React.FC = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/winners" element={<WinnersPage />} />
+              <Route path="/quill-council" element={<QuillCouncilPage />} />
             </Routes>
           </main>
           <Footer />
