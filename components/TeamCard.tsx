@@ -36,12 +36,18 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
                     bg-gradient-to-b from-transparent to-parchment-dark/40 dark:to-ink-light/40`}
       >
         {member.imageUrl ? (
-          <img
-            src={member.imageUrl}
-            alt={member.name}
-            className="absolute inset-x-0 bottom-0 h-full w-full object-contain pointer-events-none
-                       transition-transform duration-500 group-hover:scale-[1.03]"
-          />
+          <div
+            className="absolute inset-x-0 bottom-0 w-full h-full pointer-events-none transition-transform duration-500 origin-bottom"
+            style={{
+              transform: `scale(${member.imageSizePercent ? member.imageSizePercent / 100 : 1}) translateY(${member.imagePushDownPercent ? member.imagePushDownPercent : 0}%)`
+            }}
+          >
+            <img
+              src={member.imageUrl}
+              alt={member.name}
+              className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          </div>
         ) : (
           <div
             aria-hidden="true"
@@ -62,7 +68,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
       </div>
 
       {/* ── CAPTION STRIP ───────────────────────────────────────── */}
-      <div className="flex flex-col items-center text-center px-5 pt-4 pb-5
+      <div className="relative z-10 flex flex-col items-center text-center px-5 pt-4 pb-5
                       bg-parchment-dark/30 dark:bg-ink-light/60
                       border-t border-oxblood/10 dark:border-parchment/10">
         {/* Name */}

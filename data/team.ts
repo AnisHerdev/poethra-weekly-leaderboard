@@ -14,6 +14,8 @@ export interface TeamMember {
   description: string;
   category: TeamCategory;
   imageUrl?: string;
+  imageSizePercent?: number;
+  imagePushDownPercent?: number;
 }
 
 export const TEAM: TeamMember[] = [
@@ -24,6 +26,9 @@ export const TEAM: TeamMember[] = [
     role: 'President',
     description: 'Keeps the lantern lit and the council in motion.',
     category: 'current-leadership',
+    imageUrl: 'public/suman-founder.png',
+    imageSizePercent: 150,
+    imagePushDownPercent: 34,
   },
   {
     id: 'swesthika',
@@ -40,13 +45,19 @@ export const TEAM: TeamMember[] = [
     role: 'Founder',
     description: 'Lit the first lamp. The reason the council exists.',
     category: 'founders',
+    imageUrl: 'public/suman-founder.png',
+    imageSizePercent: 150,
+    imagePushDownPercent: 34,
   },
   {
-    id: 'herdev-anish',
+    id: 'herdev-anish-founder',
     name: 'S A Herdev Anish',
     role: 'Co-founder & Finance Head',
     description: 'Co-architect of the council, balancing vision with execution and guarding the treasury.',
     category: 'founders',
+    imageUrl: 'public/herdev-anish-founder.png',
+    imageSizePercent: 150,
+    imagePushDownPercent: 30,
   },
 
   // ── The Departments ─────────────────────────────────────────
