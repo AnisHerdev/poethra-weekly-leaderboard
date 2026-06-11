@@ -39,7 +39,7 @@ export const PEOPLE: Record<string, Person> = {
   'a5b4c3d2': {
     id: 'swesthika',
     uid: 'a5b4c3d2',
-    name: 'Swesthika',
+    name: 'Swesthika D',
   },
   '1f2e3d4c': {
     id: 'apoorva-ramesh',
