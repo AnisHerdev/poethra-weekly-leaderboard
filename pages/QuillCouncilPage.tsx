@@ -19,7 +19,7 @@ const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   </div>
 );
 
-// ── Year Selector ─────────────────────────────────────────────────────────────
+// ── Year Selector (pill tabs at the top) ─────────────────────────────────────
 interface YearSelectorProps {
   years: number[];
   selected: number;
@@ -56,6 +56,77 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
       </div>
     </div>
   );
+};
+
+// ── Year Arrow Nav (prev/next beside the section label) ─────────────────────
+interface YearArrowNavProps {
+  years: number[];
+  selected: number;
+  onChange: (year: number) => void;
+}
+
+// Single chevron button — `flip` mirrors it horizontally for the left arrow
+const ChevronBtn: React.FC<{
+  onClick: () => void;
+  disabled: boolean;
+  flip?: boolean;
+  id: string;
+  title: string;
+}> = ({ onClick, disabled, flip, id, title }) => (
+  <button
+    id={id}
+    onClick={onClick}
+    disabled={disabled}
+    title={title}
+    aria-label={title}
+    className={`flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-full border
+                transition-all duration-300
+                ${disabled
+                  ? 'border-oxblood/10 dark:border-parchment/10 text-oxblood/20 dark:text-parchment/20 cursor-not-allowed'
+                  : 'border-oxblood/30 dark:border-parchment/20 text-oxblood dark:text-parchment/60 hover:border-oxblood dark:hover:border-parchment/50 hover:bg-oxblood/5 dark:hover:bg-parchment/5'
+                }`}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-3.5 h-3.5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.5}
+      style={flip ? { transform: 'scaleX(-1)' } : undefined}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+);
+
+const YearArrowNav: React.FC<YearArrowNavProps> = ({ years, selected, onChange }) => {
+  if (years.length <= 1) return null;
+
+  // years is sorted newest-first, so older = higher index
+  const currentIndex = years.indexOf(selected);
+  const canGoOlder = currentIndex < years.length - 1;
+  const canGoNewer = currentIndex > 0;
+
+  return {
+    left: (
+      <ChevronBtn
+        id="year-nav-prev"
+        onClick={() => canGoOlder && onChange(years[currentIndex + 1])}
+        disabled={!canGoOlder}
+        flip
+        title={canGoOlder ? `Go to ${years[currentIndex + 1]}` : 'No older year'}
+      />
+    ),
+    right: (
+      <ChevronBtn
+        id="year-nav-next"
+        onClick={() => canGoNewer && onChange(years[currentIndex - 1])}
+        disabled={!canGoNewer}
+        title={canGoNewer ? `Go to ${years[currentIndex - 1]}` : 'No newer year'}
+      />
+    ),
+  };
 };
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -97,6 +168,39 @@ const QuillCouncilPage: React.FC = () => {
     </section>
   );
 
+  // Departments section gets arrow nav on far left and far right of the label row
+  const renderDepartmentsSection = (members: TeamMember[], gridClass: string) => {
+    const nav = availableYears.length > 1
+      ? YearArrowNav({ years: availableYears, selected: selectedYear, onChange: setSelectedYear })
+      : null;
+
+    return (
+      <section className="w-full max-w-6xl px-4 space-y-8">
+        {/* Label row: hairline — [←] DEPARTMENTS — YEAR [→] — hairline */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
+          {nav ? nav.left : null}
+          <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap">
+            The Departments — {selectedYear}
+          </span>
+          {nav ? nav.right : null}
+          <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
+        </div>
+
+        <div className={`grid gap-6 ${gridClass}`}>
+          {members.map((m, i) => (
+            <TeamCard
+              key={m.id}
+              member={m}
+              size="department"
+              index={i}
+            />
+          ))}
+        </div>
+      </section>
+    );
+  };
+
   return (
     <div className="flex flex-col gap-16 py-10 md:py-16 items-center">
       {/* HERO */}
@@ -131,7 +235,7 @@ const QuillCouncilPage: React.FC = () => {
         </svg>
       </section>
 
-      {/* YEAR SELECTOR — Only shown when multiple years exist */}
+      {/* YEAR SELECTOR PILLS — Only shown when multiple years exist */}
       {availableYears.length > 1 && (
         <div className="w-full max-w-6xl px-4">
           <YearSelector
@@ -148,12 +252,8 @@ const QuillCouncilPage: React.FC = () => {
       {/* THE FOUNDERS — Permanent, unaffected by year selector */}
       {renderSection('The Founders', founders, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE DEPARTMENTS — Changes per year */}
-      {renderSection(
-        `The Departments — ${selectedYear}`,
-        departments,
-        'grid-cols-1 sm:grid-cols-2 md:grid-cols-4'
-      )}
+      {/* THE DEPARTMENTS — Changes per year, with inline arrow nav */}
+      {renderDepartmentsSection(departments, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4')}
     </div>
   );
 };
