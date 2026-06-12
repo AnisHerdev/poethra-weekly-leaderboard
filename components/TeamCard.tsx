@@ -85,7 +85,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
         <div className="mt-3 mb-3 h-px w-8 bg-oxblood/20 dark:bg-parchment/20" />
 
         {/* Description */}
-        <p className="font-display italic text-stone-600 dark:text-parchment/70 text-sm leading-relaxed max-w-[28ch]">
+        <p className="font-display italic text-oxblood/80 dark:text-parchment/80 text-sm leading-relaxed max-w-[28ch]">
           {member.description}
         </p>
       </div>

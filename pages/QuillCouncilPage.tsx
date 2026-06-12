@@ -31,7 +31,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
 
   return (
     <div className="flex items-center gap-3 flex-wrap justify-center">
-      <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/40 font-black">
+      <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black">
         Year
       </span>
       <div className="flex items-center gap-2 flex-wrap justify-center">
@@ -43,11 +43,11 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
               id={`year-selector-${year}`}
               onClick={() => onChange(year)}
               aria-current={isActive ? 'page' : undefined}
-              className={`px-4 py-1.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest
+              className={`px-5 py-2.5 sm:px-4 sm:py-1.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest
                           border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood/50 dark:focus-visible:ring-parchment/50
                           ${isActive
                             ? 'bg-oxblood text-lamplight border-oxblood shadow-md shadow-oxblood/30'
-                            : 'bg-transparent text-oxblood dark:text-parchment/60 border-oxblood/20 dark:border-parchment/20 hover:border-oxblood/60 dark:hover:border-parchment/40 hover:text-oxblood dark:hover:text-parchment'
+                            : 'bg-transparent text-oxblood dark:text-parchment/70 border-oxblood/30 dark:border-parchment/30 hover:border-oxblood/70 dark:hover:border-parchment/50 hover:text-oxblood dark:hover:text-parchment'
                           }`}
             >
               {year}
@@ -80,11 +80,11 @@ const ChevronBtn: React.FC<{
     disabled={disabled}
     title={title}
     aria-label={title}
-    className={`flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-full border
+    className={`flex-shrink-0 flex items-center justify-center w-9 h-9 sm:w-7 sm:h-7 rounded-full border
                 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood/50 dark:focus-visible:ring-parchment/50
                 ${disabled
-                  ? 'border-oxblood/10 dark:border-parchment/10 text-oxblood/20 dark:text-parchment/20 cursor-not-allowed'
-                  : 'border-oxblood/30 dark:border-parchment/20 text-oxblood dark:text-parchment/60 hover:border-oxblood dark:hover:border-parchment/50 hover:bg-oxblood/5 dark:hover:bg-parchment/5'
+                  ? 'border-oxblood/20 dark:border-parchment/20 text-oxblood/40 dark:text-parchment/40 cursor-not-allowed'
+                  : 'border-oxblood/40 dark:border-parchment/30 text-oxblood dark:text-parchment/70 hover:border-oxblood dark:hover:border-parchment/60 hover:bg-oxblood/5 dark:hover:bg-parchment/5'
                 }`}
   >
     <svg
@@ -215,7 +215,7 @@ const QuillCouncilPage: React.FC = () => {
         <h1 className="text-5xl md:text-7xl font-display font-black italic text-ink dark:text-parchment tracking-tighter uppercase">
           The hands behind the <em className="not-italic text-oxblood dark:text-oxblood-bright">ink</em>
         </h1>
-        <p className="font-display italic text-stone-500 dark:text-parchment/60 text-lg leading-relaxed">
+        <p className="font-display italic text-oxblood/80 dark:text-parchment/80 text-lg leading-relaxed">
           "Meet the curators, scribes, and stewards who keep Poéthra breathing —
           week after week, page after page."
         </p>
@@ -231,10 +231,9 @@ const QuillCouncilPage: React.FC = () => {
             y1="3"
             x2="600"
             y2="3"
-            stroke="#6B1C2A"
+            className="stroke-oxblood/60 dark:stroke-oxblood-bright/60"
             strokeWidth="1"
             strokeLinecap="round"
-            opacity="0.6"
           />
         </svg>
       </section>
