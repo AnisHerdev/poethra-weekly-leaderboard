@@ -10,9 +10,9 @@ import TeamCard from '../components/TeamCard';
 // Small-caps section label flanked by hairlines — same pattern as
 // LeaderboardPage's "Hall of Fame" divider.
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="flex items-center gap-6">
+  <div className="flex items-center gap-3 sm:gap-6">
     <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
-    <h2 className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
+    <h2 className="text-[10px] font-sans uppercase tracking-widest sm:tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
       {children}
     </h2>
     <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
@@ -31,7 +31,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
 
   return (
     <div className="flex items-center gap-3 flex-wrap justify-center">
-      <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black">
+      <span className="text-[10px] font-sans uppercase tracking-widest sm:tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black">
         Year
       </span>
       <div className="flex items-center gap-2 flex-wrap justify-center">
@@ -181,10 +181,10 @@ const QuillCouncilPage: React.FC = () => {
     return (
       <section className="w-full max-w-6xl px-4 space-y-8">
         {/* Label row: hairline — [←] DEPARTMENTS — YEAR [→] — hairline */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
           {nav ? nav.left : null}
-          <h2 className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
+          <h2 className="text-[10px] font-sans uppercase tracking-widest sm:tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
             The Departments — {selectedYear}
           </h2>
           {nav ? nav.right : null}
@@ -206,13 +206,13 @@ const QuillCouncilPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-16 py-10 md:py-16 items-center">
+    <div className="flex flex-col gap-10 sm:gap-16 py-8 sm:py-10 md:py-16 items-center">
       {/* HERO */}
-      <section className="text-center space-y-6 max-w-3xl px-6 animate-fade-in-up">
-        <span className="text-xs font-sans uppercase tracking-[0.5em] text-oxblood dark:text-oxblood-bright font-black opacity-80">
+      <section className="text-center space-y-4 sm:space-y-6 max-w-3xl px-6 animate-fade-in-up">
+        <span className="text-xs font-sans uppercase tracking-widest sm:tracking-[0.5em] text-oxblood dark:text-oxblood-bright font-black opacity-80">
           The Quill Council
         </span>
-        <h1 className="text-5xl md:text-7xl font-display font-black italic text-ink dark:text-parchment tracking-tighter uppercase">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-display font-black italic text-ink dark:text-parchment tracking-tighter uppercase">
           The hands behind the <em className="not-italic text-oxblood dark:text-oxblood-bright">ink</em>
         </h1>
         <p className="font-display italic text-oxblood/80 dark:text-parchment/80 text-lg leading-relaxed">
