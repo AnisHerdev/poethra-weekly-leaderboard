@@ -76,4 +76,9 @@ export const PEOPLE: Record<string, Person> = {
     uid: '3d4e5f6a',
     name: 'Sanjana Kulkarni',
   },
+  'a1b2c3d4': {
+    id: 'sri-lakshmi',
+    uid: 'a1b2c3d4',
+    name: 'Sri Lakshmi',
+  },
 };
