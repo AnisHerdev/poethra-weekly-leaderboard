@@ -147,8 +147,8 @@ const QuillCouncilPage: React.FC = () => {
     () => yearTeam.filter((m) => m.category === 'department'),
     [yearTeam]
   );
-  const faculty = useMemo(
-    () => yearTeam.filter((m) => m.category === 'faculty'),
+  const advisors = useMemo(
+    () => yearTeam.filter((m) => m.category === 'advisors'),
     [yearTeam]
   );
 
@@ -259,8 +259,8 @@ const QuillCouncilPage: React.FC = () => {
       {/* THE DEPARTMENTS — Changes per year, with inline arrow nav */}
       {renderDepartmentsSection(departments, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4')}
 
-      {/* THE FACULTY COORDINATOR */}
-      {faculty.length > 0 && renderSection('The Faculty Coordinator', faculty, 'grid-cols-1 max-w-sm mx-auto')}
+      {/* THE GUIDING HANDS */}
+      {advisors.length > 0 && renderSection('The Guiding Hands', advisors, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
     </div>
   );
 };

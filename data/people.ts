@@ -81,4 +81,9 @@ export const PEOPLE: Record<string, Person> = {
     uid: 'a1b2c3d4',
     name: 'Sri Lakshmi',
   },
+  'f7e8d9c0': {
+    id: 'meenakshi-prabhu',
+    uid: 'f7e8d9c0',
+    name: 'Meenakshi Prabhu',
+  },
 };
