@@ -12,9 +12,9 @@ import TeamCard from '../components/TeamCard';
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="flex items-center gap-6">
     <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
-    <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap">
+    <h2 className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
       {children}
-    </span>
+    </h2>
     <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
   </div>
 );
@@ -42,8 +42,9 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
               key={year}
               id={`year-selector-${year}`}
               onClick={() => onChange(year)}
+              aria-current={isActive ? 'page' : undefined}
               className={`px-4 py-1.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest
-                          border transition-all duration-300
+                          border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood/50 dark:focus-visible:ring-parchment/50
                           ${isActive
                             ? 'bg-oxblood text-lamplight border-oxblood shadow-md shadow-oxblood/30'
                             : 'bg-transparent text-oxblood dark:text-parchment/60 border-oxblood/20 dark:border-parchment/20 hover:border-oxblood/60 dark:hover:border-parchment/40 hover:text-oxblood dark:hover:text-parchment'
@@ -80,7 +81,7 @@ const ChevronBtn: React.FC<{
     title={title}
     aria-label={title}
     className={`flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-full border
-                transition-all duration-300
+                transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood/50 dark:focus-visible:ring-parchment/50
                 ${disabled
                   ? 'border-oxblood/10 dark:border-parchment/10 text-oxblood/20 dark:text-parchment/20 cursor-not-allowed'
                   : 'border-oxblood/30 dark:border-parchment/20 text-oxblood dark:text-parchment/60 hover:border-oxblood dark:hover:border-parchment/50 hover:bg-oxblood/5 dark:hover:bg-parchment/5'
@@ -88,12 +89,11 @@ const ChevronBtn: React.FC<{
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-3.5 h-3.5"
+      className={`w-3.5 h-3.5 transition-transform duration-300 ${flip ? '-scale-x-100' : ''}`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth={2.5}
-      style={flip ? { transform: 'scaleX(-1)' } : undefined}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
     </svg>
@@ -184,9 +184,9 @@ const QuillCouncilPage: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
           {nav ? nav.left : null}
-          <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap">
+          <h2 className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
             The Departments — {selectedYear}
-          </span>
+          </h2>
           {nav ? nav.right : null}
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
         </div>
