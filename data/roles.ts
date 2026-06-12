@@ -93,6 +93,12 @@ export const ROLES: Record<string, Role> = {
     description: 'Keeps the wheels turning behind the curtain.',
     category: 'department',
   },
+  'pr-and-outreach': {
+    id: 'pr-and-outreach',
+    title: 'PR & Outreach',
+    description: 'Forges alliances where the ink meets the world.',
+    category: 'department',
+  },
 
   // ── Advisors ────────────────────────────────────────────────
   'faculty-coordinator': {
