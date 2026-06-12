@@ -55,6 +55,9 @@ export const PEOPLE: Record<string, Person> = {
     id: 'aditya-p-dixit',
     uid: '5e6f7a8b',
     name: 'Aditya P Dixit',
+    imageUrl: '/aditya-p-dixit.png',
+    imageSizePercent: 140,
+    imagePushDownPercent: 34,
   },
   '2c3d4e5f': {
     id: 'likitha-nanaiah',
