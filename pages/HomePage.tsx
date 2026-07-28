@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getLatestEvent } from '../data/events';
+import PolaroidCard from '../components/PolaroidCard';
+import EventModal from '../components/EventModal';
+import { ClubEvent } from '../types';
 
 // -----------------------------------------------------------------------------
-// HandwrittenQuote — Idea 3: Living Typography (v2)
+// HandwrittenQuote - Idea 3: Living Typography (v2)
 //
 // Each word of the quote is revealed individually, staggered in sequence.
 // The transition mimics ink being deposited on paper:
@@ -53,7 +57,7 @@ const HandwrittenQuote: React.FC = () => {
 
     // Top line draws immediately; bottom line draws after all words settle.
     const topLineDelay    = 0;          // s
-    const wordStartDelay  = 0.8;        // s — after top line finishes
+    const wordStartDelay  = 0.8;        // s - after top line finishes
     const perWordGap      = 0.18;       // s between each word
     const wordDuration    = 0.55;       // s for each word's reveal
     const lastWordEnd     = wordStartDelay + (words.length - 1) * perWordGap + wordDuration;
@@ -141,6 +145,20 @@ const HandwrittenQuote: React.FC = () => {
 // HomePage
 // -----------------------------------------------------------------------------
 const HomePage: React.FC = () => {
+    const latestEvent = React.useMemo(() => getLatestEvent(), []);
+    const [selectedEvent, setSelectedEvent] = React.useState<ClubEvent | null>(null);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    const handleOpenModal = (event: ClubEvent) => {
+        setSelectedEvent(event);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setTimeout(() => setSelectedEvent(null), 200);
+    };
+
     return (
         <div className="flex flex-col items-center gap-16 py-10 md:py-16">
             {/* HERO SECTION */}
@@ -187,11 +205,61 @@ const HomePage: React.FC = () => {
                     </Link>
                 </div>
             </div>
+
+            {/* LATEST EVENT SPOTLIGHT SECTION */}
+            {latestEvent && (
+                <div className="w-full max-w-5xl px-6 my-4">
+                    <div className="bg-parchment-dark/40 dark:bg-ink-light/40 rounded-3xl border border-oxblood/15 dark:border-parchment/15 p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                        {/* Polaroid Spotlight Image */}
+                        <div className="w-full md:w-1/2 flex justify-center">
+                            <PolaroidCard 
+                                event={latestEvent} 
+                                onClick={() => handleOpenModal(latestEvent)} 
+                                featured={true}
+                            />
+                        </div>
+
+                        {/* Event Info Callout */}
+                        <div className="w-full md:w-1/2 space-y-5 text-left">
+                            <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood dark:text-oxblood-bright font-black">
+                                Latest Event Spotlight • {latestEvent.date}
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl font-display font-bold text-ink dark:text-parchment leading-tight">
+                                {latestEvent.title}
+                            </h2>
+                            <p className="text-stone-600 dark:text-parchment/70 italic text-base leading-relaxed line-clamp-4">
+                                "{latestEvent.description}"
+                            </p>
+
+                            <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                                <button
+                                    onClick={() => handleOpenModal(latestEvent)}
+                                    className="bg-oxblood dark:bg-parchment text-parchment dark:text-ink font-bold py-3 px-6 rounded-lg text-xs uppercase tracking-widest hover:bg-black dark:hover:bg-white transition-all duration-300 shadow-md"
+                                >
+                                    View Event Details
+                                </button>
+                                <Link to="/chronicles">
+                                    <button className="w-full sm:w-auto border border-oxblood dark:border-parchment text-oxblood dark:text-parchment font-bold py-3 px-6 rounded-lg text-xs uppercase tracking-widest hover:bg-oxblood/10 dark:hover:bg-parchment/10 transition-colors">
+                                        Explore All Chronicles &rarr;
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             
-            {/* FOOTER QUOTE — Living Typography */}
+            {/* FOOTER QUOTE - Living Typography */}
             <div className="w-full text-center overflow-hidden">
                 <HandwrittenQuote />
             </div>
+
+            {/* EVENT MODAL */}
+            <EventModal
+                event={selectedEvent}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            />
         </div>
     );
 };

@@ -1,9 +1,9 @@
-// people.ts — Single source of truth for every individual who has ever been
+// people.ts - Single source of truth for every individual who has ever been
 // part of Poéthra. Define each person ONCE here.
 //
-// `id`   — Human-readable slug, e.g. 'suman-br'. Used to reference this
+// `id`   - Human-readable slug, e.g. 'suman-br'. Used to reference this
 //           person in teamHistory.ts. Try to keep it stable forever.
-// `uid`  — Opaque unique identifier. Guarantees uniqueness even if two
+// `uid`  - Opaque unique identifier. Guarantees uniqueness even if two
 //           people share the same name in the future. Generate new UIDs
 //           with: python scripts/generate_uids.py
 //

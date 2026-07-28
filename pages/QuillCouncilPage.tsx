@@ -7,7 +7,7 @@ import {
 } from '../data/teamHistory';
 import TeamCard from '../components/TeamCard';
 
-// Small-caps section label flanked by hairlines — same pattern as
+// Small-caps section label flanked by hairlines - same pattern as
 // LeaderboardPage's "Hall of Fame" divider.
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="flex items-center gap-6">
@@ -65,7 +65,7 @@ interface YearArrowNavProps {
   onChange: (year: number) => void;
 }
 
-// Single chevron button — `flip` mirrors it horizontally for the left arrow
+// Single chevron button - `flip` mirrors it horizontally for the left arrow
 const ChevronBtn: React.FC<{
   onClick: () => void;
   disabled: boolean;
@@ -176,12 +176,12 @@ const QuillCouncilPage: React.FC = () => {
 
     return (
       <section className="w-full max-w-6xl px-4 space-y-8">
-        {/* Label row: hairline — [←] DEPARTMENTS — YEAR [→] — hairline */}
+        {/* Label row: hairline - [←] DEPARTMENTS - YEAR [→] - hairline */}
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
           {nav ? nav.left : null}
           <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap">
-            The Departments — {selectedYear}
+            The Departments - {selectedYear}
           </span>
           {nav ? nav.right : null}
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
@@ -212,7 +212,7 @@ const QuillCouncilPage: React.FC = () => {
           The hands behind the <em className="not-italic text-oxblood dark:text-oxblood-bright">ink</em>
         </h1>
         <p className="font-display italic text-stone-500 dark:text-parchment/60 text-lg leading-relaxed">
-          "Meet the curators, scribes, and stewards who keep Poéthra breathing —
+          "Meet the curators, scribes, and stewards who keep Poéthra breathing -
           week after week, page after page."
         </p>
 
@@ -235,7 +235,7 @@ const QuillCouncilPage: React.FC = () => {
         </svg>
       </section>
 
-      {/* YEAR SELECTOR PILLS — Only shown when multiple years exist */}
+      {/* YEAR SELECTOR PILLS - Only shown when multiple years exist */}
       {availableYears.length > 1 && (
         <div className="w-full max-w-6xl px-4">
           <YearSelector
@@ -246,13 +246,13 @@ const QuillCouncilPage: React.FC = () => {
         </div>
       )}
 
-      {/* THE HELM — Changes per year */}
+      {/* THE HELM - Changes per year */}
       {renderSection('The Helm', leadership, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE FOUNDERS — Permanent, unaffected by year selector */}
+      {/* THE FOUNDERS - Permanent, unaffected by year selector */}
       {renderSection('The Founders', founders, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE DEPARTMENTS — Changes per year, with inline arrow nav */}
+      {/* THE DEPARTMENTS - Changes per year, with inline arrow nav */}
       {renderDepartmentsSection(departments, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4')}
     </div>
   );

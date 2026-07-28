@@ -1,4 +1,4 @@
-// teamHistory.ts — Maps each year to the people who held each role.
+// teamHistory.ts - Maps each year to the people who held each role.
 //
 // HOW TO ADD A NEW YEAR:
 //   1. Add any new people to data/people.ts first.
@@ -15,7 +15,7 @@
 //       { personId: 'bob',   termLabel: 'Second Half' },
 //     ],
 //   }
-//   — If there is only ONE entry for a role, termLabel is omitted from the card.
+//   - If there is only ONE entry for a role, termLabel is omitted from the card.
 
 import { PEOPLE, type Person } from './people';
 import { ROLES, type TeamCategory } from './roles';
@@ -34,7 +34,7 @@ export interface YearData {
 
 // The flat TeamMember shape that components consume (mirrors old team.ts shape)
 export interface TeamMember {
-  id: string;      // "{personId}_{roleId}_{termLabel?}" — unique per card
+  id: string;      // "{personId}_{roleId}_{termLabel?}" - unique per card
   name: string;
   role: string;    // Full label, e.g. "Marketing Head • First Half"
   description: string;
@@ -121,7 +121,7 @@ export function resolvePerson(identifier: string): Person | null {
     throw new Error(`Multiple people found with id '${identifier}'. Please use their exact UID instead to disambiguate.`);
   }
 
-  console.warn(`teamHistory: unknown person identifier "${identifier}" — add them to people.ts`);
+  console.warn(`teamHistory: unknown person identifier "${identifier}" - add them to people.ts`);
   return null;
 }
 
@@ -165,7 +165,7 @@ export function getTeamForYear(year: number): TeamMember[] {
   for (const [roleId, entries] of Object.entries(yearData.roles)) {
     const role = ROLES[roleId];
     if (!role) {
-      console.warn(`teamHistory: unknown roleId "${roleId}" — add it to roles.ts`);
+      console.warn(`teamHistory: unknown roleId "${roleId}" - add it to roles.ts`);
       continue;
     }
 

@@ -24,9 +24,12 @@ const Header: React.FC = () => {
                 </Link>
 
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center space-x-10">
+                <nav className="hidden md:flex items-center space-x-8 lg:space-x-10">
                     <NavLink to="/" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Home
+                    </NavLink>
+                    <NavLink to="/chronicles" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
+                        Chronicles
                     </NavLink>
                     <NavLink to="/leaderboard" className={({ isActive }) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : 'border-transparent'}`}>
                         Leaderboard
@@ -57,11 +60,11 @@ const Header: React.FC = () => {
                 </div>
             </div>
 
-            {/* Mobile Navigation Menu — CSS-driven transition for snappy feel */}
+            {/* Mobile Navigation Menu - CSS-driven transition for snappy feel */}
             <nav
                 className="md:hidden bg-parchment/95 dark:bg-ink/95 border-b border-oxblood/20 dark:border-parchment/20 backdrop-blur-xl absolute top-full left-0 right-0 overflow-hidden"
                 style={{
-                    maxHeight: isMenuOpen ? '240px' : '0px',
+                    maxHeight: isMenuOpen ? '300px' : '0px',
                     opacity: isMenuOpen ? 1 : 0,
                     transition: 'max-height 200ms ease, opacity 150ms ease',
                     pointerEvents: isMenuOpen ? 'auto' : 'none',
@@ -70,6 +73,9 @@ const Header: React.FC = () => {
                 <div className="flex flex-col items-center py-4 space-y-1 bg-parchment-texture">
                     <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
                         Home
+                    </NavLink>
+                    <NavLink to="/chronicles" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                        Chronicles
                     </NavLink>
                     <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
                         Leaderboard
@@ -86,4 +92,4 @@ const Header: React.FC = () => {
     );
 };
 
-export default Header;
+export default Header;
