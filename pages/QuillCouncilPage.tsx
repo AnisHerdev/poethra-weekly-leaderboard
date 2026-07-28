@@ -7,7 +7,7 @@ import {
 } from '../data/teamHistory';
 import TeamCard from '../components/TeamCard';
 
-// Small-caps section label flanked by hairlines — same pattern as
+// Small-caps section label flanked by hairlines - same pattern as
 // LeaderboardPage's "Hall of Fame" divider.
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="flex items-center gap-3 sm:gap-6">
@@ -66,7 +66,7 @@ interface YearArrowNavProps {
   onChange: (year: number) => void;
 }
 
-// Single chevron button — `flip` mirrors it horizontally for the left arrow
+// Single chevron button - `flip` mirrors it horizontally for the left arrow
 const ChevronBtn: React.FC<{
   onClick: () => void;
   disabled: boolean;
@@ -215,8 +215,8 @@ const QuillCouncilPage: React.FC = () => {
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-display font-black italic text-ink dark:text-parchment tracking-tighter uppercase">
           The hands behind the <em className="not-italic text-oxblood dark:text-oxblood-bright">ink</em>
         </h1>
-        <p className="font-display italic text-oxblood/80 dark:text-parchment/80 text-lg leading-relaxed">
-          "Meet the curators, scribes, and stewards who keep Poéthra breathing —
+        <p className="font-display italic text-stone-500 dark:text-parchment/60 text-lg leading-relaxed">
+          "Meet the curators, scribes, and stewards who keep Poéthra breathing -
           week after week, page after page."
         </p>
 
@@ -238,7 +238,7 @@ const QuillCouncilPage: React.FC = () => {
         </svg>
       </section>
 
-      {/* YEAR SELECTOR PILLS — Only shown when multiple years exist */}
+      {/* YEAR SELECTOR PILLS - Only shown when multiple years exist */}
       {availableYears.length > 1 && (
         <div className="w-full max-w-6xl px-4">
           <YearSelector
@@ -249,13 +249,13 @@ const QuillCouncilPage: React.FC = () => {
         </div>
       )}
 
-      {/* THE HELM — Changes per year */}
+      {/* THE HELM - Changes per year */}
       {renderSection('The Helm', leadership, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE FOUNDERS — Permanent, unaffected by year selector */}
+      {/* THE FOUNDERS - Permanent, unaffected by year selector */}
       {renderSection('The Founders', founders, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE DEPARTMENTS — Changes per year, with inline arrow nav */}
+      {/* THE DEPARTMENTS - Changes per year, with inline arrow nav */}
       {renderDepartmentsSection(departments, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4')}
 
       {/* THE GUIDING HANDS */}

@@ -112,7 +112,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, onClose, winner }) =>
                             
                             {/* Page Number-like detail */}
                                 <div className="mt-8 text-center text-[10px] font-sans text-stone-600 dark:text-parchment/50 uppercase tracking-widest opacity-70">
-                                Folio {new Date().getFullYear()}—II
+                                Folio {new Date().getFullYear()}-II
                             </div>
                         </div>
                     </div>

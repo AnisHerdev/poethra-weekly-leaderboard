@@ -86,7 +86,7 @@ const WinnersPage: React.FC = () => {
                             <div className="text-center flex-1 md:min-w-[200px]">
                                 <p className="text-[10px] uppercase tracking-[0.3em] text-oxblood dark:text-oxblood-bright font-black mb-1">Weekly Chronicle</p>
                                 <h2 className="font-display text-base md:text-2xl font-bold text-ink dark:text-parchment">
-                                    Week {currentResult.weekNumber} <span className="text-stone-400 dark:text-parchment/50 italic font-medium">— {currentResult.semester} {currentResult.year}</span>
+                                    Week {currentResult.weekNumber} <span className="text-stone-400 dark:text-parchment/50 italic font-medium">- {currentResult.semester} {currentResult.year}</span>
                                 </h2>
                             </div>
 
@@ -103,7 +103,7 @@ const WinnersPage: React.FC = () => {
                         {/* The Shelf of Champions */}
                         {/* Mobile: vertical stacked list. Desktop: side-by-side shelf */}
                         
-                        {/* MOBILE LAYOUT — stacked book cards */}
+                        {/* MOBILE LAYOUT - stacked book cards */}
                         <div className="flex flex-col gap-4 w-full md:hidden">
                             {[
                                 { winner: currentResult.winners.first, rank: 1 },
@@ -135,7 +135,7 @@ const WinnersPage: React.FC = () => {
                             })}
                         </div>
 
-                        {/* DESKTOP LAYOUT — shelf with 3D books */}
+                        {/* DESKTOP LAYOUT - shelf with 3D books */}
                         <div className="hidden md:block relative w-full aspect-[21/9] bg-ink-light/30 dark:bg-ink-light/70 rounded-[40px] border border-oxblood/5 dark:border-parchment/5 bg-parchment-texture overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-t from-oxblood/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                             

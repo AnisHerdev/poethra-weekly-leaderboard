@@ -1,5 +1,5 @@
 """
-generate_uids.py — Quick utility to generate unique IDs for new people
+generate_uids.py - Quick utility to generate unique IDs for new people
 in data/people.ts.
 
 Usage:

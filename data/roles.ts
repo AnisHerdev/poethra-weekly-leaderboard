@@ -1,9 +1,9 @@
-// roles.ts — Defines every role/position that exists or has existed in
+// roles.ts - Defines every role/position that exists or has existed in
 // Poéthra. The `description` here is the canonical description for the
-// *role itself* — it remains consistent regardless of who holds it.
+// *role itself* - it remains consistent regardless of who holds it.
 //
-// `id`       — Stable slug used to reference this role in teamHistory.ts.
-// `category` — Controls which section of the Quill Council page the card
+// `id`       - Stable slug used to reference this role in teamHistory.ts.
+// `category` - Controls which section of the Quill Council page the card
 //              renders in.
 
 export type TeamCategory = 'current-leadership' | 'founders' | 'department' | 'advisors';

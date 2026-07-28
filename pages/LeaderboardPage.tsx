@@ -6,17 +6,17 @@ import { FireIcon } from '../components/icons/SocialIcons';
 const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({ participant, rank }) => {
     const isTopThree = rank <= 3;
 
-    // Full-bleed row backgrounds for podium — warm editorial palette
+    // Full-bleed row backgrounds for podium - warm editorial palette
     const topThreeRowBg = [
-        // 1st — Manuscript Gold: aged amber wash
+        // 1st - Manuscript Gold: aged amber wash
         'bg-amber-50 dark:bg-amber-950/40 border border-amber-200/70 dark:border-amber-700/30 shadow-md shadow-amber-100/60 dark:shadow-amber-900/30',
-        // 2nd — Quill Silver: cool parchment-stone
+        // 2nd - Quill Silver: cool parchment-stone
         'bg-stone-100 dark:bg-ink-light/40 border border-stone-200/70 dark:border-parchment/15 shadow-sm shadow-stone-100/60 dark:shadow-none',
-        // 3rd — Worn Bronze: sienna earth
+        // 3rd - Worn Bronze: sienna earth
         'bg-orange-50 dark:bg-orange-950/30 border border-orange-200/60 dark:border-orange-800/30 shadow-sm shadow-orange-100/50 dark:shadow-orange-900/20',
     ];
 
-    // Rank circle colors — kept distinct from old oxblood defaults
+    // Rank circle colors - kept distinct from old oxblood defaults
     const rankCircleStyles = [
         'bg-amber-500 text-white shadow-lg shadow-amber-400/40 ring-2 ring-amber-300/50 dark:ring-amber-600/40',
         'bg-stone-400 text-white shadow-md shadow-stone-400/30 ring-2 ring-stone-300/50 dark:ring-stone-500/40',
@@ -187,7 +187,7 @@ const LeaderboardPage: React.FC = () => {
                 )}
             </div>
 
-            {/* LEADERBOARD LIST — directly below search */}
+            {/* LEADERBOARD LIST - directly below search */}
             <div className="w-full max-w-5xl px-1 flex flex-col gap-2">
                 {loading ? (
                     <div className="text-center p-20 opacity-50 italic font-display text-2xl animate-pulse">
@@ -205,7 +205,7 @@ const LeaderboardPage: React.FC = () => {
                 )}
             </div>
 
-            {/* HALL OF FAME — secondary, at the bottom, hidden during search */}
+            {/* HALL OF FAME - secondary, at the bottom, hidden during search */}
             {allParticipants.length > 0 && !searchTerm && (
                 <div className="w-full max-w-6xl px-4 space-y-8 pb-4">
                     <div className="flex items-center gap-6">
