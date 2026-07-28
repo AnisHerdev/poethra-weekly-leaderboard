@@ -4,12 +4,12 @@ import type { TeamMember } from '../data/teamHistory';
 interface TeamCardProps {
   member: TeamMember;
   size: 'leadership' | 'department';
-  /** Stagger index for entrance animation — resets per section on the page. */
+  /** Stagger index for entrance animation - resets per section on the page. */
   index: number;
 }
 
 const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
-  // First letter of the first name — used as the monogram character.
+  // First letter of the first name - used as the monogram character.
   const monogram = member.name.trim().charAt(0).toUpperCase();
 
   // Leadership gets a taller portrait stage; department cards are more compact
@@ -63,7 +63,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
           </div>
         )}
 
-        {/* Subtle oxblood baseline — the museum plinth the figure stands on */}
+        {/* Subtle oxblood baseline - the museum plinth the figure stands on */}
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 h-px w-8 bg-oxblood/30 dark:bg-parchment/30" />
       </div>
 
@@ -85,7 +85,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
         <div className="mt-3 mb-3 h-px w-8 bg-oxblood/20 dark:bg-parchment/20" />
 
         {/* Description */}
-        <p className="font-display italic text-stone-600 dark:text-parchment/70 text-sm leading-relaxed max-w-[28ch]">
+        <p className="font-display italic text-oxblood/80 dark:text-parchment/80 text-sm leading-relaxed max-w-[28ch]">
           {member.description}
         </p>
       </div>

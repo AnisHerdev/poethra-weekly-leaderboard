@@ -7,14 +7,14 @@ import {
 } from '../data/teamHistory';
 import TeamCard from '../components/TeamCard';
 
-// Small-caps section label flanked by hairlines — same pattern as
+// Small-caps section label flanked by hairlines - same pattern as
 // LeaderboardPage's "Hall of Fame" divider.
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="flex items-center gap-6">
+  <div className="flex items-center gap-3 sm:gap-6">
     <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
-    <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap">
+    <h2 className="text-[10px] font-sans uppercase tracking-widest sm:tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
       {children}
-    </span>
+    </h2>
     <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
   </div>
 );
@@ -31,7 +31,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
 
   return (
     <div className="flex items-center gap-3 flex-wrap justify-center">
-      <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/50 dark:text-parchment/40 font-black">
+      <span className="text-[10px] font-sans uppercase tracking-widest sm:tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black">
         Year
       </span>
       <div className="flex items-center gap-2 flex-wrap justify-center">
@@ -42,11 +42,12 @@ const YearSelector: React.FC<YearSelectorProps> = ({ years, selected, onChange }
               key={year}
               id={`year-selector-${year}`}
               onClick={() => onChange(year)}
-              className={`px-4 py-1.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest
-                          border transition-all duration-300
+              aria-current={isActive ? 'page' : undefined}
+              className={`px-5 py-2.5 sm:px-4 sm:py-1.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest
+                          border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood/50 dark:focus-visible:ring-parchment/50
                           ${isActive
                             ? 'bg-oxblood text-lamplight border-oxblood shadow-md shadow-oxblood/30'
-                            : 'bg-transparent text-oxblood dark:text-parchment/60 border-oxblood/20 dark:border-parchment/20 hover:border-oxblood/60 dark:hover:border-parchment/40 hover:text-oxblood dark:hover:text-parchment'
+                            : 'bg-transparent text-oxblood dark:text-parchment/70 border-oxblood/30 dark:border-parchment/30 hover:border-oxblood/70 dark:hover:border-parchment/50 hover:text-oxblood dark:hover:text-parchment'
                           }`}
             >
               {year}
@@ -65,7 +66,7 @@ interface YearArrowNavProps {
   onChange: (year: number) => void;
 }
 
-// Single chevron button — `flip` mirrors it horizontally for the left arrow
+// Single chevron button - `flip` mirrors it horizontally for the left arrow
 const ChevronBtn: React.FC<{
   onClick: () => void;
   disabled: boolean;
@@ -79,21 +80,20 @@ const ChevronBtn: React.FC<{
     disabled={disabled}
     title={title}
     aria-label={title}
-    className={`flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-full border
-                transition-all duration-300
+    className={`flex-shrink-0 flex items-center justify-center w-9 h-9 sm:w-7 sm:h-7 rounded-full border
+                transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood/50 dark:focus-visible:ring-parchment/50
                 ${disabled
-                  ? 'border-oxblood/10 dark:border-parchment/10 text-oxblood/20 dark:text-parchment/20 cursor-not-allowed'
-                  : 'border-oxblood/30 dark:border-parchment/20 text-oxblood dark:text-parchment/60 hover:border-oxblood dark:hover:border-parchment/50 hover:bg-oxblood/5 dark:hover:bg-parchment/5'
+                  ? 'border-oxblood/20 dark:border-parchment/20 text-oxblood/40 dark:text-parchment/40 cursor-not-allowed'
+                  : 'border-oxblood/40 dark:border-parchment/30 text-oxblood dark:text-parchment/70 hover:border-oxblood dark:hover:border-parchment/60 hover:bg-oxblood/5 dark:hover:bg-parchment/5'
                 }`}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-3.5 h-3.5"
+      className={`w-3.5 h-3.5 transition-transform duration-300 ${flip ? '-scale-x-100' : ''}`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth={2.5}
-      style={flip ? { transform: 'scaleX(-1)' } : undefined}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
     </svg>
@@ -147,6 +147,10 @@ const QuillCouncilPage: React.FC = () => {
     () => yearTeam.filter((m) => m.category === 'department'),
     [yearTeam]
   );
+  const advisors = useMemo(
+    () => yearTeam.filter((m) => m.category === 'advisors'),
+    [yearTeam]
+  );
 
   const renderSection = (
     title: string,
@@ -177,12 +181,12 @@ const QuillCouncilPage: React.FC = () => {
     return (
       <section className="w-full max-w-6xl px-4 space-y-8">
         {/* Label row: hairline — [←] DEPARTMENTS — YEAR [→] — hairline */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
           {nav ? nav.left : null}
-          <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap">
+          <h2 className="text-[10px] font-sans uppercase tracking-widest sm:tracking-[0.4em] text-oxblood/70 dark:text-parchment/70 font-black whitespace-nowrap m-0">
             The Departments — {selectedYear}
-          </span>
+          </h2>
           {nav ? nav.right : null}
           <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10" />
         </div>
@@ -202,17 +206,17 @@ const QuillCouncilPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-16 py-10 md:py-16 items-center">
+    <div className="flex flex-col gap-10 sm:gap-16 py-8 sm:py-10 md:py-16 items-center">
       {/* HERO */}
-      <section className="text-center space-y-6 max-w-3xl px-6 animate-fade-in-up">
-        <span className="text-xs font-sans uppercase tracking-[0.5em] text-oxblood dark:text-oxblood-bright font-black opacity-80">
+      <section className="text-center space-y-4 sm:space-y-6 max-w-3xl px-6 animate-fade-in-up">
+        <span className="text-xs font-sans uppercase tracking-widest sm:tracking-[0.5em] text-oxblood dark:text-oxblood-bright font-black opacity-80">
           The Quill Council
         </span>
-        <h1 className="text-5xl md:text-7xl font-display font-black italic text-ink dark:text-parchment tracking-tighter uppercase">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-display font-black italic text-ink dark:text-parchment tracking-tighter uppercase">
           The hands behind the <em className="not-italic text-oxblood dark:text-oxblood-bright">ink</em>
         </h1>
         <p className="font-display italic text-stone-500 dark:text-parchment/60 text-lg leading-relaxed">
-          "Meet the curators, scribes, and stewards who keep Poéthra breathing —
+          "Meet the curators, scribes, and stewards who keep Poéthra breathing -
           week after week, page after page."
         </p>
 
@@ -227,15 +231,14 @@ const QuillCouncilPage: React.FC = () => {
             y1="3"
             x2="600"
             y2="3"
-            stroke="#6B1C2A"
+            className="stroke-oxblood/60 dark:stroke-oxblood-bright/60"
             strokeWidth="1"
             strokeLinecap="round"
-            opacity="0.6"
           />
         </svg>
       </section>
 
-      {/* YEAR SELECTOR PILLS — Only shown when multiple years exist */}
+      {/* YEAR SELECTOR PILLS - Only shown when multiple years exist */}
       {availableYears.length > 1 && (
         <div className="w-full max-w-6xl px-4">
           <YearSelector
@@ -246,14 +249,17 @@ const QuillCouncilPage: React.FC = () => {
         </div>
       )}
 
-      {/* THE HELM — Changes per year */}
+      {/* THE HELM - Changes per year */}
       {renderSection('The Helm', leadership, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE FOUNDERS — Permanent, unaffected by year selector */}
+      {/* THE FOUNDERS - Permanent, unaffected by year selector */}
       {renderSection('The Founders', founders, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
 
-      {/* THE DEPARTMENTS — Changes per year, with inline arrow nav */}
+      {/* THE DEPARTMENTS - Changes per year, with inline arrow nav */}
       {renderDepartmentsSection(departments, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4')}
+
+      {/* THE GUIDING HANDS */}
+      {advisors.length > 0 && renderSection('The Guiding Hands', advisors, 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto')}
     </div>
   );
 };

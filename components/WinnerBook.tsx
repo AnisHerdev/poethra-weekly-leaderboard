@@ -48,10 +48,10 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
                     {mobileMode ? (
                         /* ── Mobile cover: medal + title only, title is the hero ── */
                         <div className="flex flex-col items-center justify-between h-full w-full px-1 py-2 relative z-10">
-                            {/* Medal — top anchor */}
+                            {/* Medal - top anchor */}
                             <span className="text-2xl drop-shadow-lg">{medal}</span>
 
-                            {/* Entry title — dominant book-cover element */}
+                            {/* Entry title - dominant book-cover element */}
                             <div className="flex-1 flex items-center justify-center w-full py-3">
                                 <p
                                     className="text-center text-parchment leading-snug px-1"
@@ -73,7 +73,7 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
                             <div className="h-px w-10 bg-parchment/25 mx-auto" />
                         </div>
                     ) : (
-                        /* ── Desktop cover: original layout — untouched ── */
+                        /* ── Desktop cover: original layout - untouched ── */
                         <>
                             <div className="text-center relative z-10 flex flex-col items-center gap-2">
                                 <span className="text-3xl sm:text-4xl drop-shadow-lg">{medal}</span>

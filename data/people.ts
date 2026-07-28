@@ -1,9 +1,9 @@
-// people.ts — Single source of truth for every individual who has ever been
+// people.ts - Single source of truth for every individual who has ever been
 // part of Poéthra. Define each person ONCE here.
 //
-// `id`   — Human-readable slug, e.g. 'suman-br'. Used to reference this
+// `id`   - Human-readable slug, e.g. 'suman-br'. Used to reference this
 //           person in teamHistory.ts. Try to keep it stable forever.
-// `uid`  — Opaque unique identifier. Guarantees uniqueness even if two
+// `uid`  - Opaque unique identifier. Guarantees uniqueness even if two
 //           people share the same name in the future. Generate new UIDs
 //           with: python scripts/generate_uids.py
 //
@@ -55,6 +55,9 @@ export const PEOPLE: Record<string, Person> = {
     id: 'aditya-p-dixit',
     uid: '5e6f7a8b',
     name: 'Aditya P Dixit',
+    imageUrl: '/aditya-p-dixit.png',
+    imageSizePercent: 145,
+    imagePushDownPercent: 35,
   },
   '2c3d4e5f': {
     id: 'likitha-nanaiah',
@@ -75,5 +78,20 @@ export const PEOPLE: Record<string, Person> = {
     id: 'sanjana-kulkarni',
     uid: '3d4e5f6a',
     name: 'Sanjana Kulkarni',
+  },
+  'a1b2c3d4': {
+    id: 'sri-lakshmi',
+    uid: 'a1b2c3d4',
+    name: 'Sri Lakshmi',
+  },
+  'f7e8d9c0': {
+    id: 'meenakshi-prabhu',
+    uid: 'f7e8d9c0',
+    name: 'Meenakshi Prabhu',
+  },
+  'ca0a8b64': {
+    id: 'grahathya-dharani-dhar',
+    uid: 'ca0a8b64',
+    name: 'Grahathya Dharani Dhar',
   },
 };

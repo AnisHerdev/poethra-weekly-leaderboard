@@ -1,12 +1,12 @@
-// roles.ts — Defines every role/position that exists or has existed in
+// roles.ts - Defines every role/position that exists or has existed in
 // Poéthra. The `description` here is the canonical description for the
-// *role itself* — it remains consistent regardless of who holds it.
+// *role itself* - it remains consistent regardless of who holds it.
 //
-// `id`       — Stable slug used to reference this role in teamHistory.ts.
-// `category` — Controls which section of the Quill Council page the card
+// `id`       - Stable slug used to reference this role in teamHistory.ts.
+// `category` - Controls which section of the Quill Council page the card
 //              renders in.
 
-export type TeamCategory = 'current-leadership' | 'founders' | 'department';
+export type TeamCategory = 'current-leadership' | 'founders' | 'department' | 'advisors';
 
 export interface Role {
   id: string;
@@ -92,5 +92,25 @@ export const ROLES: Record<string, Role> = {
     title: 'Logistics',
     description: 'Keeps the wheels turning behind the curtain.',
     category: 'department',
+  },
+  'pr-and-outreach': {
+    id: 'pr-and-outreach',
+    title: 'PR & Outreach',
+    description: 'Forges alliances where the ink meets the world.',
+    category: 'department',
+  },
+
+  // ── Advisors ────────────────────────────────────────────────
+  'faculty-coordinator': {
+    id: 'faculty-coordinator',
+    title: 'Faculty Coordinator',
+    description: 'Bridges the council and the college, clearing the path so the ink may flow.',
+    category: 'advisors',
+  },
+  'student-advisor': {
+    id: 'student-advisor',
+    title: 'Student Advisor',
+    description: 'A steady compass in the dark, offering counsel whenever the path grows unclear.',
+    category: 'advisors',
   },
 };

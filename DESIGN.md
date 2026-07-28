@@ -40,7 +40,7 @@ components:
 
 **Creative North Star: "The Indie Bookstore Archive"**
 
-Intimate, grounded, and tactile, evoking a sense of history and warmth. It explicitly rejects the coldness of SaaS and the loudness of gaming dashboards. The design feels like a safe, curated space—an indie bookstore or a literary magazine. It prioritizes feeling, nostalgia, and a handmade physical feel over aggressive metric displays.
+Intimate, grounded, and tactile, evoking a sense of history and warmth. It explicitly rejects the coldness of SaaS and the loudness of gaming dashboards. The design feels like a safe, curated space-an indie bookstore or a literary magazine. It prioritizes feeling, nostalgia, and a handmade physical feel over aggressive metric displays.
 
 **Key Characteristics:**
 - Warm, tactile, and nostalgic

@@ -45,3 +45,15 @@ export interface WeeklyResult {
     updatedAt?: string; // ISO 8601 timestamp
     timestamp?: any;
 }
+
+export interface ClubEvent {
+    id: string;
+    title: string;
+    subtitle: string;
+    date: string;
+    description: string;
+    imageUrl: string;
+    imageCaption?: string;
+    youtubeUrl?: string;
+    tiltAngle?: number;
+}
