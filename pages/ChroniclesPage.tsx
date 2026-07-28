@@ -28,11 +28,11 @@ const ChroniclesPage: React.FC = () => {
         <span className="text-xs font-sans uppercase tracking-[0.5em] text-oxblood dark:text-oxblood-bright font-black opacity-80">
           The Archives
         </span>
-        <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
+        <h1 className="text-5xl md:text-8xl font-display font-black text-ink dark:text-parchment tracking-tighter italic uppercase">
           The Event Chronicles
         </h1>
-        <p className="text-stone-600 dark:text-parchment/70 italic text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-          "A visual scrapbook of our university launches, literary fair stalls, film screenings, and member gatherings-captured in Polaroid snapshots and memory."
+        <p className="font-display italic text-stone-500 dark:text-parchment/60 text-lg leading-relaxed">
+          "A visual scrapbook of our university launches, literary fair stalls, film screenings, and member gatherings—captured in Polaroid snapshots and memory."
         </p>
       </section>
 
