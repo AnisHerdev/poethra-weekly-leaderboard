@@ -67,6 +67,9 @@ export const TEAM_HISTORY: YearData[] = [
       'content-curator': [{ personId: 'suisha' }],
       'performance-head': [{ personId: 'tanmay', termLabel: 'First Half' }],
       'logistics': [{ personId: 'sanjana-kulkarni', termLabel: 'First Half' }],
+      'pr-and-outreach': [{ personId: 'grahathya-dharani-dhar' }],
+      'faculty-coordinator': [{ personId: 'sri-lakshmi', termLabel: 'First Half' }],
+      'student-advisor': [{ personId: 'meenakshi-prabhu' }],
     },
   },
   {
@@ -82,6 +85,9 @@ export const TEAM_HISTORY: YearData[] = [
       'content-curator': [{ personId: 'suisha' }],
       'performance-head': [{ personId: 'tanmay' }],
       'logistics': [{ personId: 'sanjana-kulkarni' }],
+      'pr-and-outreach': [{ personId: 'grahathya-dharani-dhar' }],
+      'faculty-coordinator': [{ personId: 'sri-lakshmi' }],
+      'student-advisor': [{ personId: 'meenakshi-prabhu' }],
     },
   },
   // ── Add past years below as needed ───────────────────────────────────────

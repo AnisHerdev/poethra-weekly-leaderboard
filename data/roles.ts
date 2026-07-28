@@ -6,7 +6,7 @@
 // `category` - Controls which section of the Quill Council page the card
 //              renders in.
 
-export type TeamCategory = 'current-leadership' | 'founders' | 'department';
+export type TeamCategory = 'current-leadership' | 'founders' | 'department' | 'advisors';
 
 export interface Role {
   id: string;
@@ -92,5 +92,25 @@ export const ROLES: Record<string, Role> = {
     title: 'Logistics',
     description: 'Keeps the wheels turning behind the curtain.',
     category: 'department',
+  },
+  'pr-and-outreach': {
+    id: 'pr-and-outreach',
+    title: 'PR & Outreach',
+    description: 'Forges alliances where the ink meets the world.',
+    category: 'department',
+  },
+
+  // ── Advisors ────────────────────────────────────────────────
+  'faculty-coordinator': {
+    id: 'faculty-coordinator',
+    title: 'Faculty Coordinator',
+    description: 'Bridges the council and the college, clearing the path so the ink may flow.',
+    category: 'advisors',
+  },
+  'student-advisor': {
+    id: 'student-advisor',
+    title: 'Student Advisor',
+    description: 'A steady compass in the dark, offering counsel whenever the path grows unclear.',
+    category: 'advisors',
   },
 };

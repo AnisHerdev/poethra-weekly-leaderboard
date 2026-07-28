@@ -55,6 +55,9 @@ export const PEOPLE: Record<string, Person> = {
     id: 'aditya-p-dixit',
     uid: '5e6f7a8b',
     name: 'Aditya P Dixit',
+    imageUrl: '/aditya-p-dixit.png',
+    imageSizePercent: 145,
+    imagePushDownPercent: 35,
   },
   '2c3d4e5f': {
     id: 'likitha-nanaiah',
@@ -75,5 +78,20 @@ export const PEOPLE: Record<string, Person> = {
     id: 'sanjana-kulkarni',
     uid: '3d4e5f6a',
     name: 'Sanjana Kulkarni',
+  },
+  'a1b2c3d4': {
+    id: 'sri-lakshmi',
+    uid: 'a1b2c3d4',
+    name: 'Sri Lakshmi',
+  },
+  'f7e8d9c0': {
+    id: 'meenakshi-prabhu',
+    uid: 'f7e8d9c0',
+    name: 'Meenakshi Prabhu',
+  },
+  'ca0a8b64': {
+    id: 'grahathya-dharani-dhar',
+    uid: 'ca0a8b64',
+    name: 'Grahathya Dharani Dhar',
   },
 };
