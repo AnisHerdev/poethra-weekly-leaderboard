@@ -32,7 +32,7 @@ const ChroniclesPage: React.FC = () => {
           The Event Chronicles
         </h1>
         <p className="font-display italic text-stone-500 dark:text-parchment/60 text-lg leading-relaxed">
-          "A visual scrapbook of our university launches, literary fair stalls, film screenings, and member gatherings—captured in Polaroid snapshots and memory."
+          "A visual scrapbook of our university launches, literary fair stalls, film screenings, and member gatherings-captured in Polaroid snapshots and memory."
         </p>
       </section>
 

@@ -18,7 +18,7 @@ export const CLUB_EVENTS: ClubEvent[] = [
     subtitle: 'First Internal Club Event for Members',
     date: 'October 2025',
     description: 'Following the formal opening of college, Poéthra hosted its first internal event - an icebreaker session designed to help new and existing members get comfortable with one another in a relaxed, fun setting.',
-    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop', // Placeholder image - replace with actual photo
+    imageUrl: '/events/icebreaker-session.jpg', // Placeholder image - replace with actual photo
     imageCaption: 'Interactive Emoji Quiz & Member Introductions',
     youtubeUrl: '',
     tiltAngle: 1.8,
@@ -29,7 +29,7 @@ export const CLUB_EVENTS: ClubEvent[] = [
     subtitle: 'Brigade Foundation Collaboration',
     date: 'November 2025',
     description: 'Poéthra partnered with the RV University Library and the Brigade Foundation to co-host a Book Fair that brought several publication houses to campus, featuring structured publication stalls and custom design elements.',
-    imageUrl: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=800&auto=format&fit=crop', // Placeholder image - replace with actual photo
+    imageUrl: '/events/library-book-fair.jpg', // Placeholder image - replace with actual photo
     imageCaption: 'Campus Book Fair & World Map Stall Layout',
     youtubeUrl: '',
     tiltAngle: -1.2,
@@ -49,9 +49,9 @@ export const CLUB_EVENTS: ClubEvent[] = [
     id: 'dead-poets-society-screening',
     title: 'Dead Poets Society',
     subtitle: 'Club Movie Screening Night',
-    date: 'January 2026',
+    date: 'March 2026',
     description: 'Poéthra organised a screening of the iconic film Dead Poets Society for our members - an event that aligned closely with the club\'s literary identity and values.',
-    imageUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=800&auto=format&fit=crop', // Placeholder image - replace with actual photo
+    imageUrl: '/events/dead-poets-society-screening.jpg', // Placeholder image - replace with actual photo
     imageCaption: 'Movie Night & Member Gathering',
     youtubeUrl: '',
     tiltAngle: -2.0,
