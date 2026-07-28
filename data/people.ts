@@ -93,5 +93,8 @@ export const PEOPLE: Record<string, Person> = {
     id: 'grahathya-dharani-dhar',
     uid: 'ca0a8b64',
     name: 'Grahathya Dharani Dhar',
+    imageUrl: '/grahathya-dharani-dhar.png',
+    imageSizePercent: 145,
+    imagePushDownPercent: 32,
   },
 };

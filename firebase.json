@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "leaderboard",
     "public": "dist",
     "ignore": [
       "firebase.json",
