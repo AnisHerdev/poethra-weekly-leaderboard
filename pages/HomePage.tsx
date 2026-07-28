@@ -171,8 +171,8 @@ const HomePage: React.FC = () => {
                     fetchpriority="high"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-8 md:p-12">
-                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black text-parchment leading-tight tracking-tighter italic uppercase animate-fade-in-up">
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-6 md:p-12">
+                    <h1 className="text-[clamp(2.25rem,5vw,4.25rem)] font-display font-black text-parchment leading-[1.1] tracking-tighter italic uppercase animate-fade-in-up">
                         Words find <br/> their wings.
                     </h1>
                 </div>
@@ -180,9 +180,9 @@ const HomePage: React.FC = () => {
             </div>
 
             {/* INFO SECTION */}
-            <div className="w-full max-w-4xl grid md:grid-cols-2 gap-12 items-center px-6">
+            <div className="w-full max-w-4xl grid md:grid-cols-2 gap-8 md:gap-12 items-center px-4 sm:px-6">
                 <div className="space-y-6">
-                    <h2 className="text-3xl md:text-4xl font-display font-bold text-ink dark:text-parchment leading-tight">
+                    <h2 className="text-[clamp(1.5rem,3.5vw,2.25rem)] font-display font-bold text-ink dark:text-parchment leading-tight">
                         The Heart of Our <br/> <span className="text-oxblood">Creative Writing</span> Community.
                     </h2>
                     <p className="text-stone-600 dark:text-parchment/70 text-lg leading-relaxed italic">
@@ -190,7 +190,7 @@ const HomePage: React.FC = () => {
                     </p>
                 </div>
 
-                <div className="bg-parchment-dark/50 dark:bg-ink-light/70 p-8 rounded-xl border border-oxblood/10 dark:border-parchment/10 shadow-xl relative overflow-hidden group">
+                <div className="bg-parchment-dark/50 dark:bg-ink-light/70 p-5 sm:p-8 rounded-xl border border-oxblood/10 dark:border-parchment/10 shadow-xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-oxblood/5 rounded-full -translate-y-16 translate-x-16 blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
                     
                     <h3 className="text-xl font-display font-bold text-oxblood dark:text-parchment mb-4 uppercase tracking-widest">The Weekly Ledger</h3>
@@ -208,8 +208,8 @@ const HomePage: React.FC = () => {
 
             {/* LATEST EVENT SPOTLIGHT SECTION */}
             {latestEvent && (
-                <div className="w-full max-w-5xl px-6 my-4">
-                    <div className="bg-parchment-dark/40 dark:bg-ink-light/40 rounded-3xl border border-oxblood/15 dark:border-parchment/15 p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div className="w-full max-w-5xl px-4 sm:px-6 my-2 sm:my-4">
+                    <div className="bg-parchment-dark/40 dark:bg-ink-light/40 rounded-2xl sm:rounded-3xl border border-oxblood/15 dark:border-parchment/15 p-5 sm:p-8 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-6 sm:gap-8 md:gap-12">
                         {/* Polaroid Spotlight Image */}
                         <div className="w-full md:w-1/2 flex justify-center">
                             <PolaroidCard 
@@ -220,18 +220,18 @@ const HomePage: React.FC = () => {
                         </div>
 
                         {/* Event Info Callout */}
-                        <div className="w-full md:w-1/2 space-y-5 text-left">
+                        <div className="w-full md:w-1/2 space-y-4 sm:space-y-5 text-left">
                             <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood dark:text-oxblood-bright font-black">
                                 Latest Event Spotlight • {latestEvent.date}
                             </span>
-                            <h2 className="text-3xl sm:text-4xl font-display font-bold text-ink dark:text-parchment leading-tight">
+                            <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-display font-bold text-ink dark:text-parchment leading-tight">
                                 {latestEvent.title}
                             </h2>
                             <p className="text-stone-600 dark:text-parchment/70 italic text-base leading-relaxed line-clamp-4">
                                 "{latestEvent.description}"
                             </p>
 
-                            <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                            <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
                                 <button
                                     onClick={() => handleOpenModal(latestEvent)}
                                     className="bg-oxblood dark:bg-parchment text-parchment dark:text-ink font-bold py-3 px-6 rounded-lg text-xs uppercase tracking-widest hover:bg-black dark:hover:bg-white transition-all duration-300 shadow-md"
