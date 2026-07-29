@@ -73,13 +73,6 @@ const PolaroidCard: React.FC<PolaroidCardProps> = ({ event, onClick, featured = 
           {event.imageCaption || event.subtitle}
         </p>
       </div>
-
-      {/* Click Hint Bar */}
-      <div className="mt-2 pt-2 border-t border-oxblood/10 dark:border-parchment/10 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-oxblood dark:text-oxblood-bright">
-          Click to Open Chronicle &rarr;
-        </span>
-      </div>
     </div>
   );
 };

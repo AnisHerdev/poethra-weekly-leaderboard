@@ -61,7 +61,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose }) => {
           <div className="flex items-center gap-2 mb-1">
             <span className="inline-block w-2 h-2 rounded-full bg-oxblood dark:bg-lamplight" />
             <span className="text-[10px] font-sans uppercase tracking-[0.4em] text-oxblood dark:text-oxblood-bright font-black">
-              Official Archive Entry • {event.date}
+              Archive Entry • {event.date}
             </span>
           </div>
           <h2 id="modal-event-title" className="text-3xl sm:text-4xl font-display font-bold text-ink dark:text-parchment tracking-tight">
@@ -104,7 +104,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose }) => {
           <div className="md:col-span-7 space-y-6">
             <div className="bg-parchment-dark/20 dark:bg-ink-light/30 p-5 rounded-xl border border-oxblood/10 dark:border-parchment/10">
               <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-oxblood dark:text-oxblood-bright font-black mb-2 flex items-center gap-1.5">
-                <span>✦</span> Chronicle Account
+                <span>✦</span> About the Event
               </h3>
               <p className="text-sm sm:text-base leading-relaxed italic text-stone-800 dark:text-parchment/90 font-display">
                 "{event.description}"
