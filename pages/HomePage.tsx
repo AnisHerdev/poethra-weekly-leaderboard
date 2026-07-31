@@ -179,6 +179,203 @@ const HomePage: React.FC = () => {
 
             </div>
 
+            {/* SECTION 1: THE MANIFESTO - "Why Poéthra Exists" */}
+            <section className="w-full max-w-5xl px-4 sm:px-6 space-y-8 animate-fade-in-up">
+                <div className="text-center space-y-3 max-w-2xl mx-auto">
+                    <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-display font-bold text-ink dark:text-parchment leading-tight">
+                        Why Poéthra Exists
+                    </h2>
+                    <p className="text-stone-600 dark:text-parchment/70 text-base sm:text-lg leading-relaxed italic max-w-xl mx-auto">
+                        Rooted in Constitution §4(1) — a sanctuary for original verse, aesthetic thought, and creative expression.
+                    </p>
+                </div>
+
+                {/* 3 Letterpress Vellum Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    {/* Card 1: Cultivate */}
+                    <div className="bg-parchment-dark/30 dark:bg-ink-light/40 border border-oxblood/15 dark:border-parchment/15 p-6 sm:p-7 rounded-xl shadow-md hover:shadow-[0_8px_24px_rgba(107,28,42,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 relative group">
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <span className="w-9 h-9 rounded-full bg-oxblood text-parchment font-display font-bold text-sm tracking-wider flex items-center justify-center shadow-sm">
+                                    I
+                                </span>
+                                <span className="text-[10px] font-sans uppercase tracking-[0.25em] text-oxblood/60 dark:text-parchment/50 font-bold">
+                                    Pillar I
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-display font-bold text-ink dark:text-parchment pt-1">
+                                Cultivate
+                            </h3>
+                            <p className="text-stone-600 dark:text-parchment/75 text-sm sm:text-base leading-relaxed">
+                                A nurturing space for aesthetic thought and storytelling, cultivating new writers and encouraging original poets to emerge.
+                            </p>
+                        </div>
+                        <div className="pt-2 border-t border-oxblood/10 dark:border-parchment/10 text-xs font-sans italic text-stone-500 dark:text-parchment/50">
+                            Constitution §4(1) • Aesthetic Space
+                        </div>
+                    </div>
+
+                    {/* Card 2: Perform */}
+                    <div className="bg-parchment-dark/30 dark:bg-ink-light/40 border border-oxblood/15 dark:border-parchment/15 p-6 sm:p-7 rounded-xl shadow-md hover:shadow-[0_8px_24px_rgba(107,28,42,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 relative group">
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <span className="w-9 h-9 rounded-full bg-oxblood text-parchment font-display font-bold text-sm tracking-wider flex items-center justify-center shadow-sm">
+                                    II
+                                </span>
+                                <span className="text-[10px] font-sans uppercase tracking-[0.25em] text-oxblood/60 dark:text-parchment/50 font-bold">
+                                    Pillar II
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-display font-bold text-ink dark:text-parchment pt-1">
+                                Perform
+                            </h3>
+                            <p className="text-stone-600 dark:text-parchment/75 text-sm sm:text-base leading-relaxed">
+                                Curated performances, creative writing sessions, lyricism, and spoken word forums that give living voice to poetic art.
+                            </p>
+                        </div>
+                        <div className="pt-2 border-t border-oxblood/10 dark:border-parchment/10 text-xs font-sans italic text-stone-500 dark:text-parchment/50">
+                            Constitution §4(1) • Stage & Forums
+                        </div>
+                    </div>
+
+                    {/* Card 3: Publish */}
+                    <div className="bg-parchment-dark/30 dark:bg-ink-light/40 border border-oxblood/15 dark:border-parchment/15 p-6 sm:p-7 rounded-xl shadow-md hover:shadow-[0_8px_24px_rgba(107,28,42,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 relative group">
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <span className="w-9 h-9 rounded-full bg-oxblood text-parchment font-display font-bold text-sm tracking-wider flex items-center justify-center shadow-sm">
+                                    III
+                                </span>
+                                <span className="text-[10px] font-sans uppercase tracking-[0.25em] text-oxblood/60 dark:text-parchment/50 font-bold">
+                                    Pillar III
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-display font-bold text-ink dark:text-parchment pt-1">
+                                Publish
+                            </h3>
+                            <p className="text-stone-600 dark:text-parchment/75 text-sm sm:text-base leading-relaxed">
+                                Publishing members' original works, refining craft, and partnering with publications to support and elevate literary artistry.
+                            </p>
+                        </div>
+                        <div className="pt-2 border-t border-oxblood/10 dark:border-parchment/10 text-xs font-sans italic text-stone-500 dark:text-parchment/50">
+                            Constitution §4(1) • Member Works
+                        </div>
+                    </div>
+                </div>
+
+                {/* Constitution Charter Pull-Quote */}
+                <div className="pt-4 flex flex-col items-center gap-3 max-w-3xl mx-auto text-center">
+                    <svg viewBox="0 0 600 6" className="w-full max-w-md h-auto opacity-75" aria-hidden="true">
+                        <line x1="0" y1="3" x2="600" y2="3" stroke="#6B1C2A" strokeWidth="1" strokeDasharray="4 4" />
+                    </svg>
+                    <p className="font-display italic text-base sm:text-lg text-ink/80 dark:text-parchment/80 leading-relaxed px-4">
+                        “The Society shall aim to promote the appreciation and creation of original verse, lyrical expression, and literary artistry... serving as a nurturing space for aesthetic thought.”
+                    </p>
+                    <span className="text-xs uppercase tracking-[0.3em] font-bold text-oxblood dark:text-oxblood-bright">
+                        — Article 4, Constitution of Poéthra
+                    </span>
+                    <svg viewBox="0 0 600 6" className="w-full max-w-md h-auto opacity-75" aria-hidden="true">
+                        <line x1="0" y1="3" x2="600" y2="3" stroke="#6B1C2A" strokeWidth="1" strokeDasharray="4 4" />
+                    </svg>
+                </div>
+            </section>
+
+            {/* SECTION 2: THE WRITER'S LEDGER - "What You Gain" */}
+            <section className="w-full max-w-5xl px-4 sm:px-6 my-4">
+                <div className="bg-parchment-dark/40 dark:bg-ink-light/50 border border-oxblood/20 dark:border-parchment/20 p-6 sm:p-10 md:p-12 rounded-2xl shadow-xl relative overflow-hidden space-y-8">
+                    
+                    {/* Header Ribbon */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-oxblood/15 dark:border-parchment/15 pb-6">
+                        <div>
+                            <span className="text-[10px] font-sans uppercase tracking-[0.35em] text-oxblood dark:text-oxblood-bright font-black">
+                                Member Privileges & Pursuits
+                            </span>
+                            <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-display font-bold text-ink dark:text-parchment leading-tight">
+                                The Writer's Ledger
+                            </h2>
+                        </div>
+                        <div className="inline-flex items-center gap-2 bg-oxblood/10 dark:bg-parchment/10 text-oxblood dark:text-parchment px-3 py-1.5 rounded-full text-xs font-display font-bold border border-oxblood/20 dark:border-parchment/20 self-start sm:self-auto">
+                            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                            <span>Constitution §4(1)+(2)</span>
+                        </div>
+                    </div>
+
+                    {/* 4 Concrete Ledger Entries (Staggered 2x2 Grid) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        
+                        {/* Entry 1: A Stage */}
+                        <div className="group p-5 rounded-xl border border-oxblood/10 dark:border-parchment/10 bg-parchment/50 dark:bg-ink/40 hover:bg-oxblood/5 dark:hover:bg-parchment/5 transition-all duration-300 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-oxblood/10 dark:bg-parchment/10 text-oxblood dark:text-parchment flex items-center justify-center flex-shrink-0 group-hover:bg-oxblood group-hover:text-parchment dark:group-hover:bg-parchment dark:group-hover:text-ink transition-colors duration-300">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
+                                </svg>
+                            </div>
+                            <div className="space-y-1">
+                                <h3 className="text-lg font-display font-bold text-ink dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors">
+                                    A Stage
+                                </h3>
+                                <p className="text-stone-600 dark:text-parchment/70 text-sm leading-relaxed">
+                                    Curated performances, showcases, open forums, and collaborative events where your voice is heard and celebrated.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Entry 2: Craft */}
+                        <div className="group p-5 rounded-xl border border-oxblood/10 dark:border-parchment/10 bg-parchment/50 dark:bg-ink/40 hover:bg-oxblood/5 dark:hover:bg-parchment/5 transition-all duration-300 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-oxblood/10 dark:bg-parchment/10 text-oxblood dark:text-parchment flex items-center justify-center flex-shrink-0 group-hover:bg-oxblood group-hover:text-parchment dark:group-hover:bg-parchment dark:group-hover:text-ink transition-colors duration-300">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <div className="space-y-1">
+                                <h3 className="text-lg font-display font-bold text-ink dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors">
+                                    Craft
+                                </h3>
+                                <p className="text-stone-600 dark:text-parchment/70 text-sm leading-relaxed">
+                                    Interactive workshops, dedicated writing sessions, and guidance from established writers & literary mentors.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Entry 3: A Panel */}
+                        <div className="group p-5 rounded-xl border border-oxblood/10 dark:border-parchment/10 bg-parchment/50 dark:bg-ink/40 hover:bg-oxblood/5 dark:hover:bg-parchment/5 transition-all duration-300 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-oxblood/10 dark:bg-parchment/10 text-oxblood dark:text-parchment flex items-center justify-center flex-shrink-0 group-hover:bg-oxblood group-hover:text-parchment dark:group-hover:bg-parchment dark:group-hover:text-ink transition-colors duration-300">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div className="space-y-1">
+                                <h3 className="text-lg font-display font-bold text-ink dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors">
+                                    A Panel
+                                </h3>
+                                <p className="text-stone-600 dark:text-parchment/70 text-sm leading-relaxed">
+                                    Dedicated weekly contest reviewers who actually read, score, and provide thoughtful feedback on every submission.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Entry 4: Community */}
+                        <div className="group p-5 rounded-xl border border-oxblood/10 dark:border-parchment/10 bg-parchment/50 dark:bg-ink/40 hover:bg-oxblood/5 dark:hover:bg-parchment/5 transition-all duration-300 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-oxblood/10 dark:bg-parchment/10 text-oxblood dark:text-parchment flex items-center justify-center flex-shrink-0 group-hover:bg-oxblood group-hover:text-parchment dark:group-hover:bg-parchment dark:group-hover:text-ink transition-colors duration-300">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <div className="space-y-1">
+                                <h3 className="text-lg font-display font-bold text-ink dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors">
+                                    Community
+                                </h3>
+                                <p className="text-stone-600 dark:text-parchment/70 text-sm leading-relaxed">
+                                    A warm, welcoming sanctuary of like-minded peers who share your passion for poetry, storytelling, and aesthetic growth.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
             {/* INFO SECTION */}
             <div className="w-full max-w-4xl grid md:grid-cols-2 gap-8 md:gap-12 items-center px-4 sm:px-6">
                 <div className="space-y-6">
