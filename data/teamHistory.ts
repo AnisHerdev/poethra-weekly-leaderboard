@@ -57,8 +57,11 @@ export const TEAM_HISTORY: YearData[] = [
   {
     year: 2026,
     roles: {
-      'president': [{ personId: 'suman-br', termLabel: 'First Half' }],
-      'vice-president': [{ personId: 'swesthika' }],
+      'president': [{ personId: 'suman-br', termLabel: 'First Half' },
+        { personId: 'aditya-p-dixit', termLabel: 'Second Half' }],
+      'vice-president': [{ personId: 'swesthika', termLabel: 'First Half' },
+        { personId: 'neha-rudra-murthy', termLabel: 'Second Half' }
+      ],
       'financial-head': [{ personId: 'herdev-anish', termLabel: 'First Half' }],
       'marketing-head': [{ personId: 'apoorva-ramesh', termLabel: 'First Half' }],
       'events-head': [{ personId: 'neha-rudra-murthy' }],
