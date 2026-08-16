@@ -78,6 +78,9 @@ export const PEOPLE: Record<string, Person> = {
     id: 'sanjana-kulkarni',
     uid: '3d4e5f6a',
     name: 'Sanjana Kulkarni',
+    imageUrl: '/3d4e5f6a.png',
+    imageSizePercent: 130,
+    imagePushDownPercent: 35,
   },
   'a1b2c3d4': {
     id: 'sri-lakshmi',
