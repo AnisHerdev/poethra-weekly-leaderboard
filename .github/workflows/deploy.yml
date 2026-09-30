@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 # Prevent overlapping deployments running concurrently on main
 concurrency:
   group: deploy-main
