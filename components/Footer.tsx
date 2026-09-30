@@ -1,5 +1,5 @@
 import React from 'react';
-import { TwitterIcon, InstagramIcon, FacebookIcon } from './icons/SocialIcons';
+import { TwitterIcon, InstagramIcon, FacebookIcon, LinkedInIcon } from './icons/SocialIcons';
 
 const Footer: React.FC = () => {
     return (
@@ -19,6 +19,15 @@ const Footer: React.FC = () => {
                         aria-label="Follow Poéthra on Instagram"
                     >
                         <InstagramIcon />
+                    </a>
+                    <a 
+                        href="https://www.linkedin.com/company/poethra/home/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-stone-600 hover:text-oxblood dark:text-parchment/60 dark:hover:text-parchment transition-all duration-500 transform hover:scale-125"
+                        aria-label="Follow Poéthra on LinkedIn"
+                    >
+                        <LinkedInIcon />
                     </a>
                 </div>
 
