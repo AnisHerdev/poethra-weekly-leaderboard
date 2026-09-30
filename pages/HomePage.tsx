@@ -168,7 +168,7 @@ const HomePage: React.FC = () => {
                     alt="A literary desk with books and quill" 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
                     loading="eager"
-                    fetchpriority="high"
+                    fetchPriority="high"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-6 md:p-12">
