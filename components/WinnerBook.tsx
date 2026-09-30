@@ -10,13 +10,13 @@ interface WinnerBookProps {
 }
 
 const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClick, mobileMode = false }) => {
-    const rankColors = {
+    const rankColors: Record<number, string> = {
         1: 'from-oxblood to-[#4A111D] border-oxblood-light/20 shadow-oxblood/40',
         2: 'from-stone-600 to-stone-800 border-stone-500/20 shadow-stone-900/40',
         3: 'from-amber-800 to-amber-950 border-amber-700/20 shadow-amber-900/40',
     };
 
-    const rankSpineColors = {
+    const rankSpineColors: Record<number, string> = {
         1: 'from-[#4A111D] to-oxblood',
         2: 'from-stone-900 to-stone-700',
         3: 'from-amber-950 to-amber-900',

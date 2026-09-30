@@ -100,7 +100,7 @@ const ChevronBtn: React.FC<{
   </button>
 );
 
-const YearArrowNav: React.FC<YearArrowNavProps> = ({ years, selected, onChange }) => {
+const getYearArrowNav = ({ years, selected, onChange }: YearArrowNavProps): { left: React.ReactNode; right: React.ReactNode } | null => {
   if (years.length <= 1) return null;
 
   // years is sorted newest-first, so older = higher index
@@ -175,7 +175,7 @@ const QuillCouncilPage: React.FC = () => {
   // Departments section gets arrow nav on far left and far right of the label row
   const renderDepartmentsSection = (members: TeamMember[], gridClass: string) => {
     const nav = availableYears.length > 1
-      ? YearArrowNav({ years: availableYears, selected: selectedYear, onChange: setSelectedYear })
+      ? getYearArrowNav({ years: availableYears, selected: selectedYear, onChange: setSelectedYear })
       : null;
 
     return (

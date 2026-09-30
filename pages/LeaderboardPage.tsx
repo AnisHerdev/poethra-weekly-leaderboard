@@ -103,7 +103,7 @@ const HallOfFameCard: React.FC<{ title: string; participant?: Participant; color
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-oxblood/20 group-hover:w-full transition-all duration-500"></span>
                 </p>
                     <div className="flex items-center justify-center gap-2 text-stone-600 dark:text-parchment/60 italic text-sm font-medium">
-                    <span>Devoted for {participant.participationHistory.length} weeks</span>
+                    <span>Devoted for {participant.participationHistory?.length || 0} weeks</span>
                 </div>
             </div>
         ) : (
@@ -151,7 +151,7 @@ const LeaderboardPage: React.FC = () => {
         }
         const highestStreak = [...allParticipants].sort((a, b) => b.currentStreak - a.currentStreak)[0];
         const highestBestRank = sortedParticipants[0];
-        const mostConsistent = [...allParticipants].sort((a, b) => b.participationHistory.length - a.participationHistory.length)[0];
+        const mostConsistent = [...allParticipants].sort((a, b) => (b.participationHistory?.length || 0) - (a.participationHistory?.length || 0))[0];
 
         return { highestStreak, highestBestRank, mostConsistent };
     }, [allParticipants, sortedParticipants]);
