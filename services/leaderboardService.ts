@@ -1,6 +1,6 @@
 import { Participant, WeeklyResult } from '../types';
 import { db } from '../src/firebase';
-import { collection, getDocs, query, orderBy, doc, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 // --- Firestore Integration ---
 const IS_PRODUCTION = false;

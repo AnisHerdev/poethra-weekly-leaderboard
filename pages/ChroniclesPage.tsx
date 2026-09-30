@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { CLUB_EVENTS, getEventsSortedNewest } from '../data/events';
+import { getEventsSortedNewest } from '../data/events';
 import { ClubEvent } from '../types';
 import PolaroidCard from '../components/PolaroidCard';
 import EventModal from '../components/EventModal';
