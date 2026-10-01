@@ -2,8 +2,9 @@ import { Participant, WeeklyResult } from '../types';
 import { db } from '../src/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
-// --- Firestore Integration ---
-const IS_PRODUCTION = false;
+// Automatically use production collections during build/deploy (import.meta.env.PROD is true)
+// and test collections during local dev
+const IS_PRODUCTION = import.meta.env.PROD;
 
 const PARTICIPANTS_COLLECTION = IS_PRODUCTION
     ? 'participants_production'
