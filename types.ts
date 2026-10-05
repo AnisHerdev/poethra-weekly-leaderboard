@@ -4,6 +4,7 @@ export interface Participant {
     name: string;
     totalPoints: number;
     currentStreak: number;
+    totalParticipations?: number;
     participationHistory?: number[]; // Optional/deprecated for new schema
     bestRank?: number | null; // Optional/deprecated for new schema
 }
@@ -20,6 +21,7 @@ export interface SemesterStats {
     semesterId: string;
     totalScore: number;
     currentStreak: number;
+    totalParticipations?: number;
 }
 
 export interface WeeklyWinnerInfo {

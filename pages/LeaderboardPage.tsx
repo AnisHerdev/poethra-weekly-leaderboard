@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { fetchLeaderboard } from '../services/leaderboardService';
-import type{ Participant } from '../types';
+import type { Participant } from '../types';
 import { FireIcon } from '../components/icons/SocialIcons';
 
 const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({ participant, rank }) => {
@@ -123,7 +123,7 @@ const LeaderboardPage: React.FC = () => {
             setLoading(true);
             try {
                 const data = await fetchLeaderboard();
-                setAllParticipants(data);
+                setAllParticipants(data.filter(p => p.totalPoints > 0));
             } catch (e: any) {
                 console.error(e);
             }
@@ -133,12 +133,14 @@ const LeaderboardPage: React.FC = () => {
     }, []);
 
     const sortedParticipants = useMemo(() => {
-        return [...allParticipants].sort((a, b) => {
-            if (b.totalPoints !== a.totalPoints) {
-                return b.totalPoints - a.totalPoints;
-            }
-            return b.currentStreak - a.currentStreak;
-        });
+        return [...allParticipants]
+            .filter(p => p.totalPoints > 0)
+            .sort((a, b) => {
+                if (b.totalPoints !== a.totalPoints) {
+                    return b.totalPoints - a.totalPoints;
+                }
+                return b.currentStreak - a.currentStreak;
+            });
     }, [allParticipants]);
 
     const filteredParticipants = useMemo(() => {

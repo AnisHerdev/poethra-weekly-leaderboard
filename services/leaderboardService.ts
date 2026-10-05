@@ -55,18 +55,20 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
             participantsMap.set(doc.id, doc.data());
         });
 
-        // 4. Map stats to Participant return type
-        const participants: Participant[] = semesterStats.map((stat: any) => {
-            const masterData = participantsMap.get(stat.participantId);
-            return {
-                id: stat.participantId, // We use participantId as the id for the Participant object
-                name: masterData?.name || "Unknown",
-                totalPoints: parseInt(stat.totalScore) || 0,
-                currentStreak: parseInt(stat.currentStreak) || 0,
-                participationHistory: [], // Optional/deprecated
-                bestRank: null // Optional/deprecated
-            };
-        });
+        // 4. Map stats to Participant return type and filter for score > 0
+        const participants: Participant[] = semesterStats
+            .filter((stat: any) => (parseInt(stat.totalScore) || 0) > 0)
+            .map((stat: any) => {
+                const masterData = participantsMap.get(stat.participantId);
+                return {
+                    id: stat.participantId, // We use participantId as the id for the Participant object
+                    name: masterData?.name || "Unknown",
+                    totalPoints: parseInt(stat.totalScore) || 0,
+                    currentStreak: parseInt(stat.currentStreak) || 0,
+                    participationHistory: [], // Optional/deprecated
+                    bestRank: null // Optional/deprecated
+                };
+            });
 
         // 5. Sort by points descending, then streak descending
         return participants.sort((a, b) => {
