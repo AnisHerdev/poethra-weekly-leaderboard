@@ -29,8 +29,10 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
         'text-amber-800 dark:text-amber-600',
     ];
 
+    const podiumIndex = Math.min(Math.max(rank - 1, 0), 2);
+
     const baseClass = isTopThree
-        ? `group flex items-center gap-3 p-4 md:p-5 rounded-xl transition-all duration-500 ${topThreeRowBg[rank - 1]}`
+        ? `group flex items-center gap-3 p-4 md:p-5 rounded-xl transition-all duration-500 ${topThreeRowBg[podiumIndex]}`
         : 'group flex items-center gap-3 p-3 md:p-4 rounded-xl transition-all duration-500 border-b border-oxblood/5 dark:border-parchment/5 hover:bg-oxblood/[0.02] dark:hover:bg-parchment/[0.02]';
 
     return (
@@ -38,7 +40,7 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
             {/* Rank Indicator */}
             <div className={`flex-shrink-0 flex items-center justify-center rounded-full font-display font-black transition-transform duration-500 group-hover:scale-110 ${
                 isTopThree
-                    ? `w-10 h-10 md:w-14 md:h-14 text-base md:text-2xl ${rankCircleStyles[rank - 1]}`
+                    ? `w-10 h-10 md:w-14 md:h-14 text-base md:text-2xl ${rankCircleStyles[podiumIndex]}`
                     : 'w-9 h-9 md:w-12 md:h-12 text-base md:text-xl text-stone-500 dark:text-parchment/60'
             }`}>
                 {rank}
@@ -64,9 +66,9 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
             <div className="flex-shrink-0 flex items-center gap-1">
                 {participant.currentStreak > 0 && (
                     <div className="flex items-center gap-0.5">
-                        <span className={`font-display text-sm md:text-lg font-bold ${
-                            isTopThree ? 'text-oxblood dark:text-oxblood-bright' : 'text-oxblood dark:text-oxblood-bright'
-                        }`}>{participant.currentStreak}</span>
+                        <span className="font-display text-sm md:text-lg font-bold text-oxblood dark:text-oxblood-bright">
+                            {participant.currentStreak}
+                        </span>
                         <div className="text-oxblood animate-pulse-slow">
                             <FireIcon />
                         </div>
@@ -78,7 +80,7 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
             <div className="flex-shrink-0 text-right">
                 <span className={`text-lg md:text-2xl font-display font-black transition-colors ${
                     isTopThree
-                        ? pointsColorClass[rank - 1]
+                        ? pointsColorClass[podiumIndex]
                         : 'text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright'
                 }`}>
                     {participant.totalPoints}
@@ -89,28 +91,40 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
     );
 };
 
-const HallOfFameCard: React.FC<{ title: string; participant?: Participant; color: string }> = ({ title, participant, color }) => (
-    <div className={`relative p-8 rounded-2xl transition-all duration-500 bg-parchment-dark/30 dark:bg-ink-light/50 border border-oxblood/10 dark:border-parchment/10 group overflow-hidden`}>
-        {/* Decorative background element */}
-        <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${color} opacity-50`}></div>
-        
-        <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood dark:text-parchment mb-6">{title}</h3>
-        
-        {participant ? (
-            <div className="space-y-2">
-                <p className="text-3xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors inline-block relative">
-                    {participant.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-oxblood/20 group-hover:w-full transition-all duration-500"></span>
-                </p>
-                    <div className="flex items-center justify-center gap-2 text-stone-600 dark:text-parchment/60 italic text-sm font-medium">
-                    <span>Devoted for {participant.participationHistory?.length || 0} weeks</span>
+const HallOfFameCard: React.FC<{ 
+    title: string; 
+    participants?: Participant[]; 
+    statLabel?: (p: Participant) => string;
+    color: string;
+}> = ({ title, participants, statLabel, color }) => {
+    const hasParticipants = participants && participants.length > 0;
+    const names = hasParticipants ? participants.map(p => p.name).join(' & ') : '';
+
+    return (
+        <div className={`relative p-8 rounded-2xl transition-all duration-500 bg-parchment-dark/30 dark:bg-ink-light/50 border border-oxblood/10 dark:border-parchment/10 group overflow-hidden`}>
+            {/* Decorative background element */}
+            <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${color} opacity-50`}></div>
+            
+            <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood dark:text-parchment mb-6">{title}</h3>
+            
+            {hasParticipants ? (
+                <div className="space-y-2">
+                    <p className="text-2xl md:text-3xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors inline-block relative">
+                        {names}
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-oxblood/20 group-hover:w-full transition-all duration-500"></span>
+                    </p>
+                    {statLabel && participants[0] && (
+                        <div className="flex items-center justify-start gap-2 text-stone-600 dark:text-parchment/60 italic text-sm font-medium">
+                            <span>{statLabel(participants[0])}</span>
+                        </div>
+                    )}
                 </div>
-            </div>
-        ) : (
-            <p className="text-stone-500 dark:text-parchment/50 italic font-medium">The entry remains blank...</p>
-        )}
-    </div>
-);
+            ) : (
+                <p className="text-stone-500 dark:text-parchment/50 italic font-medium">The entry remains blank...</p>
+            )}
+        </div>
+    );
+};
 
 
 const LeaderboardPage: React.FC = () => {
@@ -143,17 +157,45 @@ const LeaderboardPage: React.FC = () => {
             });
     }, [allParticipants]);
 
+    // Standard Competition Ranking (1224 rule)
+    const participantRanks = useMemo(() => {
+        const rankMap = new Map<string, number>();
+        let currentRank = 1;
+        for (let i = 0; i < sortedParticipants.length; i++) {
+            if (i > 0) {
+                const prev = sortedParticipants[i - 1];
+                const curr = sortedParticipants[i];
+                const isTied = prev.totalPoints === curr.totalPoints && prev.currentStreak === curr.currentStreak;
+                if (!isTied) {
+                    currentRank = i + 1;
+                }
+            }
+            rankMap.set(sortedParticipants[i].id, currentRank);
+        }
+        return rankMap;
+    }, [sortedParticipants]);
+
     const filteredParticipants = useMemo(() => {
         return sortedParticipants.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }, [sortedParticipants, searchTerm]);
 
     const hallOfFame = useMemo(() => {
         if (allParticipants.length === 0) {
-            return { highestStreak: undefined, highestBestRank: undefined, mostConsistent: undefined };
+            return { highestStreak: [], highestBestRank: [], mostConsistent: [] };
         }
-        const highestStreak = [...allParticipants].sort((a, b) => b.currentStreak - a.currentStreak)[0];
-        const highestBestRank = sortedParticipants[0];
-        const mostConsistent = [...allParticipants].sort((a, b) => (b.participationHistory?.length || 0) - (a.participationHistory?.length || 0))[0];
+        
+        // Highest Best Rank (Top total points)
+        const maxScore = sortedParticipants[0]?.totalPoints || 0;
+        const highestBestRank = sortedParticipants.filter(p => p.totalPoints === maxScore && maxScore > 0);
+
+        // Highest Streak
+        const maxStreak = Math.max(...allParticipants.map(p => p.currentStreak || 0));
+        const highestStreak = maxStreak > 0 ? allParticipants.filter(p => p.currentStreak === maxStreak) : [];
+
+        // Most Consistent
+        const getParticipationCount = (p: Participant) => p.totalParticipations || p.participationHistory?.length || 0;
+        const maxConsistent = Math.max(...allParticipants.map(getParticipationCount));
+        const mostConsistent = maxConsistent > 0 ? allParticipants.filter(p => getParticipationCount(p) === maxConsistent) : [];
 
         return { highestStreak, highestBestRank, mostConsistent };
     }, [allParticipants, sortedParticipants]);
@@ -197,7 +239,11 @@ const LeaderboardPage: React.FC = () => {
                     </div>
                 ) : filteredParticipants.length > 0 ? (
                     filteredParticipants.map((p) => (
-                        <LeaderboardItem key={p.id} participant={p} rank={sortedParticipants.indexOf(p) + 1} />
+                        <LeaderboardItem 
+                            key={p.id} 
+                            participant={p} 
+                            rank={participantRanks.get(p.id) || (sortedParticipants.indexOf(p) + 1)} 
+                        />
                     ))
                 ) : (
                     <div className="text-center py-20 bg-parchment-dark/20 dark:bg-ink-light/30 rounded-3xl border border-dashed border-oxblood/20 dark:border-parchment/10">
@@ -217,9 +263,24 @@ const LeaderboardPage: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <HallOfFameCard title="Poet Laureate" participant={hallOfFame.highestBestRank} color="from-oxblood to-transparent" />
-                        <HallOfFameCard title="The Unbroken Flame" participant={hallOfFame.highestStreak} color="from-amber-600 to-transparent" />
-                        <HallOfFameCard title="The Faithful Scroll" participant={hallOfFame.mostConsistent} color="from-stone-600 to-transparent" />
+                        <HallOfFameCard 
+                            title="Poet Laureate" 
+                            participants={hallOfFame.highestBestRank} 
+                            statLabel={(p) => `${p.totalPoints} points accumulated`}
+                            color="from-oxblood to-transparent" 
+                        />
+                        <HallOfFameCard 
+                            title="The Unbroken Flame" 
+                            participants={hallOfFame.highestStreak} 
+                            statLabel={(p) => `${p.currentStreak} weeks unbroken streak`}
+                            color="from-amber-600 to-transparent" 
+                        />
+                        <HallOfFameCard 
+                            title="The Faithful Scroll" 
+                            participants={hallOfFame.mostConsistent} 
+                            statLabel={(p) => `Devoted for ${p.totalParticipations || p.participationHistory?.length || 0} weeks`}
+                            color="from-stone-600 to-transparent" 
+                        />
                     </div>
 
                 </div>

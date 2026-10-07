@@ -32,6 +32,12 @@ export interface WeeklyWinnerInfo {
     title?: string;
 }
 
+export interface NormalizedWeeklyWinners {
+    first: WeeklyWinnerInfo[];
+    second: WeeklyWinnerInfo[];
+    third: WeeklyWinnerInfo[];
+}
+
 export interface WeeklyResult {
     id: string; // Format: YYYY_Sem_Week
     year: number;
@@ -39,13 +45,17 @@ export interface WeeklyResult {
     weekNumber: number;
     participantIds: string[]; // Replaced weeklyParticipants
     winners: {
-        first: WeeklyWinnerInfo;
-        second: WeeklyWinnerInfo;
-        third: WeeklyWinnerInfo;
+        first: WeeklyWinnerInfo | WeeklyWinnerInfo[];
+        second: WeeklyWinnerInfo | WeeklyWinnerInfo[];
+        third: WeeklyWinnerInfo | WeeklyWinnerInfo[];
     };
     createdAt?: string; // ISO 8601 timestamp
     updatedAt?: string; // ISO 8601 timestamp
     timestamp?: any;
+}
+
+export interface NormalizedWeeklyResult extends Omit<WeeklyResult, 'winners'> {
+    winners: NormalizedWeeklyWinners;
 }
 
 export interface ClubEvent {

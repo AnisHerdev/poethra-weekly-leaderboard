@@ -7,9 +7,11 @@ interface WinnerBookProps {
     onClick: () => void;
     /** When true, hides the author name + label and promotes the title as the dominant cover element (mobile-only) */
     mobileMode?: boolean;
+    /** When true, indicates that this place is shared with co-winners */
+    isJoint?: boolean;
 }
 
-const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClick, mobileMode = false }) => {
+const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClick, mobileMode = false, isJoint = false }) => {
     const rankColors: Record<number, string> = {
         1: 'from-oxblood to-[#4A111D] border-oxblood-light/20 shadow-oxblood/40',
         2: 'from-stone-600 to-stone-800 border-stone-500/20 shadow-stone-900/40',
@@ -23,12 +25,13 @@ const WinnerBook: React.FC<WinnerBookProps> = ({ winnerName, rank, title, onClic
     };
 
     const medal = ['🥇', '🥈', '🥉'][rank - 1];
+    const rankOrdinal = ['1st', '2nd', '3rd'][rank - 1] || `${rank}th`;
     
     return (
         <button 
             className="group perspective-1000 bg-transparent border-none text-left p-0 cursor-pointer block focus-visible:outline-oxblood dark:focus-visible:outline-parchment rounded-lg" 
             onClick={onClick}
-            aria-label={`View submission by ${winnerName}: ${title}`}
+            aria-label={`View submission by ${winnerName}: ${title}${isJoint ? ` (Joint ${rankOrdinal})` : ''}`}
         >
             <div 
                 className={`relative w-40 h-56 sm:w-48 sm:h-64 rounded-r-lg transform-style-preserve-3d transition-all duration-700 shadow-2xl group-hover:[transform:rotateY(-25deg)_rotateX(5deg)_scale(1.05)] group-focus:[transform:rotateY(-25deg)_rotateX(5deg)_scale(1.05)]`}

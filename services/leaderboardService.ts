@@ -1,4 +1,4 @@
-import { Participant, WeeklyResult } from '../types';
+import { Participant, WeeklyWinnerInfo, NormalizedWeeklyWinners, NormalizedWeeklyResult } from '../types';
 import { db } from '../src/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
@@ -23,6 +23,19 @@ const LEADERBOARD_COLLECTION = IS_PRODUCTION
     ? 'weekly_results_production'
     : 'weekly_results_test';
 
+
+export const normalizeWinners = (rawWinners: any): NormalizedWeeklyWinners => {
+    const toArray = (rank: any): WeeklyWinnerInfo[] => {
+        if (!rank) return [];
+        const arr = Array.isArray(rank) ? rank : [rank];
+        return arr.filter((w: any) => w && typeof w === 'object' && (w.name || w.title || w.content));
+    };
+    return {
+        first: toArray(rawWinners?.first),
+        second: toArray(rawWinners?.second),
+        third: toArray(rawWinners?.third),
+    };
+};
 
 export const fetchLeaderboard = async (): Promise<Participant[]> => {
     try {
@@ -85,7 +98,7 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
 
 // --- Weekly Results Management ---
 
-export const fetchWeeklyResults = async (): Promise<WeeklyResult[]> => {
+export const fetchWeeklyResults = async (): Promise<NormalizedWeeklyResult[]> => {
     try {
         // Order by year desc, then weekNumber desc to get latest first
         const q = query(collection(db, LEADERBOARD_COLLECTION), orderBy("year", "desc"), orderBy("weekNumber", "desc"));
@@ -99,11 +112,11 @@ export const fetchWeeklyResults = async (): Promise<WeeklyResult[]> => {
                 semester: data.semester,
                 weekNumber: data.weekNumber,
                 participantIds: data.participantIds || [],
-                winners: data.winners,
+                winners: normalizeWinners(data.winners),
                 createdAt: data.createdAt,
                 updatedAt: data.updatedAt,
                 timestamp: data.timestamp
-            } as WeeklyResult;
+            };
         });
     } catch (error) {
         console.error("Error fetching weekly results from Firestore:", error);
