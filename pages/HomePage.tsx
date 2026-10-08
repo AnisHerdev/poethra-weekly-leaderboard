@@ -115,7 +115,7 @@ const HandwrittenQuote: React.FC = () => {
                                     : [
                                         `opacity   ${wordDuration}s ease          ${delay}s`,
                                         `filter    ${wordDuration}s ease          ${delay}s`,
-                                        `transform ${wordDuration}s cubic-bezier(0.34, 1.2, 0.64, 1) ${delay}s`,
+                                        `transform ${wordDuration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
                                       ].join(', '),
                             }}
                         >
@@ -164,11 +164,13 @@ const HomePage: React.FC = () => {
             {/* HERO SECTION */}
             <div className="relative w-full max-w-6xl aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl shadow-ink/20 group animate-fade-in-up">
                 <img 
-                    src="/poethra_hero_literary.png" 
+                    src="/poethra_hero_literary.webp" 
                     alt="A literary desk with books and quill" 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                    className="w-full h-full object-cover transition-opacity duration-700"
                     loading="eager"
                     fetchPriority="high"
+                    width={1400}
+                    height={600}
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent flex flex-col justify-end p-6 md:p-12">

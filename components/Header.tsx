@@ -60,32 +60,30 @@ const Header: React.FC = () => {
                 </div>
             </div>
 
-            {/* Mobile / Tablet Navigation Menu - CSS-driven transition for snappy feel */}
+            {/* Mobile / Tablet Navigation Menu - Smooth CSS Grid transition to eliminate layout thrash */}
             <nav
-                className="lg:hidden bg-parchment/95 dark:bg-ink/95 border-b border-oxblood/20 dark:border-parchment/20 backdrop-blur-xl absolute top-full left-0 right-0 overflow-hidden"
-                style={{
-                    maxHeight: isMenuOpen ? '300px' : '0px',
-                    opacity: isMenuOpen ? 1 : 0,
-                    transition: 'max-height 200ms ease, opacity 150ms ease',
-                    pointerEvents: isMenuOpen ? 'auto' : 'none',
-                }}
+                className={`lg:hidden bg-parchment/95 dark:bg-ink/95 border-b border-oxblood/20 dark:border-parchment/20 backdrop-blur-xl absolute top-full left-0 right-0 grid transition-all duration-200 ease-out ${
+                    isMenuOpen ? 'grid-rows-[1fr] opacity-100 pointer-events-auto' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+                }`}
             >
-                <div className="flex flex-col items-center py-4 space-y-1 bg-parchment-texture">
-                    <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                        Home
-                    </NavLink>
-                    <NavLink to="/chronicles" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                        Chronicles
-                    </NavLink>
-                    <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                        Leaderboard
-                    </NavLink>
-                    <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                        Winners
-                    </NavLink>
-                    <NavLink to="/quill-council" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
-                        Quill Council
-                    </NavLink>
+                <div className="overflow-hidden">
+                    <div className="flex flex-col items-center py-4 space-y-1 bg-parchment-texture">
+                        <NavLink to="/" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            Home
+                        </NavLink>
+                        <NavLink to="/chronicles" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            Chronicles
+                        </NavLink>
+                        <NavLink to="/leaderboard" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            Leaderboard
+                        </NavLink>
+                        <NavLink to="/winners" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            Winners
+                        </NavLink>
+                        <NavLink to="/quill-council" className={({ isActive }) => `${mobileNavLinkClasses} ${isActive ? activeMobileNavLinkClasses : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            Quill Council
+                        </NavLink>
+                    </div>
                 </div>
             </nav>
         </header>

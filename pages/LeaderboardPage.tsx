@@ -129,6 +129,7 @@ const HallOfFameCard: React.FC<{
 
 const LeaderboardPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const deferredSearch = React.useDeferredValue(searchTerm);
     const [allParticipants, setAllParticipants] = useState<Participant[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -176,8 +177,8 @@ const LeaderboardPage: React.FC = () => {
     }, [sortedParticipants]);
 
     const filteredParticipants = useMemo(() => {
-        return sortedParticipants.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    }, [sortedParticipants, searchTerm]);
+        return sortedParticipants.filter(p => p.name.toLowerCase().includes(deferredSearch.toLowerCase()));
+    }, [sortedParticipants, deferredSearch]);
 
     const hallOfFame = useMemo(() => {
         if (allParticipants.length === 0) {

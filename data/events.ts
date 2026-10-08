@@ -18,7 +18,7 @@ export const CLUB_EVENTS: ClubEvent[] = [
     subtitle: 'First Internal Club Event for Members',
     date: 'October 2025',
     description: 'Following the formal opening of college, Poéthra hosted its first internal event - an icebreaker session designed to help new and existing members get comfortable with one another in a relaxed, fun setting.',
-    imageUrl: '/events/icebreaker-session.jpg', // Placeholder image - replace with actual photo
+    imageUrl: '/events/icebreaker-session.webp',
     imageCaption: 'Interactive Emoji Quiz & Member Introductions',
     youtubeUrl: '',
     tiltAngle: 1.8,
@@ -29,7 +29,7 @@ export const CLUB_EVENTS: ClubEvent[] = [
     subtitle: 'Brigade Foundation Collaboration',
     date: 'November 2025',
     description: 'Poéthra partnered with the RV University Library and the Brigade Foundation to co-host a Book Fair that brought several publication houses to campus, featuring structured publication stalls and custom design elements.',
-    imageUrl: '/events/library-book-fair.jpg', // Placeholder image - replace with actual photo
+    imageUrl: '/events/library-book-fair.webp',
     imageCaption: 'Campus Book Fair & World Map Stall Layout',
     youtubeUrl: '',
     tiltAngle: -1.2,
@@ -51,7 +51,7 @@ export const CLUB_EVENTS: ClubEvent[] = [
     subtitle: 'Club Movie Screening Night',
     date: 'March 2026',
     description: 'Poéthra organised a screening of the iconic film Dead Poets Society for our members - an event that aligned closely with the club\'s literary identity and values.',
-    imageUrl: '/events/dead-poets-society-screening.jpg', // Placeholder image - replace with actual photo
+    imageUrl: '/events/dead-poets-society-screening.webp',
     imageCaption: 'Movie Night & Member Gathering',
     youtubeUrl: '',
     tiltAngle: -2.0,

@@ -45,7 +45,11 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, size, index }) => {
             <img
               src={member.imageUrl}
               alt={member.name}
-              className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+              className="h-full w-full object-contain"
+              loading="lazy"
+              decoding="async"
+              width={300}
+              height={200}
             />
           </div>
         ) : (

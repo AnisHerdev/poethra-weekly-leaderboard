@@ -88,6 +88,10 @@ const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose }) => {
                   src={event.imageUrl}
                   alt={event.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width={600}
+                  height={450}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
                       'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=800&auto=format&fit=crop';

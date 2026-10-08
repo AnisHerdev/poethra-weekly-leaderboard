@@ -50,6 +50,9 @@ const PolaroidCard: React.FC<PolaroidCardProps> = ({ event, onClick, featured = 
           alt={event.title}
           className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-500"
           loading="lazy"
+          decoding="async"
+          width={400}
+          height={300}
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=800&auto=format&fit=crop';
