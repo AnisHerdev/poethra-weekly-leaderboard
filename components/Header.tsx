@@ -19,7 +19,7 @@ const Header: React.FC = () => {
                         Poéthra
                     </span>
                     <span className="text-[9px] sm:text-[10px] font-sans uppercase tracking-[0.3em] sm:tracking-[0.4em] text-oxblood dark:text-oxblood-bright font-bold ml-0.5 opacity-70 group-hover:opacity-100 transition-opacity">
-                        Literary Club
+                        Writers' Club
                     </span>
                 </Link>
 
