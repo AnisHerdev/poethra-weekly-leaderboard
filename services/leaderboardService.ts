@@ -1,10 +1,21 @@
-import { Participant, WeeklyWinnerInfo, NormalizedWeeklyWinners, NormalizedWeeklyResult } from '../types';
+import { 
+    Participant, 
+    WeeklyWinnerInfo, 
+    NormalizedWeeklyWinners, 
+    NormalizedWeeklyResult, 
+    SuspenseModeActiveError,
+    LeaderboardSettings 
+} from '../types';
 import { db } from '../src/firebase';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, orderBy } from 'firebase/firestore';
 
 // Automatically use production collections during build/deploy (import.meta.env.PROD is true)
 // and test collections during local dev
 const IS_PRODUCTION = import.meta.env.PROD;
+
+const COMPETITION_SETTINGS_COLLECTION = IS_PRODUCTION
+    ? 'competition_settings_production'
+    : 'competition_settings_test';
 
 const PARTICIPANTS_COLLECTION = IS_PRODUCTION
     ? 'participants_production'
@@ -23,6 +34,8 @@ const LEADERBOARD_COLLECTION = IS_PRODUCTION
     ? 'weekly_results_production'
     : 'weekly_results_test';
 
+export { SuspenseModeActiveError };
+export type { LeaderboardSettings };
 
 export const normalizeWinners = (rawWinners: any): NormalizedWeeklyWinners => {
     const toArray = (rank: any): WeeklyWinnerInfo[] => {
@@ -37,8 +50,33 @@ export const normalizeWinners = (rawWinners: any): NormalizedWeeklyWinners => {
     };
 };
 
+export const fetchLeaderboardSettings = async (): Promise<LeaderboardSettings | null> => {
+    try {
+        const settingsRef = doc(db, COMPETITION_SETTINGS_COLLECTION, 'leaderboard');
+        const settingsSnap = await getDoc(settingsRef);
+        if (settingsSnap.exists()) {
+            return settingsSnap.data() as LeaderboardSettings;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching leaderboard settings from Firestore:", error);
+        return null;
+    }
+};
+
 export const fetchLeaderboard = async (): Promise<Participant[]> => {
     try {
+        // 0. Query competition settings singleton document for Suspense Mode
+        const settingsRef = doc(db, COMPETITION_SETTINGS_COLLECTION, 'leaderboard');
+        const settingsSnap = await getDoc(settingsRef);
+
+        if (settingsSnap.exists()) {
+            const settingsData = settingsSnap.data() as LeaderboardSettings;
+            if (settingsData?.isLeaderboardBlurred === true) {
+                throw new SuspenseModeActiveError(settingsData.customNotice);
+            }
+        }
+
         // 1. Fetch active semester
         const semestersQ = query(collection(db, SEMESTERS_COLLECTION));
         const semestersSnapshot = await getDocs(semestersQ);
@@ -91,6 +129,9 @@ export const fetchLeaderboard = async (): Promise<Participant[]> => {
             return b.currentStreak - a.currentStreak;
         });
     } catch (error: any) {
+        if (error instanceof SuspenseModeActiveError) {
+            throw error;
+        }
         console.error("Error fetching leaderboard from Firestore:", error);
         throw error;
     }

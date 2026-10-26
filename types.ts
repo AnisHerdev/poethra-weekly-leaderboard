@@ -1,4 +1,3 @@
-
 export interface Participant {
     id: string;
     name: string;
@@ -7,6 +6,25 @@ export interface Participant {
     totalParticipations?: number;
     participationHistory?: number[]; // Optional/deprecated for new schema
     bestRank?: number | null; // Optional/deprecated for new schema
+}
+
+export class SuspenseModeActiveError extends Error {
+    readonly isLeaderboardBlurred: boolean;
+    readonly customNotice?: string;
+
+    constructor(customNotice?: string) {
+        super('Leaderboard is currently in suspense mode.');
+        this.name = 'SuspenseModeActiveError';
+        this.isLeaderboardBlurred = true;
+        this.customNotice = customNotice;
+        Object.setPrototypeOf(this, SuspenseModeActiveError.prototype);
+    }
+}
+
+export interface LeaderboardSettings {
+    isLeaderboardBlurred?: boolean;
+    customNotice?: string;
+    [key: string]: any;
 }
 
 export interface Semester {

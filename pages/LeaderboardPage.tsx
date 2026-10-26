@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { fetchLeaderboard } from '../services/leaderboardService';
+import { fetchLeaderboard, SuspenseModeActiveError } from '../services/leaderboardService';
 import type { Participant } from '../types';
 import { FireIcon } from '../components/icons/SocialIcons';
 
@@ -54,7 +54,7 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                         ? 'text-stone-900 dark:text-parchment font-bold text-base md:text-2xl'
                         : 'text-stone-700 dark:text-parchment text-base md:text-2xl'
             }`}>
-                <span className="block">{participant.name}</span>
+                <span className="block truncate">{participant.name}</span>
                 {isTopThree && (
                     <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-bright font-sans font-black">
                         Triumphed
@@ -96,7 +96,33 @@ const HallOfFameCard: React.FC<{
     participants?: Participant[]; 
     statLabel?: (p: Participant) => string;
     color: string;
-}> = ({ title, participants, statLabel, color }) => {
+    isMasked?: boolean;
+    maskedLabel?: string;
+}> = ({ title, participants, statLabel, color, isMasked, maskedLabel }) => {
+    if (isMasked) {
+        return (
+            <div className={`relative p-8 rounded-2xl transition-all duration-500 bg-parchment-dark/30 dark:bg-ink-light/50 border border-oxblood/10 dark:border-parchment/10 group overflow-hidden`}>
+                <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${color} opacity-50`}></div>
+                
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xs font-sans font-black uppercase tracking-[0.3em] text-oxblood dark:text-parchment">{title}</h3>
+                    <span className="text-[9px] font-sans font-black uppercase tracking-widest px-2 py-0.5 rounded bg-oxblood/10 dark:bg-oxblood/30 text-oxblood dark:text-oxblood-bright">
+                        Sealed
+                    </span>
+                </div>
+                
+                <div className="space-y-2">
+                    <p className="text-2xl md:text-3xl font-display font-black text-stone-400 dark:text-parchment/40 tracking-widest select-none">
+                        ••••••••••••
+                    </p>
+                    <div className="flex items-center justify-start gap-2 text-stone-500 dark:text-parchment/50 italic text-sm font-medium">
+                        <span>{maskedLabel || "Deliberations in progress..."}</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     const hasParticipants = participants && participants.length > 0;
     const names = hasParticipants ? participants.map(p => p.name).join(' & ') : '';
 
@@ -126,25 +152,73 @@ const HallOfFameCard: React.FC<{
     );
 };
 
+// Poetic mystery pseudonyms for synthetic suspense rows
+const DUMMY_PSEUDONYMS = [
+    { title: "The Veiled Laureate", mask: "••••••••••••" },
+    { title: "Midnight Sonneteer", mask: "••••••••••••••" },
+    { title: "Silent Calligrapher", mask: "••••••••••" },
+    { title: "Scribe of Shadows", mask: "••••••••••••••••" },
+    { title: "The Anonymous Muse", mask: "••••••••••••" },
+    { title: "Keeper of Verses", mask: "••••••••••••••" },
+    { title: "The Amber Elegist", mask: "••••••••••" },
+    { title: "Solitary Rhymester", mask: "••••••••••••" },
+    { title: "Phantom of the Stanza", mask: "••••••••••••••" },
+];
 
 const LeaderboardPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const deferredSearch = React.useDeferredValue(searchTerm);
     const [allParticipants, setAllParticipants] = useState<Participant[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isSuspenseMode, setIsSuspenseMode] = useState(false);
+    const [customNotice, setCustomNotice] = useState<string | null>(null);
+
+    // 8-10 synthetic, randomized dummy rows behind the frosted blur overlay
+    const dummyParticipants: Participant[] = useMemo(() => {
+        let baseScore = 385 + Math.floor(Math.random() * 30);
+        return DUMMY_PSEUDONYMS.map((item, idx) => {
+            const score = baseScore;
+            baseScore -= Math.floor(18 + Math.random() * 15);
+            return {
+                id: `suspense-dummy-${idx + 1}`,
+                name: `${item.mask} (${item.title})`,
+                totalPoints: Math.max(score, 60),
+                currentStreak: Math.max(7 - idx, 1),
+            };
+        });
+    }, []);
 
     useEffect(() => {
+        let isMounted = true;
         const loadData = async () => {
             setLoading(true);
             try {
                 const data = await fetchLeaderboard();
-                setAllParticipants(data.filter(p => p.totalPoints > 0));
+                if (isMounted) {
+                    setIsSuspenseMode(false);
+                    setCustomNotice(null);
+                    setAllParticipants(data.filter(p => p.totalPoints > 0));
+                }
             } catch (e: any) {
-                console.error(e);
+                if (isMounted) {
+                    if (e instanceof SuspenseModeActiveError || e?.name === 'SuspenseModeActiveError') {
+                        setIsSuspenseMode(true);
+                        setCustomNotice(e.customNotice || null);
+                        setAllParticipants([]);
+                    } else {
+                        console.error("Error loading leaderboard:", e);
+                    }
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
-            setLoading(false);
         };
         loadData();
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const sortedParticipants = useMemo(() => {
@@ -214,29 +288,102 @@ const LeaderboardPage: React.FC = () => {
                     "Our history, recorded in scores and streaks. A celebration of those who show up to the blank page, week after week."
                 </p>
 
-                {allParticipants.length > 0 && (
-                    <div className="relative max-w-md mx-auto mt-8 group">
+                {/* Search Bar - disabled during Suspense Mode */}
+                {(allParticipants.length > 0 || isSuspenseMode) && (
+                    <div className={`relative max-w-md mx-auto mt-8 group ${isSuspenseMode ? 'opacity-60' : ''}`}>
                         <label htmlFor="wordsmith-search" className="sr-only">Search for a wordsmith</label>
                         <input
                             id="wordsmith-search"
                             type="text"
-                            placeholder="Find a wordsmith..."
-                            className="w-full bg-parchment-dark/50 dark:bg-ink-light/70 border border-oxblood/10 dark:border-parchment/10 rounded-xl px-6 py-4 text-stone-900 dark:text-parchment placeholder-stone-400 dark:placeholder-parchment/40 focus:outline-none focus:ring-2 focus:ring-oxblood/20 dark:focus:ring-lamplight/30 transition-all font-display italic text-lg"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            disabled={isSuspenseMode}
+                            placeholder={isSuspenseMode ? "Ledger sealed during deliberations..." : "Find a wordsmith..."}
+                            className={`w-full bg-parchment-dark/50 dark:bg-ink-light/70 border border-oxblood/10 dark:border-parchment/10 rounded-xl px-6 py-4 text-stone-900 dark:text-parchment placeholder-stone-400 dark:placeholder-parchment/40 focus:outline-none transition-all font-display italic text-lg ${
+                                isSuspenseMode 
+                                    ? 'cursor-not-allowed select-none bg-stone-200/50 dark:bg-ink/50' 
+                                    : 'focus:ring-2 focus:ring-oxblood/20 dark:focus:ring-lamplight/30'
+                            }`}
+                            value={isSuspenseMode ? '' : searchTerm}
+                            onChange={(e) => {
+                                if (!isSuspenseMode) {
+                                    setSearchTerm(e.target.value);
+                                }
+                            }}
                         />
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-40 group-focus-within:opacity-80 transition-opacity">
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            {isSuspenseMode ? (
+                                <svg className="w-5 h-5 text-oxblood dark:text-oxblood-bright" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" strokeWidth={2} />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                            ) : (
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            )}
                         </div>
                     </div>
                 )}
             </div>
 
-            {/* LEADERBOARD LIST - directly below search */}
+            {/* LEADERBOARD LIST / SUSPENSE VIEW */}
             <div className="w-full max-w-5xl px-1 flex flex-col gap-2">
                 {loading ? (
                     <div className="text-center p-20 opacity-50 italic font-display text-2xl animate-pulse">
                         Unrolling the scrolls...
+                    </div>
+                ) : isSuspenseMode ? (
+                    <div className="relative w-full rounded-2xl overflow-hidden shadow-xl border border-oxblood/15 dark:border-parchment/15">
+                        {/* Synthetic dummy rows rendered behind the frosted blur overlay */}
+                        <div 
+                            className="flex flex-col gap-2 p-1 select-none pointer-events-none filter blur-[4px] opacity-65"
+                            aria-hidden="true"
+                        >
+                            {dummyParticipants.map((p, idx) => (
+                                <LeaderboardItem 
+                                    key={p.id} 
+                                    participant={p} 
+                                    rank={idx + 1} 
+                                />
+                            ))}
+                        </div>
+
+                        {/* Frosted CSS blur overlay */}
+                        <div 
+                            className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 md:p-8 bg-parchment/75 dark:bg-ink/80 overflow-y-auto"
+                            style={{ 
+                                backdropFilter: 'blur(12px)', 
+                                WebkitBackdropFilter: 'blur(12px)' 
+                            }}
+                        >
+                            {/* Editorial Suspense Banner */}
+                            <div className="w-full max-w-2xl mx-auto p-6 md:p-10 rounded-2xl bg-parchment-dark/95 dark:bg-ink-light/95 border-2 border-oxblood/30 dark:border-parchment/25 shadow-2xl text-center space-y-5 animate-fade-in-up">
+                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-oxblood/10 dark:bg-oxblood/20 text-oxblood dark:text-oxblood-bright mx-auto ring-4 ring-oxblood/15 dark:ring-parchment/15 shadow-inner">
+                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <span className="text-[10px] md:text-xs font-sans font-black uppercase tracking-[0.35em] text-oxblood dark:text-oxblood-bright">
+                                        Official Archival Notice
+                                    </span>
+                                    <h2 className="text-2xl md:text-4xl font-display font-black text-stone-900 dark:text-parchment italic leading-tight tracking-tight">
+                                        The Scrolls Are Sealed: Final Deliberations in Progress
+                                    </h2>
+                                </div>
+
+                                <div className="py-4 px-6 rounded-xl bg-parchment/70 dark:bg-ink/60 border border-oxblood/15 dark:border-parchment/10 max-w-xl mx-auto">
+                                    <p className="text-stone-800 dark:text-parchment/90 font-serif italic text-base md:text-lg leading-relaxed">
+                                        "{customNotice || "Scores locked in suspense until the Grand Ceremony"}"
+                                    </p>
+                                </div>
+
+                                <div className="flex items-center justify-center gap-2 text-stone-500 dark:text-parchment/60 text-xs font-sans tracking-widest uppercase">
+                                    <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    <span>Honors & Rankings Concealed • Awaiting Unveiling</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 ) : filteredParticipants.length > 0 ? (
                     filteredParticipants.map((p) => (
@@ -254,8 +401,8 @@ const LeaderboardPage: React.FC = () => {
                 )}
             </div>
 
-            {/* HALL OF FAME - secondary, at the bottom, hidden during search */}
-            {allParticipants.length > 0 && !searchTerm && (
+            {/* HALL OF FAME - masked during Suspense Mode to protect Poet Laureate & top scores */}
+            {(allParticipants.length > 0 || isSuspenseMode) && !searchTerm && (
                 <div className="w-full max-w-6xl px-4 space-y-8 pb-4">
                     <div className="flex items-center gap-6">
                         <div className="flex-1 h-px bg-oxblood/10 dark:bg-parchment/10"></div>
@@ -266,21 +413,27 @@ const LeaderboardPage: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <HallOfFameCard 
                             title="Poet Laureate" 
-                            participants={hallOfFame.highestBestRank} 
+                            participants={isSuspenseMode ? [] : hallOfFame.highestBestRank} 
                             statLabel={(p) => `${p.totalPoints} points accumulated`}
                             color="from-oxblood to-transparent" 
+                            isMasked={isSuspenseMode}
+                            maskedLabel="Score and identity sealed until ceremony"
                         />
                         <HallOfFameCard 
                             title="The Unbroken Flame" 
-                            participants={hallOfFame.highestStreak} 
+                            participants={isSuspenseMode ? [] : hallOfFame.highestStreak} 
                             statLabel={(p) => `${p.currentStreak} weeks unbroken streak`}
                             color="from-amber-600 to-transparent" 
+                            isMasked={isSuspenseMode}
+                            maskedLabel="Streak record sealed in deliberation"
                         />
                         <HallOfFameCard 
                             title="The Faithful Scroll" 
-                            participants={hallOfFame.mostConsistent} 
+                            participants={isSuspenseMode ? [] : hallOfFame.mostConsistent} 
                             statLabel={(p) => `Devoted for ${p.totalParticipations || p.participationHistory?.length || 0} weeks`}
                             color="from-stone-600 to-transparent" 
+                            isMasked={isSuspenseMode}
+                            maskedLabel="Devotion tally sealed in deliberation"
                         />
                     </div>
 
