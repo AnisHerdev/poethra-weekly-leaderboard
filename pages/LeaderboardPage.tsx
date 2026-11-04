@@ -54,9 +54,9 @@ const LeaderboardItem: React.FC<{ participant: Participant; rank: number }> = ({
                         ? 'text-stone-900 dark:text-parchment font-bold text-base md:text-2xl'
                         : 'text-stone-700 dark:text-parchment text-base md:text-2xl'
             }`}>
-                <span className="block truncate">{participant.name}</span>
+                <span className="block break-words leading-snug">{participant.name}</span>
                 {isTopThree && (
-                    <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-bright font-sans font-black">
+                    <span className="block mt-0.5 text-[9px] md:text-[10px] uppercase tracking-widest text-oxblood dark:text-oxblood-bright font-sans font-black">
                         Triumphed
                     </span>
                 )}
@@ -135,7 +135,7 @@ const HallOfFameCard: React.FC<{
             
             {hasParticipants ? (
                 <div className="space-y-2">
-                    <p className="text-2xl md:text-3xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors inline-block relative">
+                    <p className="text-2xl md:text-3xl font-display font-black text-stone-900 dark:text-parchment group-hover:text-oxblood dark:group-hover:text-oxblood-bright transition-colors inline-block relative break-words leading-tight">
                         {names}
                         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-oxblood/20 group-hover:w-full transition-all duration-500"></span>
                     </p>
